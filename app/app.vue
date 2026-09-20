@@ -47,7 +47,7 @@ useHead({
 
       <template #right>
         <UButton
-          to="https://github.com/FelyCZ/cyanotyper"
+          to="https://github.com/FelyCZ/cyanotype"
           target="_blank"
           icon="i-simple-icons-github"
           label="GitHub"

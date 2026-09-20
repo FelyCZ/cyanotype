@@ -1,64 +1,91 @@
-# Nuxt Starter Template
+# Cyanotype
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+> **Digital Negative Generator for Cyanotype Alternative Photography**  
+> 🔗 **Live Production Site:** [https://blueprinting.pages.dev](https://blueprinting.pages.dev)
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+Cyanotype is a privacy-first, client-side web application designed to transform regular photos into inverted grayscale digital negatives ready for contact printing onto transparency films (e.g. for classic cyanotype, Van Dyke brown, or platinum/palladium alternative photographic processes).
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+**All processing runs 100% locally in your browser.** No images are uploaded to any server.
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png" width="830" height="466">
-  </picture>
-</a>
+---
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+## Features
 
-## Quick Start
+- **Client-Side Processing**: Zero server uploads. Fast, private, and secure image manipulation directly in your browser.
+- **Negative & Cyanotype Preview**: Instant switching between digital negative view and realistic Prussian blue (`#1C39BB`) developed print simulation.
+- **Interactive Fine-Tuning**:
+  - Positive tone curve adjustments (brightness, contrast, highlights, shadows).
+  - Aspect ratio cropping (Square, 2:3, 4:3, 16:9, 1:2, Custom) with rule-of-thirds overlay.
+  - 90° image rotation.
+  - **Apply to All**: Bulk apply dialed-in tone adjustments to all loaded images in your project.
+- **Print-Ready Sheet Generation (PDF)**:
+  - Supports standard paper sizes: A3, A4, A5, A6.
+  - Configurable grid layout (1, 2, 3, or 4 images per page) with margin controls.
+  - Print resolution: 150, 300, 600, or 1200 DPI.
+  - Individual photo auto-orientation to maximize film utilization.
+  - Blank-tab preview for direct browser printing.
+- **Individual Negative Export**:
+  - Export as JPEG (with configurable 10–100% compression) or lossless PNG.
+  - Saves directly to a chosen folder using the File System Access API or bundles into a ZIP archive.
 
-```bash [Terminal]
-npm create nuxt@latest -- -t ui
-```
+---
 
-## Deploy your own
+## Tech Stack
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
+- **Framework**: [Nuxt 4](https://nuxt.com/) (Vue 3, TypeScript, SSR-disabled static target)
+- **UI Components**: [@nuxt/ui v4](https://ui.nuxt.com/) & [Tailwind CSS v4](https://tailwindcss.com/)
+- **PDF & Archive Generation**: [jsPDF](https://github.com/parallax/jsPDF) & [JSZip](https://stuk.github.io/jszip/)
+- **Package Manager & Runtime**: [Bun](https://bun.sh/)
+- **Hosting**: [Cloudflare Pages](https://pages.cloudflare.com/) via GitHub Actions
 
-## Setup
+---
 
-Make sure to install the dependencies:
+## Getting Started
 
-```bash
-pnpm install
-```
+### Prerequisites
 
-## Development Server
+- [Bun](https://bun.sh/) (v1.1 or later)
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-pnpm dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-pnpm build
-```
-
-Locally preview production build:
+### Installation
 
 ```bash
-pnpm preview
+# Clone repository
+git clone https://github.com/FelyCZ/cyanotype.git
+cd cyanotype
+
+# Install dependencies
+bun install
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Development
 
-## Renovate integration
+```bash
+# Start local development server on http://localhost:3000
+bun run dev
+```
 
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+### Build & Typecheck
+
+```bash
+# Run TypeScript verification
+bun run typecheck
+
+# Generate static production site to .output/public
+bun run generate
+```
+
+---
+
+## Deployment (Cloudflare Pages)
+
+The project is deployed to Cloudflare Pages ([blueprinting.pages.dev](https://blueprinting.pages.dev)) using GitHub Actions:
+
+1. **Preview Deployments**: Triggered on pushes to `master`. Builds and deploys a non-production preview deployment (`<hash>.blueprinting.pages.dev`).
+2. **Production Deployments**: Triggered when a version tag (`vX.Y.Z`) is pushed. Deploys directly to the production domain (`blueprinting.pages.dev`).
+
+---
+
+## Author & License
+
+Created by **Jakub Ferenčík** ([@FelyCZ](https://github.com/FelyCZ)).  
+Open-source project licensed under the [MIT License](LICENSE).
