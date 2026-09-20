@@ -1,4 +1,4 @@
-import type { ImageAdjustments } from '~/types'
+import type { ImageAdjustments, CropSettings, AspectRatioOption } from '~/types'
 
 export function clamp(val: number, min = 0, max = 255): number {
   return Math.max(min, Math.min(max, val))
@@ -10,6 +10,70 @@ export function createDefaultAdjustments(): ImageAdjustments {
     contrast: 0,
     highlights: 0,
     shadows: 0
+  }
+}
+
+export function createDefaultCrop(): CropSettings {
+  return {
+    aspectRatio: 'original',
+    customWidth: 1,
+    customHeight: 1,
+    panX: 0.5,
+    panY: 0.5
+  }
+}
+
+export function getCropRect(
+  sourceWidth: number,
+  sourceHeight: number,
+  crop: CropSettings
+): { sx: number; sy: number; sWidth: number; sHeight: number } {
+  if (crop.aspectRatio === 'original') {
+    return { sx: 0, sy: 0, sWidth: sourceWidth, sHeight: sourceHeight }
+  }
+
+  let ratio = 1
+  const isSourceLandscape = sourceWidth >= sourceHeight
+
+  switch (crop.aspectRatio) {
+    case 'square':
+      ratio = 1
+      break
+    case '2x3':
+      ratio = isSourceLandscape ? 3 / 2 : 2 / 3
+      break
+    case '4x3':
+      ratio = isSourceLandscape ? 4 / 3 : 3 / 4
+      break
+    case '16x9':
+      ratio = isSourceLandscape ? 16 / 9 : 9 / 16
+      break
+    case '1x2':
+      ratio = isSourceLandscape ? 2 / 1 : 1 / 2
+      break
+    case 'custom':
+      ratio = Math.max(0.01, crop.customWidth) / Math.max(0.01, crop.customHeight)
+      break
+  }
+
+  const imgRatio = sourceWidth / sourceHeight
+
+  if (imgRatio > ratio) {
+    const sHeight = sourceHeight
+    const sWidth = Math.round(sourceHeight * ratio)
+    const maxOffset = sourceWidth - sWidth
+    const clampedPan = Math.max(0, Math.min(1, crop.panX))
+    const sx = Math.round(maxOffset * clampedPan)
+    const sy = 0
+    return { sx, sy, sWidth, sHeight }
+  } else {
+    const sWidth = sourceWidth
+    const sHeight = Math.round(sourceWidth / ratio)
+    const maxOffset = sourceHeight - sHeight
+    const clampedPan = Math.max(0, Math.min(1, crop.panY))
+    const sx = 0
+    const sy = Math.round(maxOffset * clampedPan)
+    return { sx, sy, sWidth, sHeight }
   }
 }
 
@@ -75,11 +139,15 @@ export function renderAdjustedCanvas(
   sourceWidth: number,
   sourceHeight: number,
   adjustments: ImageAdjustments,
+  crop?: CropSettings,
   targetWidth?: number,
   targetHeight?: number
 ): HTMLCanvasElement {
-  const width = Math.round(targetWidth || sourceWidth)
-  const height = Math.round(targetHeight || sourceHeight)
+  const cropSettings = crop || createDefaultCrop()
+  const { sx, sy, sWidth, sHeight } = getCropRect(sourceWidth, sourceHeight, cropSettings)
+
+  const width = Math.round(targetWidth || sWidth)
+  const height = Math.round(targetHeight || sHeight)
 
   const canvas = document.createElement('canvas')
   canvas.width = width
@@ -92,7 +160,7 @@ export function renderAdjustedCanvas(
 
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
-  ctx.drawImage(sourceImage, 0, 0, width, height)
+  ctx.drawImage(sourceImage, sx, sy, sWidth, sHeight, 0, 0, width, height)
 
   const imageData = ctx.getImageData(0, 0, width, height)
   processImageData(imageData, adjustments)
@@ -114,21 +182,25 @@ export function loadImageElement(url: string): Promise<HTMLImageElement> {
 export async function createThumbnailFromImage(
   img: HTMLImageElement,
   adjustments: ImageAdjustments,
+  crop?: CropSettings,
   maxDimension = 640
 ): Promise<{ previewUrl: string; width: number; height: number }> {
   const originalWidth = img.naturalWidth || img.width
   const originalHeight = img.naturalHeight || img.height
 
-  let targetWidth = originalWidth
-  let targetHeight = originalHeight
+  const cropSettings = crop || createDefaultCrop()
+  const { sWidth, sHeight } = getCropRect(originalWidth, originalHeight, cropSettings)
 
-  if (originalWidth > maxDimension || originalHeight > maxDimension) {
-    if (originalWidth >= originalHeight) {
+  let targetWidth = sWidth
+  let targetHeight = sHeight
+
+  if (sWidth > maxDimension || sHeight > maxDimension) {
+    if (sWidth >= sHeight) {
       targetWidth = maxDimension
-      targetHeight = Math.round((originalHeight / originalWidth) * maxDimension)
+      targetHeight = Math.round((sHeight / sWidth) * maxDimension)
     } else {
       targetHeight = maxDimension
-      targetWidth = Math.round((originalWidth / originalHeight) * maxDimension)
+      targetWidth = Math.round((sWidth / sHeight) * maxDimension)
     }
   }
 
@@ -137,6 +209,7 @@ export async function createThumbnailFromImage(
     originalWidth,
     originalHeight,
     adjustments,
+    cropSettings,
     targetWidth,
     targetHeight
   )
@@ -144,7 +217,7 @@ export async function createThumbnailFromImage(
   const previewUrl = canvas.toDataURL('image/jpeg', 0.88)
   return {
     previewUrl,
-    width: originalWidth,
-    height: originalHeight
+    width: sWidth,
+    height: sHeight
   }
 }

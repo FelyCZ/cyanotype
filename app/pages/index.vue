@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import type { PhotoItem, PageSettings, ImageAdjustments } from '~/types'
-import { createDefaultAdjustments, loadImageElement, createThumbnailFromImage } from '~/utils/image-processing'
-import { exportSheetsToPdfBlob, exportIndividualPngs, saveFilesToUserSelection } from '~/utils/export-service'
+import type { PhotoItem, PageSettings, ImageAdjustments, CropSettings } from '~/types'
+import {
+  createDefaultAdjustments,
+  createDefaultCrop,
+  loadImageElement,
+  createThumbnailFromImage
+} from '~/utils/image-processing'
+import { exportSheetsToPdfBlob, saveFilesToUserSelection } from '~/utils/export-service'
 
 const settings = ref<PageSettings>({
   pageSize: 'A4',
   dpi: 300,
   photosPerPage: 1,
   orientation: 'auto',
-  outputMode: 'sheets',
   marginMm: 10
 })
 
@@ -18,6 +22,7 @@ const processingProgress = ref(0)
 const processingStatusText = ref('')
 
 const isExporting = ref(false)
+const isPreviewing = ref(false)
 const exportProgress = ref(0)
 const exportStatusText = ref('')
 
@@ -40,6 +45,7 @@ async function handleFilesSelected(files: File[]) {
     originalWidth: 0,
     originalHeight: 0,
     adjustments: createDefaultAdjustments(),
+    crop: createDefaultCrop(),
     status: 'pending'
   }))
 
@@ -63,7 +69,7 @@ async function processPendingPhotos() {
 
     try {
       const img = await loadImageElement(photo.originalUrl)
-      const { previewUrl, width, height } = await createThumbnailFromImage(img, photo.adjustments)
+      const { previewUrl, width, height } = await createThumbnailFromImage(img, photo.adjustments, photo.crop)
       photo.originalWidth = width
       photo.originalHeight = height
       photo.previewUrl = previewUrl
@@ -86,10 +92,16 @@ function handleEditPhoto(photo: PhotoItem) {
   isEditorOpen.value = true
 }
 
-function handleApplyEditorChanges(photoId: string, adjustments: ImageAdjustments, newPreviewUrl: string) {
+function handleApplyEditorChanges(
+  photoId: string,
+  adjustments: ImageAdjustments,
+  crop: CropSettings,
+  newPreviewUrl: string
+) {
   const photo = photos.value.find(p => p.id === photoId)
   if (photo) {
     photo.adjustments = adjustments
+    photo.crop = crop
     photo.previewUrl = newPreviewUrl
   }
 }
@@ -113,6 +125,33 @@ function handleClearAll() {
   successMessage.value = ''
 }
 
+async function handlePreviewPages() {
+  if (photos.value.length === 0) return
+
+  errorMessage.value = ''
+  successMessage.value = ''
+  isPreviewing.value = true
+  exportProgress.value = 0
+  exportStatusText.value = 'Rendering preview pages...'
+
+  try {
+    const pdfBlob = await exportSheetsToPdfBlob(photos.value, settings.value, (progress) => {
+      exportProgress.value = Math.round((progress.current / progress.total) * 100)
+      exportStatusText.value = progress.step
+    })
+
+    const pdfUrl = URL.createObjectURL(pdfBlob)
+    window.open(pdfUrl, '_blank')
+  } catch (err) {
+    console.error('Failed to generate PDF preview:', err)
+    errorMessage.value = 'Failed to generate PDF preview.'
+  } finally {
+    isPreviewing.value = false
+    exportProgress.value = 0
+    exportStatusText.value = ''
+  }
+}
+
 async function handleSaveAll() {
   if (photos.value.length === 0) return
 
@@ -123,42 +162,22 @@ async function handleSaveAll() {
   exportStatusText.value = 'Preparing export...'
 
   try {
-    if (settings.value.outputMode === 'sheets') {
-      const pdfBlob = await exportSheetsToPdfBlob(photos.value, settings.value, (progress) => {
-        exportProgress.value = Math.round((progress.current / progress.total) * 100)
-        exportStatusText.value = progress.step
-      })
+    const pdfBlob = await exportSheetsToPdfBlob(photos.value, settings.value, (progress) => {
+      exportProgress.value = Math.round((progress.current / progress.total) * 100)
+      exportStatusText.value = progress.step
+    })
 
-      exportStatusText.value = 'Saving PDF...'
-      const result = await saveFilesToUserSelection([
-        { name: `cyanotype-${settings.value.pageSize.toLowerCase()}-negatives.pdf`, blob: pdfBlob }
-      ], (status) => {
-        exportStatusText.value = status
-      })
+    exportStatusText.value = 'Saving PDF...'
+    const result = await saveFilesToUserSelection([
+      { name: `cyanotype-${settings.value.pageSize.toLowerCase()}-negatives.pdf`, blob: pdfBlob }
+    ], (status) => {
+      exportStatusText.value = status
+    })
 
-      if (result.method === 'directory') {
-        successMessage.value = 'PDF sheet saved successfully to chosen folder.'
-      } else {
-        successMessage.value = 'PDF sheet downloaded successfully.'
-      }
+    if (result.method === 'directory') {
+      successMessage.value = 'PDF sheet saved successfully to chosen folder.'
     } else {
-      const pngFiles = await exportIndividualPngs(photos.value, (progress) => {
-        exportProgress.value = Math.round((progress.current / progress.total) * 100)
-        exportStatusText.value = progress.step
-      })
-
-      exportStatusText.value = 'Saving images...'
-      const result = await saveFilesToUserSelection(pngFiles, (status) => {
-        exportStatusText.value = status
-      })
-
-      if (result.method === 'directory') {
-        successMessage.value = 'All negative PNGs saved successfully to chosen folder.'
-      } else if (result.method === 'zip') {
-        successMessage.value = 'All negative PNGs packaged and downloaded as a ZIP archive.'
-      } else {
-        successMessage.value = 'Negative PNG downloaded successfully.'
-      }
+      successMessage.value = 'PDF sheet downloaded successfully.'
     }
   } catch (err: unknown) {
     if ((err as Error)?.name === 'AbortError') {
@@ -193,22 +212,24 @@ onUnmounted(() => {
       </p>
     </div>
 
-    <!-- Page & Output Settings -->
+    <!-- Page & Print Settings -->
     <SettingsBar v-model="settings" />
 
     <!-- Upload Dropzone -->
     <ImageUploader @files-selected="handleFilesSelected" />
 
-    <!-- Action Bar (Top summary when photos exist) -->
+    <!-- Action Bar (Only shown once above gallery) -->
     <ActionBar
       :photos="photos"
       :settings="settings"
       :is-exporting="isExporting"
+      :is-previewing="isPreviewing"
       :export-progress="exportProgress"
       :export-status-text="exportStatusText"
       :error-message="errorMessage"
       :success-message="successMessage"
       @save-all="handleSaveAll"
+      @preview-pages="handlePreviewPages"
       @clear-all="handleClearAll"
       @dismiss-alert="() => { errorMessage = ''; successMessage = '' }"
     />
@@ -223,22 +244,7 @@ onUnmounted(() => {
       @remove-photo="handleRemovePhoto"
     />
 
-    <!-- Bottom Action Bar (when many photos exist) -->
-    <ActionBar
-      v-if="photos.length >= 4"
-      :photos="photos"
-      :settings="settings"
-      :is-exporting="isExporting"
-      :export-progress="exportProgress"
-      :export-status-text="exportStatusText"
-      :error-message="errorMessage"
-      :success-message="successMessage"
-      @save-all="handleSaveAll"
-      @clear-all="handleClearAll"
-      @dismiss-alert="() => { errorMessage = ''; successMessage = '' }"
-    />
-
-    <!-- Fine-tune Modal Editor -->
+    <!-- Fine-tune Modal Editor with Crop -->
     <PhotoEditorModal
       v-model:open="isEditorOpen"
       :photo="editingPhoto"

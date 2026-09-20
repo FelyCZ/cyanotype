@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageSettings, PageSize, OrientationMode, PhotosPerPage, OutputMode } from '~/types'
+import type { PageSettings } from '~/types'
 
 const props = defineProps<{
   modelValue: PageSettings
@@ -33,11 +33,6 @@ const orientationOptions = [
   { label: 'Portrait', value: 'portrait' },
   { label: 'Landscape', value: 'landscape' }
 ]
-
-const outputModeOptions = [
-  { label: 'PDF Sheets', value: 'sheets' },
-  { label: 'Individual PNGs', value: 'individual' }
-]
 </script>
 
 <template>
@@ -45,24 +40,15 @@ const outputModeOptions = [
     <template #header>
       <div class="flex items-center gap-2">
         <UIcon name="i-lucide-sliders" class="w-5 h-5 text-primary" />
-        <h2 class="text-base font-semibold">Page & Output Settings</h2>
+        <h2 class="text-base font-semibold">Page & Print Settings</h2>
       </div>
     </template>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-      <UFormField label="Output Mode">
-        <USelect
-          v-model="settings.outputMode"
-          :items="outputModeOptions"
-          class="w-full"
-        />
-      </UFormField>
-
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
       <UFormField label="Page Size">
         <USelect
           v-model="settings.pageSize"
           :items="pageSizeOptions"
-          :disabled="settings.outputMode === 'individual'"
           class="w-full"
         />
       </UFormField>
@@ -71,7 +57,6 @@ const outputModeOptions = [
         <USelect
           v-model="settings.photosPerPage"
           :items="perPageOptions"
-          :disabled="settings.outputMode === 'individual'"
           class="w-full"
         />
       </UFormField>
@@ -80,7 +65,6 @@ const outputModeOptions = [
         <USelect
           v-model="settings.orientation"
           :items="orientationOptions"
-          :disabled="settings.outputMode === 'individual'"
           class="w-full"
         />
       </UFormField>
@@ -101,7 +85,6 @@ const outputModeOptions = [
           :min="0"
           :max="50"
           :step="1"
-          :disabled="settings.outputMode === 'individual'"
           class="w-full"
         />
       </UFormField>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import type { PhotoItem, ImageAdjustments } from '~/types'
+import type { PhotoItem, ImageAdjustments, CropSettings, AspectRatioOption } from '~/types'
 import {
   createDefaultAdjustments,
+  createDefaultCrop,
+  getCropRect,
   loadImageElement,
   renderAdjustedCanvas
 } from '~/utils/image-processing'
@@ -13,7 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:open': [value: boolean]
-  apply: [photoId: string, adjustments: ImageAdjustments, newPreviewUrl: string]
+  apply: [photoId: string, adjustments: ImageAdjustments, crop: CropSettings, newPreviewUrl: string]
 }>()
 
 const isOpen = computed({
@@ -22,11 +24,34 @@ const isOpen = computed({
 })
 
 const adjustments = ref<ImageAdjustments>(createDefaultAdjustments())
+const crop = ref<CropSettings>(createDefaultCrop())
 const previewDataUrl = ref<string>('')
 const isPreviewLoading = ref(false)
 
+const aspectRatioOptions = [
+  { label: 'Original', value: 'original' },
+  { label: 'Square', value: 'square' },
+  { label: '2x3', value: '2x3' },
+  { label: '4x3', value: '4x3' },
+  { label: '16x9', value: '16x9' },
+  { label: '1x2', value: '1x2' },
+  { label: 'Custom', value: 'custom' }
+]
+
 let cachedImage: HTMLImageElement | null = null
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
+
+const canPanHorizontal = computed(() => {
+  if (!cachedImage || crop.value.aspectRatio === 'original') return false
+  const rect = getCropRect(cachedImage.naturalWidth, cachedImage.naturalHeight, crop.value)
+  return rect.sWidth < cachedImage.naturalWidth
+})
+
+const canPanVertical = computed(() => {
+  if (!cachedImage || crop.value.aspectRatio === 'original') return false
+  const rect = getCropRect(cachedImage.naturalWidth, cachedImage.naturalHeight, crop.value)
+  return rect.sHeight < cachedImage.naturalHeight
+})
 
 watch(
   () => props.photo,
@@ -37,6 +62,7 @@ watch(
     }
 
     adjustments.value = { ...newPhoto.adjustments }
+    crop.value = { ...newPhoto.crop }
     isPreviewLoading.value = true
 
     try {
@@ -55,15 +81,17 @@ function updatePreview() {
   if (!cachedImage) return
 
   const maxDimension = 600
-  let targetWidth = cachedImage.naturalWidth || cachedImage.width
-  let targetHeight = cachedImage.naturalHeight || cachedImage.height
+  const cropRect = getCropRect(cachedImage.naturalWidth, cachedImage.naturalHeight, crop.value)
 
-  if (targetWidth > maxDimension || targetHeight > maxDimension) {
-    if (targetWidth >= targetHeight) {
-      targetHeight = Math.round((targetHeight / targetWidth) * maxDimension)
+  let targetWidth = cropRect.sWidth
+  let targetHeight = cropRect.sHeight
+
+  if (cropRect.sWidth > maxDimension || cropRect.sHeight > maxDimension) {
+    if (cropRect.sWidth >= cropRect.sHeight) {
+      targetHeight = Math.round((cropRect.sHeight / cropRect.sWidth) * maxDimension)
       targetWidth = maxDimension
     } else {
-      targetWidth = Math.round((targetWidth / targetHeight) * maxDimension)
+      targetWidth = Math.round((cropRect.sWidth / cropRect.sHeight) * maxDimension)
       targetHeight = maxDimension
     }
   }
@@ -73,6 +101,7 @@ function updatePreview() {
     cachedImage.naturalWidth,
     cachedImage.naturalHeight,
     adjustments.value,
+    crop.value,
     targetWidth,
     targetHeight
   )
@@ -80,21 +109,29 @@ function updatePreview() {
   previewDataUrl.value = canvas.toDataURL('image/jpeg', 0.88)
 }
 
-function handleAdjustmentChange() {
+function handleParamChange() {
   if (debounceTimer) clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
     updatePreview()
   }, 40)
 }
 
-function resetAdjustments() {
+function handleAspectRatioChange(newRatio: AspectRatioOption) {
+  crop.value.aspectRatio = newRatio
+  crop.value.panX = 0.5
+  crop.value.panY = 0.5
+  updatePreview()
+}
+
+function resetAll() {
   adjustments.value = createDefaultAdjustments()
+  crop.value = createDefaultCrop()
   updatePreview()
 }
 
 function handleApply() {
   if (props.photo && previewDataUrl.value) {
-    emit('apply', props.photo.id, { ...adjustments.value }, previewDataUrl.value)
+    emit('apply', props.photo.id, { ...adjustments.value }, { ...crop.value }, previewDataUrl.value)
   }
   isOpen.value = false
 }
@@ -104,12 +141,12 @@ function handleApply() {
   <UModal
     v-model:open="isOpen"
     title="Fine-tune Negative"
-    description="Adjust positive tone curves before negative inversion"
+    description="Adjust crop and positive tone curves before negative inversion"
     :ui="{ content: 'sm:max-w-2xl' }"
   >
     <template #body>
       <div v-if="photo" class="space-y-6">
-        <!-- Live Preview Canvas -->
+        <!-- Live Preview -->
         <div class="flex items-center justify-center bg-neutral-900/80 rounded-lg p-3 min-h-64 overflow-hidden">
           <img
             v-if="previewDataUrl"
@@ -123,8 +160,84 @@ function handleApply() {
           </div>
         </div>
 
+        <!-- Cropping Controls -->
+        <div class="space-y-3 p-3 bg-neutral-100 dark:bg-neutral-800/40 rounded-lg">
+          <h3 class="text-sm font-semibold flex items-center gap-2">
+            <UIcon name="i-lucide-crop" class="w-4 h-4 text-primary" />
+            <span>Crop & Aspect Ratio</span>
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <UFormField label="Aspect Ratio">
+              <USelect
+                :model-value="crop.aspectRatio"
+                :items="aspectRatioOptions"
+                class="w-full"
+                @update:model-value="(val) => handleAspectRatioChange(val as AspectRatioOption)"
+              />
+            </UFormField>
+
+            <!-- Custom Ratio Inputs -->
+            <div v-if="crop.aspectRatio === 'custom'" class="flex items-center gap-2">
+              <UFormField label="Width" class="flex-1">
+                <UInputNumber
+                  v-model="crop.customWidth"
+                  :min="1"
+                  :max="100"
+                  :step="1"
+                  class="w-full"
+                  @update:model-value="handleParamChange"
+                />
+              </UFormField>
+              <span class="pt-6 font-bold text-neutral-400">:</span>
+              <UFormField label="Height" class="flex-1">
+                <UInputNumber
+                  v-model="crop.customHeight"
+                  :min="1"
+                  :max="100"
+                  :step="1"
+                  class="w-full"
+                  @update:model-value="handleParamChange"
+                />
+              </UFormField>
+            </div>
+          </div>
+
+          <!-- Position Adjustments when cropping -->
+          <div v-if="canPanHorizontal" class="pt-1">
+            <UFormField label="Horizontal Position" :hint="`${Math.round(crop.panX * 100)}%`">
+              <USlider
+                v-model="crop.panX"
+                :min="0"
+                :max="1"
+                :step="0.01"
+                tooltip
+                @update:model-value="handleParamChange"
+              />
+            </UFormField>
+          </div>
+
+          <div v-if="canPanVertical" class="pt-1">
+            <UFormField label="Vertical Position" :hint="`${Math.round(crop.panY * 100)}%`">
+              <USlider
+                v-model="crop.panY"
+                :min="0"
+                :max="1"
+                :step="0.01"
+                tooltip
+                @update:model-value="handleParamChange"
+              />
+            </UFormField>
+          </div>
+        </div>
+
         <!-- Tone Adjustment Sliders -->
         <div class="space-y-4">
+          <h3 class="text-sm font-semibold flex items-center gap-2">
+            <UIcon name="i-lucide-sliders" class="w-4 h-4 text-primary" />
+            <span>Tone Adjustments</span>
+          </h3>
+
           <UFormField label="Brightness" :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`">
             <USlider
               v-model="adjustments.brightness"
@@ -132,7 +245,7 @@ function handleApply() {
               :max="100"
               :step="1"
               tooltip
-              @update:model-value="handleAdjustmentChange"
+              @update:model-value="handleParamChange"
             />
           </UFormField>
 
@@ -143,7 +256,7 @@ function handleApply() {
               :max="100"
               :step="1"
               tooltip
-              @update:model-value="handleAdjustmentChange"
+              @update:model-value="handleParamChange"
             />
           </UFormField>
 
@@ -154,7 +267,7 @@ function handleApply() {
               :max="100"
               :step="1"
               tooltip
-              @update:model-value="handleAdjustmentChange"
+              @update:model-value="handleParamChange"
             />
           </UFormField>
 
@@ -165,7 +278,7 @@ function handleApply() {
               :max="100"
               :step="1"
               tooltip
-              @update:model-value="handleAdjustmentChange"
+              @update:model-value="handleParamChange"
             />
           </UFormField>
         </div>
@@ -179,7 +292,7 @@ function handleApply() {
           color="neutral"
           variant="outline"
           icon="i-lucide-rotate-ccw"
-          @click="resetAdjustments"
+          @click="resetAll"
         />
 
         <div class="flex items-center gap-2">

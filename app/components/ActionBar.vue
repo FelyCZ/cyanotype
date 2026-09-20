@@ -5,6 +5,7 @@ const props = defineProps<{
   photos: PhotoItem[]
   settings: PageSettings
   isExporting: boolean
+  isPreviewing: boolean
   exportProgress: number
   exportStatusText: string
   errorMessage?: string
@@ -13,6 +14,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   saveAll: []
+  previewPages: []
   clearAll: []
   dismissAlert: []
 }>()
@@ -24,9 +26,6 @@ const sheetCount = computed(() => {
 
 const summaryText = computed(() => {
   if (props.photos.length === 0) return 'No images selected'
-  if (props.settings.outputMode === 'individual') {
-    return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} ready to export as PNG negatives`
-  }
   return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} will be compiled into ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
 })
 </script>
@@ -54,13 +53,13 @@ const summaryText = computed(() => {
       @update:open="emit('dismissAlert')"
     />
 
-    <!-- Export Progress Bar -->
-    <UCard v-if="isExporting">
+    <!-- Export / Preview Progress Bar -->
+    <UCard v-if="isExporting || isPreviewing">
       <div class="space-y-2">
         <div class="flex items-center justify-between text-sm">
           <span class="font-medium flex items-center gap-2">
             <UIcon name="i-lucide-loader" class="w-4 h-4 animate-spin text-primary" />
-            {{ exportStatusText || 'Exporting negatives...' }}
+            {{ exportStatusText || (isPreviewing ? 'Generating preview pages...' : 'Exporting negatives...') }}
           </span>
           <span class="text-neutral-500">{{ Math.round(exportProgress) }}%</span>
         </div>
@@ -76,14 +75,25 @@ const summaryText = computed(() => {
           <span>{{ summaryText }}</span>
         </div>
 
-        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
           <UButton
             label="Clear All"
             color="neutral"
             variant="ghost"
             icon="i-lucide-trash"
-            :disabled="isExporting"
+            :disabled="isExporting || isPreviewing"
             @click="emit('clearAll')"
+          />
+
+          <UButton
+            label="Preview pages"
+            color="neutral"
+            variant="subtle"
+            size="lg"
+            icon="i-lucide-file-text"
+            :loading="isPreviewing"
+            :disabled="isExporting"
+            @click="emit('previewPages')"
           />
 
           <UButton
@@ -92,6 +102,7 @@ const summaryText = computed(() => {
             size="lg"
             icon="i-lucide-download"
             :loading="isExporting"
+            :disabled="isPreviewing"
             @click="emit('saveAll')"
           />
         </div>

@@ -18,7 +18,8 @@ function isAdjusted(photo: PhotoItem): boolean {
     photo.adjustments.brightness !== 0 ||
     photo.adjustments.contrast !== 0 ||
     photo.adjustments.highlights !== 0 ||
-    photo.adjustments.shadows !== 0
+    photo.adjustments.shadows !== 0 ||
+    photo.crop.aspectRatio !== 'original'
   )
 }
 </script>

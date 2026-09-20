@@ -2,15 +2,23 @@ export type PageSize = 'A3' | 'A4' | 'A5' | 'A6'
 
 export type OrientationMode = 'auto' | 'portrait' | 'landscape'
 
-export type OutputMode = 'sheets' | 'individual'
-
 export type PhotosPerPage = 1 | 2 | 3 | 4
 
+export type AspectRatioOption = 'original' | 'square' | '2x3' | '4x3' | '16x9' | '1x2' | 'custom'
+
+export interface CropSettings {
+  aspectRatio: AspectRatioOption
+  customWidth: number
+  customHeight: number
+  panX: number
+  panY: number
+}
+
 export interface ImageAdjustments {
-  brightness: number // -100 to 100
-  contrast: number // -100 to 100
-  highlights: number // -100 to 100
-  shadows: number // -100 to 100
+  brightness: number
+  contrast: number
+  highlights: number
+  shadows: number
 }
 
 export interface PhotoItem {
@@ -22,6 +30,7 @@ export interface PhotoItem {
   originalWidth: number
   originalHeight: number
   adjustments: ImageAdjustments
+  crop: CropSettings
   status: 'pending' | 'processing' | 'done' | 'error'
   errorMessage?: string
 }
@@ -31,7 +40,6 @@ export interface PageSettings {
   dpi: number
   photosPerPage: PhotosPerPage
   orientation: OrientationMode
-  outputMode: OutputMode
   marginMm: number
 }
 

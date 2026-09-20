@@ -76,6 +76,7 @@ export async function exportSheetsToPdfBlob(
         item.photo.originalWidth,
         item.photo.originalHeight,
         item.photo.adjustments,
+        item.photo.crop,
         item.renderWidth,
         item.renderHeight
       )
@@ -112,7 +113,8 @@ export async function exportIndividualPngs(
       img,
       photo.originalWidth,
       photo.originalHeight,
-      photo.adjustments
+      photo.adjustments,
+      photo.crop
     )
 
     const blob = await new Promise<Blob>((resolve, reject) => {
