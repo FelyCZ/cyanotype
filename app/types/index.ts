@@ -42,12 +42,16 @@ export interface PhotoItem {
   errorMessage?: string
 }
 
+export type ImageFormat = 'png' | 'jpeg'
+
 export interface PageSettings {
   pageSize: PageSize
   dpi: number
   photosPerPage: PhotosPerPage
   orientation: OrientationMode
   marginMm: number
+  imageFormat: ImageFormat
+  jpegQuality: number
 }
 
 export interface PageDimensions {

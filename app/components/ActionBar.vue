@@ -26,7 +26,9 @@ const sheetCount = computed(() => {
 
 const summaryText = computed(() => {
   if (props.photos.length === 0) return 'No images selected'
-  return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} ready to save as PNG negatives or preview as ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
+  const count = props.photos.length
+  const formatLabel = props.settings.imageFormat.toUpperCase()
+  return `${count} image${count > 1 ? 's' : ''} ready to save as ${formatLabel} negative${count > 1 ? 's' : ''} or preview as ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
 })
 </script>
 

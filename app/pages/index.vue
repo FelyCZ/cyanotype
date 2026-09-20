@@ -8,7 +8,7 @@ import {
 } from '~/utils/image-processing'
 import {
   exportSheetsToPdfBlob,
-  exportIndividualPngs,
+  exportIndividualNegatives,
   saveFilesToUserSelection
 } from '~/utils/export-service'
 
@@ -17,7 +17,9 @@ const settings = ref<PageSettings>({
   dpi: 300,
   photosPerPage: 1,
   orientation: 'auto',
-  marginMm: 10
+  marginMm: 10,
+  imageFormat: 'jpeg',
+  jpegQuality: 80
 })
 
 const photos = ref<PhotoItem[]>([])
@@ -167,29 +169,35 @@ async function handlePreviewPages() {
 async function handleSaveAll() {
   if (photos.value.length === 0) return
 
+  const formatUpper = settings.value.imageFormat.toUpperCase()
   errorMessage.value = ''
   successMessage.value = ''
   isExporting.value = true
   exportProgress.value = 0
-  exportStatusText.value = 'Preparing individual PNG negatives...'
+  exportStatusText.value = `Preparing individual ${formatUpper} negatives...`
 
   try {
-    const pngFiles = await exportIndividualPngs(photos.value, (progress) => {
-      exportProgress.value = Math.round((progress.current / progress.total) * 100)
-      exportStatusText.value = progress.step
-    })
+    const files = await exportIndividualNegatives(
+      photos.value,
+      settings.value.imageFormat,
+      settings.value.jpegQuality,
+      (progress) => {
+        exportProgress.value = Math.round((progress.current / progress.total) * 100)
+        exportStatusText.value = progress.step
+      }
+    )
 
     exportStatusText.value = 'Saving negative images...'
-    const result = await saveFilesToUserSelection(pngFiles, (status) => {
+    const result = await saveFilesToUserSelection(files, (status) => {
       exportStatusText.value = status
     })
 
     if (result.method === 'directory') {
-      successMessage.value = 'All individual negative PNGs saved successfully to chosen folder.'
+      successMessage.value = `All individual negative ${formatUpper}s saved successfully to chosen folder.`
     } else if (result.method === 'zip') {
-      successMessage.value = 'All individual negative PNGs packaged and downloaded as a ZIP archive.'
+      successMessage.value = `All individual negative ${formatUpper}s packaged and downloaded as a ZIP archive.`
     } else {
-      successMessage.value = 'Negative PNG downloaded successfully.'
+      successMessage.value = `Negative ${formatUpper} downloaded successfully.`
     }
   } catch (err: unknown) {
     if ((err as Error)?.name === 'AbortError') {

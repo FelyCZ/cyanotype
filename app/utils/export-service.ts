@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf'
 import JSZip from 'jszip'
-import type { PhotoItem, PageSettings, PageDimensions } from '~/types'
+import type { PhotoItem, PageSettings, PageDimensions, ImageFormat } from '~/types'
 import {
   getPageDimensions,
   layoutPhotosIntoPages,
@@ -97,11 +97,17 @@ export async function exportSheetsToPdfBlob(
   return pdf.output('blob')
 }
 
-export async function exportIndividualPngs(
+export async function exportIndividualNegatives(
   photos: PhotoItem[],
+  format: ImageFormat = 'jpeg',
+  jpegQuality = 80,
   onProgress?: (progress: ExportProgress) => void
 ): Promise<Array<{ name: string; blob: Blob }>> {
   const results: Array<{ name: string; blob: Blob }> = []
+  const isJpeg = format === 'jpeg'
+  const mimeType = isJpeg ? 'image/jpeg' : 'image/png'
+  const ext = isJpeg ? 'jpg' : 'png'
+  const quality = isJpeg ? Math.max(0.01, Math.min(1, jpegQuality / 100)) : undefined
 
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i]!
@@ -124,19 +130,23 @@ export async function exportIndividualPngs(
     const blob = await new Promise<Blob>((resolve, reject) => {
       canvas.toBlob((b) => {
         if (b) resolve(b)
-        else reject(new Error('Failed to generate PNG blob'))
-      }, 'image/png')
+        else reject(new Error(`Failed to generate ${ext.toUpperCase()} blob`))
+      }, mimeType, quality)
     })
 
     const baseName = photo.name.replace(/\.[^/.]+$/, '')
     results.push({
-      name: `${baseName}-negative.png`,
+      name: `${baseName}-negative.${ext}`,
       blob
     })
   }
 
   return results
 }
+
+// Backwards-compatible alias
+export const exportIndividualPngs = (photos: PhotoItem[], onProgress?: (progress: ExportProgress) => void) =>
+  exportIndividualNegatives(photos, 'png', 100, onProgress)
 
 export async function saveFilesToUserSelection(
   files: Array<{ name: string; blob: Blob }>,
