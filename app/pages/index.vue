@@ -158,6 +158,75 @@ function handleApplyEditorChanges(
   }
 }
 
+async function handleApplyAdjustmentsToAll(
+  photoId: string,
+  rotation: number,
+  adjustments: ImageAdjustments,
+  crop: CropSettings,
+  newPreviewUrl: string,
+  newCyanotypeUrl: string
+) {
+  const current = photos.value.find(p => p.id === photoId)
+  if (current) {
+    current.rotation = rotation
+    current.adjustments = { ...adjustments }
+    current.crop = { ...crop }
+    current.previewUrl = newPreviewUrl
+    current.cyanotypeUrl = newCyanotypeUrl
+  }
+
+  const otherPhotos = photos.value.filter(p => p.id !== photoId && p.status === 'done')
+  if (otherPhotos.length === 0) {
+    successMessage.value = 'Adjustments applied to all images.'
+    return
+  }
+
+  isBatchProcessing.value = true
+  processingStatusText.value = 'Applying adjustments to all images...'
+  processingProgress.value = 0
+
+  let completed = 0
+  const total = otherPhotos.length
+
+  await Promise.all(
+    otherPhotos.map(async (photo) => {
+      photo.adjustments = { ...adjustments }
+      try {
+        const img = await loadImageElement(photo.originalUrl)
+        const [{ previewUrl }, { previewUrl: cyanotypeUrl }] = await Promise.all([
+          createThumbnailFromImage(
+            img,
+            photo.rotation,
+            photo.adjustments,
+            photo.crop,
+            640,
+            'negative'
+          ),
+          createThumbnailFromImage(
+            img,
+            photo.rotation,
+            photo.adjustments,
+            photo.crop,
+            640,
+            'cyanotype'
+          )
+        ])
+        photo.previewUrl = previewUrl
+        photo.cyanotypeUrl = cyanotypeUrl
+      } catch (err) {
+        console.error('Failed to update thumbnail for photo', photo.id, err)
+      } finally {
+        completed++
+        processingProgress.value = Math.round((completed / total) * 100)
+      }
+    })
+  )
+
+  isBatchProcessing.value = false
+  processingStatusText.value = ''
+  successMessage.value = `Adjustments applied to all ${photos.value.length} images.`
+}
+
 function handleRemovePhoto(photoId: string) {
   const index = photos.value.findIndex(p => p.id === photoId)
   if (index !== -1) {
@@ -309,7 +378,9 @@ onUnmounted(() => {
       v-model:open="isEditorOpen"
       v-model:preview-mode="previewMode"
       :photo="editingPhoto"
+      :photos-count="photos.length"
       @apply="handleApplyEditorChanges"
+      @apply-to-all="handleApplyAdjustmentsToAll"
     />
   </div>
 </template>

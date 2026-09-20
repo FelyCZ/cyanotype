@@ -36,6 +36,44 @@ function handleDragOver(event: DragEvent) {
 function handleDragLeave() {
   isDragging.value = false
 }
+
+const isDev = import.meta.dev
+
+function loadSampleImages() {
+  const canvas1 = document.createElement('canvas')
+  canvas1.width = 600
+  canvas1.height = 400
+  const ctx1 = canvas1.getContext('2d')
+  if (ctx1) {
+    ctx1.fillStyle = '#1e3a8a'
+    ctx1.fillRect(0, 0, 600, 400)
+    ctx1.fillStyle = '#ffffff'
+    ctx1.font = 'bold 36px sans-serif'
+    ctx1.fillText('Sample Photo 1', 50, 150)
+  }
+
+  const canvas2 = document.createElement('canvas')
+  canvas2.width = 400
+  canvas2.height = 600
+  const ctx2 = canvas2.getContext('2d')
+  if (ctx2) {
+    ctx2.fillStyle = '#065f46'
+    ctx2.fillRect(0, 0, 400, 600)
+    ctx2.fillStyle = '#ffffff'
+    ctx2.font = 'bold 36px sans-serif'
+    ctx2.fillText('Sample Photo 2', 50, 150)
+  }
+
+  canvas1.toBlob((blob1) => {
+    canvas2.toBlob((blob2) => {
+      if (blob1 && blob2) {
+        const file1 = new File([blob1], 'sample-1.jpg', { type: 'image/jpeg' })
+        const file2 = new File([blob2], 'sample-2.jpg', { type: 'image/jpeg' })
+        emit('filesSelected', [file1, file2])
+      }
+    }, 'image/jpeg', 0.9)
+  }, 'image/jpeg', 0.9)
+}
 </script>
 
 <template>
@@ -72,13 +110,25 @@ function handleDragLeave() {
         </p>
       </div>
 
-      <UButton
-        label="Select Images"
-        icon="i-lucide-images"
-        color="primary"
-        variant="subtle"
-        @click.stop="triggerFilePicker"
-      />
+      <div class="flex items-center gap-3">
+        <UButton
+          label="Select Images"
+          icon="i-lucide-images"
+          color="primary"
+          variant="subtle"
+          @click.stop="triggerFilePicker"
+        />
+
+        <UButton
+          v-if="isDev"
+          label="Load Sample Images"
+          icon="i-lucide-sparkles"
+          color="neutral"
+          variant="outline"
+          size="sm"
+          @click.stop="loadSampleImages"
+        />
+      </div>
     </div>
   </UCard>
 </template>

@@ -15,9 +15,11 @@ const props = withDefaults(
     open: boolean
     photo: PhotoItem | null
     previewMode?: 'negative' | 'cyanotype'
+    photosCount?: number
   }>(),
   {
-    previewMode: 'negative'
+    previewMode: 'negative',
+    photosCount: 1
   }
 )
 
@@ -25,6 +27,14 @@ const emit = defineEmits<{
   'update:open': [value: boolean]
   'update:previewMode': [value: 'negative' | 'cyanotype']
   apply: [
+    photoId: string,
+    rotation: number,
+    adjustments: ImageAdjustments,
+    crop: CropSettings,
+    newPreviewUrl: string,
+    newCyanotypeUrl: string
+  ]
+  applyToAll: [
     photoId: string,
     rotation: number,
     adjustments: ImageAdjustments,
@@ -326,6 +336,69 @@ function handleApply() {
 
   emit(
     'apply',
+    props.photo.id,
+    rotation.value,
+    { ...adjustments.value },
+    { ...crop.value, box: { ...crop.value.box } },
+    newPreviewUrl,
+    newCyanotypeUrl
+  )
+
+  isOpen.value = false
+}
+
+function handleApplyToAll() {
+  if (!props.photo || !cachedImage) return
+
+  const isSwap = rotation.value === 90 || rotation.value === 270
+  const rotW = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+  const rotH = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
+
+  const cropW = Math.max(1, Math.round(crop.value.box.width * rotW))
+  const cropH = Math.max(1, Math.round(crop.value.box.height * rotH))
+
+  let thumbW = cropW
+  let thumbH = cropH
+  const maxThumb = 600
+  if (thumbW > maxThumb || thumbH > maxThumb) {
+    if (thumbW >= thumbH) {
+      thumbH = Math.round((thumbH / thumbW) * maxThumb)
+      thumbW = maxThumb
+    } else {
+      thumbW = Math.round((thumbW / thumbH) * maxThumb)
+      thumbH = maxThumb
+    }
+  }
+
+  const negCanvas = renderAdjustedCanvas(
+    cachedImage,
+    cachedImage.naturalWidth,
+    cachedImage.naturalHeight,
+    rotation.value,
+    adjustments.value,
+    crop.value,
+    thumbW,
+    thumbH,
+    'negative'
+  )
+
+  const cyanCanvas = renderAdjustedCanvas(
+    cachedImage,
+    cachedImage.naturalWidth,
+    cachedImage.naturalHeight,
+    rotation.value,
+    adjustments.value,
+    crop.value,
+    thumbW,
+    thumbH,
+    'cyanotype'
+  )
+
+  const newPreviewUrl = negCanvas.toDataURL('image/jpeg', 0.88)
+  const newCyanotypeUrl = cyanCanvas.toDataURL('image/jpeg', 0.88)
+
+  emit(
+    'applyToAll',
     props.photo.id,
     rotation.value,
     { ...adjustments.value },
@@ -714,6 +787,15 @@ function onPointerUp() {
             color="neutral"
             variant="ghost"
             @click="isOpen = false"
+          />
+          <UButton
+            v-if="photosCount > 1"
+            label="Apply to All"
+            color="neutral"
+            variant="subtle"
+            icon="i-lucide-copy-check"
+            title="Apply tone adjustments to all images"
+            @click="handleApplyToAll"
           />
           <UButton
             label="Apply Changes"
