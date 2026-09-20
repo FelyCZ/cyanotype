@@ -1,17 +1,30 @@
 <script setup lang="ts">
 import type { PhotoItem } from '~/types'
 
-defineProps<{
-  photos: PhotoItem[]
-  isProcessing: boolean
-  processingProgress: number
-  processingStatusText: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    photos: PhotoItem[]
+    isProcessing: boolean
+    processingProgress: number
+    processingStatusText: string
+    previewMode?: 'negative' | 'cyanotype'
+  }>(),
+  {
+    previewMode: 'negative'
+  }
+)
 
 const emit = defineEmits<{
   editPhoto: [photo: PhotoItem]
   removePhoto: [photoId: string]
 }>()
+
+function getDisplayThumbnail(photo: PhotoItem): string {
+  if (props.previewMode === 'cyanotype' && photo.cyanotypeUrl) {
+    return photo.cyanotypeUrl
+  }
+  return photo.previewUrl
+}
 
 function isAdjusted(photo: PhotoItem): boolean {
   return (
@@ -57,8 +70,8 @@ function isAdjusted(photo: PhotoItem): boolean {
           @click="emit('editPhoto', photo)"
         >
           <img
-            v-if="photo.previewUrl"
-            :src="photo.previewUrl"
+            v-if="getDisplayThumbnail(photo)"
+            :src="getDisplayThumbnail(photo)"
             :alt="photo.name"
             class="w-full h-full object-contain transition-transform duration-200 group-hover:scale-105"
           >

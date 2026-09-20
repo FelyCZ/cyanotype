@@ -10,19 +10,27 @@ import {
   renderAdjustedCanvas
 } from '~/utils/image-processing'
 
-const props = defineProps<{
-  open: boolean
-  photo: PhotoItem | null
-}>()
+const props = withDefaults(
+  defineProps<{
+    open: boolean
+    photo: PhotoItem | null
+    previewMode?: 'negative' | 'cyanotype'
+  }>(),
+  {
+    previewMode: 'negative'
+  }
+)
 
 const emit = defineEmits<{
   'update:open': [value: boolean]
+  'update:previewMode': [value: 'negative' | 'cyanotype']
   apply: [
     photoId: string,
     rotation: number,
     adjustments: ImageAdjustments,
     crop: CropSettings,
-    newPreviewUrl: string
+    newPreviewUrl: string,
+    newCyanotypeUrl: string
   ]
 }>()
 
@@ -38,15 +46,19 @@ const previewDataUrl = ref<string>('')
 const isPreviewLoading = ref(false)
 
 // Cyanotype preview peek (hold) & toggle (click) state
-const isCyanotypeToggled = ref(false)
 const isHoldingEye = ref(false)
 let eyePointerStartTime = 0
 
 const isCyanotypeMode = computed(() => {
+  const baseMode = props.previewMode === 'cyanotype'
   if (isHoldingEye.value) {
-    return !isCyanotypeToggled.value
+    return !baseMode
   }
-  return isCyanotypeToggled.value
+  return baseMode
+})
+
+watch(isCyanotypeMode, () => {
+  updatePreview()
 })
 
 const aspectRatioOptions = [
@@ -93,7 +105,6 @@ watch(
       customHeight: newPhoto.crop?.customHeight || 1,
       box: newPhoto.crop?.box ? { ...newPhoto.crop.box } : createDefaultCropBox()
     }
-    isCyanotypeToggled.value = false
     isHoldingEye.value = false
     isPreviewLoading.value = true
 
@@ -217,12 +228,11 @@ function resetAll() {
   rotation.value = 0
   adjustments.value = createDefaultAdjustments()
   crop.value = createDefaultCrop()
-  isCyanotypeToggled.value = false
   isHoldingEye.value = false
   updatePreview()
 }
 
-// Cyanotype Eye Button Interaction (Hold to Peek, Click to Toggle)
+// Cyanotype Preview Button Interaction (Hold to Peek, Click to Toggle)
 function onEyePointerDown(event: PointerEvent) {
   event.preventDefault()
   event.stopPropagation()
@@ -233,7 +243,6 @@ function onEyePointerDown(event: PointerEvent) {
   }
   eyePointerStartTime = Date.now()
   isHoldingEye.value = true
-  updatePreview()
 }
 
 function onEyePointerUp(event: PointerEvent) {
@@ -243,18 +252,14 @@ function onEyePointerUp(event: PointerEvent) {
   isHoldingEye.value = false
 
   if (duration < 250) {
-    // Click / short tap toggles persistent mode
-    isCyanotypeToggled.value = !isCyanotypeToggled.value
+    // Click / short tap toggles persistent global mode
+    const nextMode = props.previewMode === 'cyanotype' ? 'negative' : 'cyanotype'
+    emit('update:previewMode', nextMode)
   }
-  // If held, releasing naturally reverts peek preview
-  updatePreview()
 }
 
 function onEyePointerCancel() {
-  if (isHoldingEye.value) {
-    isHoldingEye.value = false
-    updatePreview()
-  }
+  isHoldingEye.value = false
 }
 
 function onEyeClick(event: MouseEvent) {
@@ -262,8 +267,8 @@ function onEyeClick(event: MouseEvent) {
   event.stopPropagation()
   if (eyePointerStartTime === 0) {
     // Keyboard activation fallback
-    isCyanotypeToggled.value = !isCyanotypeToggled.value
-    updatePreview()
+    const nextMode = props.previewMode === 'cyanotype' ? 'negative' : 'cyanotype'
+    emit('update:previewMode', nextMode)
   }
   eyePointerStartTime = 0
 }
@@ -292,7 +297,7 @@ function handleApply() {
     }
   }
 
-  const canvas = renderAdjustedCanvas(
+  const negCanvas = renderAdjustedCanvas(
     cachedImage,
     cachedImage.naturalWidth,
     cachedImage.naturalHeight,
@@ -300,10 +305,24 @@ function handleApply() {
     adjustments.value,
     crop.value,
     thumbW,
-    thumbH
+    thumbH,
+    'negative'
   )
 
-  const thumbUrl = canvas.toDataURL('image/jpeg', 0.88)
+  const cyanCanvas = renderAdjustedCanvas(
+    cachedImage,
+    cachedImage.naturalWidth,
+    cachedImage.naturalHeight,
+    rotation.value,
+    adjustments.value,
+    crop.value,
+    thumbW,
+    thumbH,
+    'cyanotype'
+  )
+
+  const newPreviewUrl = negCanvas.toDataURL('image/jpeg', 0.88)
+  const newCyanotypeUrl = cyanCanvas.toDataURL('image/jpeg', 0.88)
 
   emit(
     'apply',
@@ -311,7 +330,8 @@ function handleApply() {
     rotation.value,
     { ...adjustments.value },
     { ...crop.value, box: { ...crop.value.box } },
-    thumbUrl
+    newPreviewUrl,
+    newCyanotypeUrl
   )
 
   isOpen.value = false
@@ -449,21 +469,28 @@ function onPointerUp() {
               class="max-h-72 w-auto object-contain rounded block pointer-events-none"
             >
 
-            <!-- Small Circular Eye Button in Corner of Image -->
+            <!-- Cyanotype Preview Button in Corner of Image -->
             <div class="absolute top-2.5 right-2.5 z-30">
-              <UButton
-                icon="i-lucide-eye"
-                size="xs"
-                :color="isCyanotypeMode ? 'primary' : 'neutral'"
-                :variant="isCyanotypeMode ? 'solid' : 'subtle'"
-                class="rounded-full shadow-lg backdrop-blur-md cursor-pointer select-none"
-                :title="isCyanotypeMode ? 'Developed print preview' : 'Preview developed print'"
-                aria-label="Preview developed cyanotype print"
+              <button
+                type="button"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg backdrop-blur-md cursor-pointer select-none transition-all duration-200 border"
+                :class="isCyanotypeMode
+                  ? 'bg-[#1C39BB] hover:bg-[#162e97] text-white border-[#1C39BB] shadow-[#1C39BB]/40 ring-2 ring-[#1C39BB]/40'
+                  : 'bg-neutral-900/85 hover:bg-neutral-800 text-neutral-200 border-neutral-700/80 hover:text-white'"
+                :title="isCyanotypeMode ? 'Cyanotype preview active. Click to switch to negative, hold to peek negative' : 'Click to preview cyanotype, hold to peek'"
+                aria-label="Toggle cyanotype preview"
                 @pointerdown="onEyePointerDown"
                 @pointerup="onEyePointerUp"
                 @pointercancel="onEyePointerCancel"
                 @click="onEyeClick"
-              />
+              >
+                <UIcon name="i-lucide-eye" class="w-3.5 h-3.5 shrink-0" />
+                <span>Cyanotype</span>
+                <span
+                  class="w-2 h-2 rounded-full transition-colors"
+                  :class="isCyanotypeMode ? 'bg-white animate-pulse' : 'bg-[#1C39BB]'"
+                />
+              </button>
             </div>
 
             <!-- Dark Shaded Mask Outside Crop Box -->

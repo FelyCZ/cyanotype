@@ -33,6 +33,7 @@ export interface PhotoItem {
   file: File
   originalUrl: string
   previewUrl: string
+  cyanotypeUrl?: string
   originalWidth: number
   originalHeight: number
   rotation: number // 0, 90, 180, 270

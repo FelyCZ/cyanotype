@@ -37,6 +37,29 @@ const isEditorOpen = ref(false)
 
 const errorMessage = ref('')
 const successMessage = ref('')
+const previewMode = ref<'negative' | 'cyanotype'>('negative')
+
+watch(previewMode, async (newMode) => {
+  if (newMode === 'cyanotype') {
+    const missing = photos.value.filter(p => p.status === 'done' && !p.cyanotypeUrl)
+    for (const photo of missing) {
+      try {
+        const img = await loadImageElement(photo.originalUrl)
+        const { previewUrl: cyanUrl } = await createThumbnailFromImage(
+          img,
+          photo.rotation,
+          photo.adjustments,
+          photo.crop,
+          640,
+          'cyanotype'
+        )
+        photo.cyanotypeUrl = cyanUrl
+      } catch (err) {
+        console.error('Failed to generate cyanotype thumbnail:', err)
+      }
+    }
+  }
+})
 
 async function handleFilesSelected(files: File[]) {
   errorMessage.value = ''
@@ -76,15 +99,28 @@ async function processPendingPhotos() {
 
     try {
       const img = await loadImageElement(photo.originalUrl)
-      const { previewUrl, width, height } = await createThumbnailFromImage(
-        img,
-        photo.rotation,
-        photo.adjustments,
-        photo.crop
-      )
+      const [{ previewUrl, width, height }, { previewUrl: cyanotypeUrl }] = await Promise.all([
+        createThumbnailFromImage(
+          img,
+          photo.rotation,
+          photo.adjustments,
+          photo.crop,
+          640,
+          'negative'
+        ),
+        createThumbnailFromImage(
+          img,
+          photo.rotation,
+          photo.adjustments,
+          photo.crop,
+          640,
+          'cyanotype'
+        )
+      ])
       photo.originalWidth = width
       photo.originalHeight = height
       photo.previewUrl = previewUrl
+      photo.cyanotypeUrl = cyanotypeUrl
       photo.status = 'done'
     } catch (err: unknown) {
       console.error('Error converting photo:', err)
@@ -109,7 +145,8 @@ function handleApplyEditorChanges(
   rotation: number,
   adjustments: ImageAdjustments,
   crop: CropSettings,
-  newPreviewUrl: string
+  newPreviewUrl: string,
+  newCyanotypeUrl: string
 ) {
   const photo = photos.value.find(p => p.id === photoId)
   if (photo) {
@@ -117,6 +154,7 @@ function handleApplyEditorChanges(
     photo.adjustments = adjustments
     photo.crop = crop
     photo.previewUrl = newPreviewUrl
+    photo.cyanotypeUrl = newCyanotypeUrl
   }
 }
 
@@ -240,6 +278,7 @@ onUnmounted(() => {
 
     <!-- Action Bar (Only shown once above gallery) -->
     <ActionBar
+      v-model:preview-mode="previewMode"
       :photos="photos"
       :settings="settings"
       :is-exporting="isExporting"
@@ -257,6 +296,7 @@ onUnmounted(() => {
     <!-- Thumbnail Gallery & Queue Progress -->
     <ThumbnailGallery
       :photos="photos"
+      :preview-mode="previewMode"
       :is-processing="isBatchProcessing"
       :processing-progress="processingProgress"
       :processing-status-text="processingStatusText"
@@ -267,6 +307,7 @@ onUnmounted(() => {
     <!-- Fine-tune Modal Editor with Interactive Crop & Rotation -->
     <PhotoEditorModal
       v-model:open="isEditorOpen"
+      v-model:preview-mode="previewMode"
       :photo="editingPhoto"
       @apply="handleApplyEditorChanges"
     />

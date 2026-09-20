@@ -262,7 +262,8 @@ export async function createThumbnailFromImage(
   rotation = 0,
   adjustments: ImageAdjustments,
   crop?: CropSettings,
-  maxDimension = 640
+  maxDimension = 640,
+  mode: ToneRenderMode = 'negative'
 ): Promise<{ previewUrl: string; width: number; height: number }> {
   const originalWidth = img.naturalWidth || img.width
   const originalHeight = img.naturalHeight || img.height
@@ -298,7 +299,8 @@ export async function createThumbnailFromImage(
     adjustments,
     cropSettings,
     targetWidth,
-    targetHeight
+    targetHeight,
+    mode
   )
 
   const previewUrl = canvas.toDataURL('image/jpeg', 0.88)
