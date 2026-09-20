@@ -28,16 +28,10 @@ const emit = defineEmits<{
   dismissAlert: []
 }>()
 
-const sheetCount = computed(() => {
-  if (props.photos.length === 0) return 0
-  return Math.ceil(props.photos.length / props.settings.photosPerPage)
-})
-
 const summaryText = computed(() => {
   if (props.photos.length === 0) return 'No images selected'
   const count = props.photos.length
-  const formatLabel = props.settings.imageFormat.toUpperCase()
-  return `${count} image${count > 1 ? 's' : ''} ready to save as ${formatLabel} negative${count > 1 ? 's' : ''} or preview as ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
+  return `${count} image${count > 1 ? 's' : ''} converted to negatives`
 })
 </script>
 
