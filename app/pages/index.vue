@@ -266,7 +266,7 @@ onUnmounted(() => {
         Cyanotyper
       </h1>
       <p class="text-neutral-500 max-w-2xl text-sm sm:text-base">
-        Select photos to convert them into inverted grayscale negatives ready for printing onto transparency film for cyanotype contact printing. All processing runs entirely on your device.
+        Select photos to convert them into inverted grayscale negatives ready for printing onto transparency film for cyanotype contact printing. <strong class="font-semibold text-neutral-700 dark:text-neutral-200">All processing runs entirely on your device. No images are uploaded anywhere.</strong>
       </p>
     </div>
 
