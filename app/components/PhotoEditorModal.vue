@@ -37,6 +37,18 @@ const crop = ref<CropSettings>(createDefaultCrop())
 const previewDataUrl = ref<string>('')
 const isPreviewLoading = ref(false)
 
+// Cyanotype preview peek (hold) & toggle (click) state
+const isCyanotypeToggled = ref(false)
+const isHoldingEye = ref(false)
+let eyePointerStartTime = 0
+
+const isCyanotypeMode = computed(() => {
+  if (isHoldingEye.value) {
+    return !isCyanotypeToggled.value
+  }
+  return isCyanotypeToggled.value
+})
+
 const aspectRatioOptions = [
   { label: 'Original', value: 'original' },
   { label: 'Square', value: 'square' },
@@ -81,6 +93,8 @@ watch(
       customHeight: newPhoto.crop?.customHeight || 1,
       box: newPhoto.crop?.box ? { ...newPhoto.crop.box } : createDefaultCropBox()
     }
+    isCyanotypeToggled.value = false
+    isHoldingEye.value = false
     isPreviewLoading.value = true
 
     try {
@@ -132,7 +146,8 @@ function updatePreview() {
     adjustments.value,
     fullCrop,
     targetWidth,
-    targetHeight
+    targetHeight,
+    isCyanotypeMode.value ? 'cyanotype' : 'negative'
   )
 
   previewDataUrl.value = canvas.toDataURL('image/jpeg', 0.88)
@@ -202,7 +217,55 @@ function resetAll() {
   rotation.value = 0
   adjustments.value = createDefaultAdjustments()
   crop.value = createDefaultCrop()
+  isCyanotypeToggled.value = false
+  isHoldingEye.value = false
   updatePreview()
+}
+
+// Cyanotype Eye Button Interaction (Hold to Peek, Click to Toggle)
+function onEyePointerDown(event: PointerEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  try {
+    (event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId)
+  } catch {
+    // Ignore if pointer capture is not supported
+  }
+  eyePointerStartTime = Date.now()
+  isHoldingEye.value = true
+  updatePreview()
+}
+
+function onEyePointerUp(event: PointerEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  const duration = Date.now() - eyePointerStartTime
+  isHoldingEye.value = false
+
+  if (duration < 250) {
+    // Click / short tap toggles persistent mode
+    isCyanotypeToggled.value = !isCyanotypeToggled.value
+  }
+  // If held, releasing naturally reverts peek preview
+  updatePreview()
+}
+
+function onEyePointerCancel() {
+  if (isHoldingEye.value) {
+    isHoldingEye.value = false
+    updatePreview()
+  }
+}
+
+function onEyeClick(event: MouseEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  if (eyePointerStartTime === 0) {
+    // Keyboard activation fallback
+    isCyanotypeToggled.value = !isCyanotypeToggled.value
+    updatePreview()
+  }
+  eyePointerStartTime = 0
 }
 
 function handleApply() {
@@ -385,6 +448,23 @@ function onPointerUp() {
               :alt="photo.name"
               class="max-h-72 w-auto object-contain rounded block pointer-events-none"
             >
+
+            <!-- Small Circular Eye Button in Corner of Image -->
+            <div class="absolute top-2.5 right-2.5 z-30">
+              <UButton
+                icon="i-lucide-eye"
+                size="xs"
+                :color="isCyanotypeMode ? 'primary' : 'neutral'"
+                :variant="isCyanotypeMode ? 'solid' : 'subtle'"
+                class="rounded-full shadow-lg backdrop-blur-md cursor-pointer select-none"
+                :title="isCyanotypeMode ? 'Developed print preview' : 'Preview developed print'"
+                aria-label="Preview developed cyanotype print"
+                @pointerdown="onEyePointerDown"
+                @pointerup="onEyePointerUp"
+                @pointercancel="onEyePointerCancel"
+                @click="onEyeClick"
+              />
+            </div>
 
             <!-- Dark Shaded Mask Outside Crop Box -->
             <div

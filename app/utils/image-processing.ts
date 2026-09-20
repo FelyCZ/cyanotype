@@ -128,7 +128,13 @@ export function getRotatedCanvas(
   return canvas
 }
 
-export function processImageData(imageData: ImageData, adjustments: ImageAdjustments): ImageData {
+export type ToneRenderMode = 'negative' | 'cyanotype'
+
+export function processImageData(
+  imageData: ImageData,
+  adjustments: ImageAdjustments,
+  mode: ToneRenderMode = 'negative'
+): ImageData {
   const data = imageData.data
   const len = data.length
 
@@ -173,13 +179,23 @@ export function processImageData(imageData: ImageData, adjustments: ImageAdjustm
     // Convert positive to grayscale via Rec. 709 luminance
     const gray = 0.2126 * clampedR + 0.7152 * clampedG + 0.0722 * clampedB
 
-    // Invert to negative
-    const inverted = clamp(255 - gray)
-
-    data[i] = inverted
-    data[i + 1] = inverted
-    data[i + 2] = inverted
-    data[i + 3] = 255
+    if (mode === 'cyanotype') {
+      // Invert negative back to positive print in Persian blue
+      // Persian blue deep shadow: rgb(28, 57, 187)
+      // Paper highlight: rgb(250, 248, 244)
+      const normLum = gray / 255
+      data[i] = Math.round(28 + normLum * (250 - 28))
+      data[i + 1] = Math.round(57 + normLum * (248 - 57))
+      data[i + 2] = Math.round(187 + normLum * (244 - 187))
+      data[i + 3] = 255
+    } else {
+      // Invert to negative
+      const inverted = clamp(255 - gray)
+      data[i] = inverted
+      data[i + 1] = inverted
+      data[i + 2] = inverted
+      data[i + 3] = 255
+    }
   }
 
   return imageData
@@ -193,7 +209,8 @@ export function renderAdjustedCanvas(
   adjustments: ImageAdjustments,
   crop?: CropSettings,
   targetWidth?: number,
-  targetHeight?: number
+  targetHeight?: number,
+  mode: ToneRenderMode = 'negative'
 ): HTMLCanvasElement {
   const rotatedCanvas = getRotatedCanvas(sourceImage, sourceWidth, sourceHeight, rotation)
   const rotW = rotatedCanvas.width
@@ -224,7 +241,7 @@ export function renderAdjustedCanvas(
   ctx.drawImage(rotatedCanvas, sx, sy, sWidth, sHeight, 0, 0, width, height)
 
   const imageData = ctx.getImageData(0, 0, width, height)
-  processImageData(imageData, adjustments)
+  processImageData(imageData, adjustments, mode)
   ctx.putImageData(imageData, 0, 0)
 
   return canvas
