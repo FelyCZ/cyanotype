@@ -58,7 +58,7 @@ async function processPendingPhotos() {
   for (let i = 0; i < total; i++) {
     const photo = pendingPhotos[i]!
     photo.status = 'processing'
-    processingStatusText.value = `Converting ${photo.name} (${i + 1} of ${total})`
+    processingStatusText.value = `Converting ${photo.name} - ${i + 1} of ${total}`
     processingProgress.value = Math.round(((i) / total) * 100)
 
     try {

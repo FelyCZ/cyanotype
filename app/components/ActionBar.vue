@@ -27,7 +27,7 @@ const summaryText = computed(() => {
   if (props.settings.outputMode === 'individual') {
     return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} ready to export as PNG negatives`
   }
-  return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} will be compiled into ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} (${props.settings.dpi} DPI)`
+  return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} will be compiled into ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
 })
 </script>
 

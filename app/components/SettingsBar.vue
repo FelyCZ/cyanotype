@@ -15,10 +15,10 @@ const settings = computed({
 })
 
 const pageSizeOptions = [
-  { label: 'A3 (297 × 420 mm)', value: 'A3' },
-  { label: 'A4 (210 × 297 mm)', value: 'A4' },
-  { label: 'A5 (148 × 210 mm)', value: 'A5' },
-  { label: 'A6 (105 × 148 mm)', value: 'A6' }
+  { label: 'A3', value: 'A3' },
+  { label: 'A4', value: 'A4' },
+  { label: 'A5', value: 'A5' },
+  { label: 'A6', value: 'A6' }
 ]
 
 const perPageOptions = [
@@ -29,14 +29,14 @@ const perPageOptions = [
 ]
 
 const orientationOptions = [
-  { label: 'Auto (match photos)', value: 'auto' },
+  { label: 'Auto', value: 'auto' },
   { label: 'Portrait', value: 'portrait' },
   { label: 'Landscape', value: 'landscape' }
 ]
 
 const outputModeOptions = [
-  { label: 'PDF Sheets (Option A)', value: 'sheets' },
-  { label: 'Individual PNGs (Option B)', value: 'individual' }
+  { label: 'PDF Sheets', value: 'sheets' },
+  { label: 'Individual PNGs', value: 'individual' }
 ]
 </script>
 
@@ -95,7 +95,7 @@ const outputModeOptions = [
         />
       </UFormField>
 
-      <UFormField label="Page Margin (mm)">
+      <UFormField label="Page Margin mm">
         <UInputNumber
           v-model="settings.marginMm"
           :min="0"

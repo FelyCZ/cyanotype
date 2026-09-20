@@ -24,13 +24,6 @@ useHead({
             <UIcon name="i-lucide-contrast" class="w-5 h-5" />
           </div>
           <span class="font-bold text-lg tracking-tight">Cyanotyper</span>
-          <UBadge
-            label="Digital Negatives"
-            color="primary"
-            variant="subtle"
-            size="xs"
-            class="hidden sm:inline-flex"
-          />
         </NuxtLink>
       </template>
 
