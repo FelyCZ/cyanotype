@@ -26,7 +26,7 @@ const sheetCount = computed(() => {
 
 const summaryText = computed(() => {
   if (props.photos.length === 0) return 'No images selected'
-  return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} will be compiled into ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
+  return `${props.photos.length} image${props.photos.length > 1 ? 's' : ''} ready to save as PNG negatives or preview as ${sheetCount.value} ${props.settings.pageSize} page${sheetCount.value > 1 ? 's' : ''} at ${props.settings.dpi} DPI`
 })
 </script>
 

@@ -6,7 +6,11 @@ import {
   loadImageElement,
   createThumbnailFromImage
 } from '~/utils/image-processing'
-import { exportSheetsToPdfBlob, saveFilesToUserSelection } from '~/utils/export-service'
+import {
+  exportSheetsToPdfBlob,
+  exportIndividualPngs,
+  saveFilesToUserSelection
+} from '~/utils/export-service'
 
 const settings = ref<PageSettings>({
   pageSize: 'A4',
@@ -44,6 +48,7 @@ async function handleFilesSelected(files: File[]) {
     previewUrl: '',
     originalWidth: 0,
     originalHeight: 0,
+    rotation: 0,
     adjustments: createDefaultAdjustments(),
     crop: createDefaultCrop(),
     status: 'pending'
@@ -69,7 +74,12 @@ async function processPendingPhotos() {
 
     try {
       const img = await loadImageElement(photo.originalUrl)
-      const { previewUrl, width, height } = await createThumbnailFromImage(img, photo.adjustments, photo.crop)
+      const { previewUrl, width, height } = await createThumbnailFromImage(
+        img,
+        photo.rotation,
+        photo.adjustments,
+        photo.crop
+      )
       photo.originalWidth = width
       photo.originalHeight = height
       photo.previewUrl = previewUrl
@@ -94,12 +104,14 @@ function handleEditPhoto(photo: PhotoItem) {
 
 function handleApplyEditorChanges(
   photoId: string,
+  rotation: number,
   adjustments: ImageAdjustments,
   crop: CropSettings,
   newPreviewUrl: string
 ) {
   const photo = photos.value.find(p => p.id === photoId)
   if (photo) {
+    photo.rotation = rotation
     photo.adjustments = adjustments
     photo.crop = crop
     photo.previewUrl = newPreviewUrl
@@ -159,25 +171,25 @@ async function handleSaveAll() {
   successMessage.value = ''
   isExporting.value = true
   exportProgress.value = 0
-  exportStatusText.value = 'Preparing export...'
+  exportStatusText.value = 'Preparing individual PNG negatives...'
 
   try {
-    const pdfBlob = await exportSheetsToPdfBlob(photos.value, settings.value, (progress) => {
+    const pngFiles = await exportIndividualPngs(photos.value, (progress) => {
       exportProgress.value = Math.round((progress.current / progress.total) * 100)
       exportStatusText.value = progress.step
     })
 
-    exportStatusText.value = 'Saving PDF...'
-    const result = await saveFilesToUserSelection([
-      { name: `cyanotype-${settings.value.pageSize.toLowerCase()}-negatives.pdf`, blob: pdfBlob }
-    ], (status) => {
+    exportStatusText.value = 'Saving negative images...'
+    const result = await saveFilesToUserSelection(pngFiles, (status) => {
       exportStatusText.value = status
     })
 
     if (result.method === 'directory') {
-      successMessage.value = 'PDF sheet saved successfully to chosen folder.'
+      successMessage.value = 'All individual negative PNGs saved successfully to chosen folder.'
+    } else if (result.method === 'zip') {
+      successMessage.value = 'All individual negative PNGs packaged and downloaded as a ZIP archive.'
     } else {
-      successMessage.value = 'PDF sheet downloaded successfully.'
+      successMessage.value = 'Negative PNG downloaded successfully.'
     }
   } catch (err: unknown) {
     if ((err as Error)?.name === 'AbortError') {
@@ -205,7 +217,7 @@ onUnmounted(() => {
     <!-- Intro Banner -->
     <div class="space-y-2">
       <h1 class="text-3xl font-bold tracking-tight">
-        Cyanotype Negative Generator
+        Cyanotyper
       </h1>
       <p class="text-neutral-500 max-w-2xl text-sm sm:text-base">
         Select photos to convert them into inverted grayscale negatives ready for printing onto transparency film for cyanotype contact printing. All processing runs entirely on your device.
@@ -244,7 +256,7 @@ onUnmounted(() => {
       @remove-photo="handleRemovePhoto"
     />
 
-    <!-- Fine-tune Modal Editor with Crop -->
+    <!-- Fine-tune Modal Editor with Interactive Crop & Rotation -->
     <PhotoEditorModal
       v-model:open="isEditorOpen"
       :photo="editingPhoto"

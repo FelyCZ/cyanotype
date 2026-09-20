@@ -38,6 +38,7 @@ export async function exportSheetsToPdfBlob(
     photos,
     settings.photosPerPage,
     pageDims,
+    settings.orientation === 'auto',
     settings.marginMm,
     8,
     settings.dpi
@@ -70,11 +71,13 @@ export async function exportSheetsToPdfBlob(
         step: `Rendering photo ${processedCount} of ${totalImages} on sheet ${pageIdx + 1}`
       })
 
+      const totalRotation = item.photo.rotation + (item.autoRotated90 ? 90 : 0)
       const img = await loadImageElement(item.photo.originalUrl)
       const canvas = renderAdjustedCanvas(
         img,
         item.photo.originalWidth,
         item.photo.originalHeight,
+        totalRotation,
         item.photo.adjustments,
         item.photo.crop,
         item.renderWidth,
@@ -113,6 +116,7 @@ export async function exportIndividualPngs(
       img,
       photo.originalWidth,
       photo.originalHeight,
+      photo.rotation,
       photo.adjustments,
       photo.crop
     )

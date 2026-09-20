@@ -161,6 +161,7 @@ export function layoutPhotosIntoPages(
   photos: PhotoItem[],
   perPage: PhotosPerPage,
   pageDims: PageDimensions,
+  autoOrientation = false,
   marginMm = 10,
   gutterMm = 8,
   dpi = 300
@@ -176,10 +177,38 @@ export function layoutPhotosIntoPages(
       const slot = cells[idx]
       if (!slot) return
 
-      const placement = calculateFitPlacement(photo.originalWidth, photo.originalHeight, slot)
+      const isManualSwap = ((photo.rotation % 360) + 360) % 360 === 90 || ((photo.rotation % 360) + 360) % 360 === 270
+      const baseW = isManualSwap ? photo.originalHeight : photo.originalWidth
+      const baseH = isManualSwap ? photo.originalWidth : photo.originalHeight
+
+      const box = photo.crop?.box || { x: 0, y: 0, width: 1, height: 1 }
+      const imgW = Math.max(1, Math.round(box.width * baseW))
+      const imgH = Math.max(1, Math.round(box.height * baseH))
+
+      let autoRotated90 = false
+      let effectiveW = imgW
+      let effectiveH = imgH
+
+      if (autoOrientation) {
+        const scaleNormal = Math.min(slot.cellWidth / imgW, slot.cellHeight / imgH)
+        const areaNormal = (imgW * scaleNormal) * (imgH * scaleNormal)
+
+        const scaleRotated = Math.min(slot.cellWidth / imgH, slot.cellHeight / imgW)
+        const areaRotated = (imgH * scaleRotated) * (imgW * scaleRotated)
+
+        // Rotate by 90 if it uses at least 15% more printable area in the cell
+        if (areaRotated > areaNormal * 1.15) {
+          autoRotated90 = true
+          effectiveW = imgH
+          effectiveH = imgW
+        }
+      }
+
+      const placement = calculateFitPlacement(effectiveW, effectiveH, slot)
       pageItems.push({
         photo,
         slot,
+        autoRotated90,
         ...placement
       })
     })

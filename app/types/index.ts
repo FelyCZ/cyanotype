@@ -6,12 +6,18 @@ export type PhotosPerPage = 1 | 2 | 3 | 4
 
 export type AspectRatioOption = 'original' | 'square' | '2x3' | '4x3' | '16x9' | '1x2' | 'custom'
 
+export interface CropBox {
+  x: number // 0 to 1
+  y: number // 0 to 1
+  width: number // 0 to 1
+  height: number // 0 to 1
+}
+
 export interface CropSettings {
   aspectRatio: AspectRatioOption
   customWidth: number
   customHeight: number
-  panX: number
-  panY: number
+  box: CropBox
 }
 
 export interface ImageAdjustments {
@@ -29,6 +35,7 @@ export interface PhotoItem {
   previewUrl: string
   originalWidth: number
   originalHeight: number
+  rotation: number // 0, 90, 180, 270
   adjustments: ImageAdjustments
   crop: CropSettings
   status: 'pending' | 'processing' | 'done' | 'error'
@@ -65,4 +72,5 @@ export interface PlacedImage {
   renderY: number
   renderWidth: number
   renderHeight: number
+  autoRotated90: boolean
 }

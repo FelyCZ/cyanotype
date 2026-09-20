@@ -1,4 +1,4 @@
-import type { ImageAdjustments, CropSettings, AspectRatioOption } from '~/types'
+import type { ImageAdjustments, CropSettings, CropBox, AspectRatioOption } from '~/types'
 
 export function clamp(val: number, min = 0, max = 255): number {
   return Math.max(min, Math.min(max, val))
@@ -13,68 +13,119 @@ export function createDefaultAdjustments(): ImageAdjustments {
   }
 }
 
+export function createDefaultCropBox(): CropBox {
+  return {
+    x: 0,
+    y: 0,
+    width: 1,
+    height: 1
+  }
+}
+
 export function createDefaultCrop(): CropSettings {
   return {
     aspectRatio: 'original',
     customWidth: 1,
     customHeight: 1,
-    panX: 0.5,
-    panY: 0.5
+    box: createDefaultCropBox()
   }
 }
 
-export function getCropRect(
-  sourceWidth: number,
-  sourceHeight: number,
-  crop: CropSettings
-): { sx: number; sy: number; sWidth: number; sHeight: number } {
-  if (crop.aspectRatio === 'original') {
-    return { sx: 0, sy: 0, sWidth: sourceWidth, sHeight: sourceHeight }
-  }
-
-  let ratio = 1
-  const isSourceLandscape = sourceWidth >= sourceHeight
-
-  switch (crop.aspectRatio) {
+export function getNumericRatio(
+  aspectRatio: AspectRatioOption,
+  isLandscape: boolean,
+  customWidth = 1,
+  customHeight = 1
+): number | null {
+  switch (aspectRatio) {
+    case 'original':
+      return null
     case 'square':
-      ratio = 1
-      break
+      return 1
     case '2x3':
-      ratio = isSourceLandscape ? 3 / 2 : 2 / 3
-      break
+      return isLandscape ? 3 / 2 : 2 / 3
     case '4x3':
-      ratio = isSourceLandscape ? 4 / 3 : 3 / 4
-      break
+      return isLandscape ? 4 / 3 : 3 / 4
     case '16x9':
-      ratio = isSourceLandscape ? 16 / 9 : 9 / 16
-      break
+      return isLandscape ? 16 / 9 : 9 / 16
     case '1x2':
-      ratio = isSourceLandscape ? 2 / 1 : 1 / 2
-      break
+      return isLandscape ? 2 / 1 : 1 / 2
     case 'custom':
-      ratio = Math.max(0.01, crop.customWidth) / Math.max(0.01, crop.customHeight)
-      break
+      return Math.max(0.01, customWidth) / Math.max(0.01, customHeight)
+  }
+}
+
+export function calculateInitialCropBox(
+  imageWidth: number,
+  imageHeight: number,
+  aspectRatio: AspectRatioOption,
+  customWidth = 1,
+  customHeight = 1
+): CropBox {
+  if (aspectRatio === 'original') {
+    return createDefaultCropBox()
   }
 
-  const imgRatio = sourceWidth / sourceHeight
+  const isLandscape = imageWidth >= imageHeight
+  const targetRatio = getNumericRatio(aspectRatio, isLandscape, customWidth, customHeight)
+  if (!targetRatio) return createDefaultCropBox()
 
-  if (imgRatio > ratio) {
-    const sHeight = sourceHeight
-    const sWidth = Math.round(sourceHeight * ratio)
-    const maxOffset = sourceWidth - sWidth
-    const clampedPan = Math.max(0, Math.min(1, crop.panX))
-    const sx = Math.round(maxOffset * clampedPan)
-    const sy = 0
-    return { sx, sy, sWidth, sHeight }
+  const currentRatio = imageWidth / imageHeight
+
+  if (currentRatio > targetRatio) {
+    // Image is wider than target ratio
+    const boxWidth = (imageHeight * targetRatio) / imageWidth
+    const boxX = (1 - boxWidth) / 2
+    return {
+      x: boxX,
+      y: 0,
+      width: boxWidth,
+      height: 1
+    }
   } else {
-    const sWidth = sourceWidth
-    const sHeight = Math.round(sourceWidth / ratio)
-    const maxOffset = sourceHeight - sHeight
-    const clampedPan = Math.max(0, Math.min(1, crop.panY))
-    const sx = 0
-    const sy = Math.round(maxOffset * clampedPan)
-    return { sx, sy, sWidth, sHeight }
+    // Image is taller than target ratio
+    const boxHeight = imageWidth / targetRatio / imageHeight
+    const boxY = (1 - boxHeight) / 2
+    return {
+      x: 0,
+      y: boxY,
+      width: 1,
+      height: boxHeight
+    }
   }
+}
+
+export function getRotatedCanvas(
+  source: CanvasImageSource,
+  width: number,
+  height: number,
+  rotation: number
+): HTMLCanvasElement {
+  const normRot = ((rotation % 360) + 360) % 360
+  if (normRot === 0) {
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+    const ctx = canvas.getContext('2d')
+    if (ctx) ctx.drawImage(source, 0, 0, width, height)
+    return canvas
+  }
+
+  const isSwap = normRot === 90 || normRot === 270
+  const rotW = isSwap ? height : width
+  const rotH = isSwap ? width : height
+
+  const canvas = document.createElement('canvas')
+  canvas.width = rotW
+  canvas.height = rotH
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return canvas
+
+  ctx.translate(rotW / 2, rotH / 2)
+  ctx.rotate((normRot * Math.PI) / 180)
+  ctx.drawImage(source, -width / 2, -height / 2, width, height)
+
+  return canvas
 }
 
 export function processImageData(imageData: ImageData, adjustments: ImageAdjustments): ImageData {
@@ -138,13 +189,23 @@ export function renderAdjustedCanvas(
   sourceImage: CanvasImageSource,
   sourceWidth: number,
   sourceHeight: number,
+  rotation: number,
   adjustments: ImageAdjustments,
   crop?: CropSettings,
   targetWidth?: number,
   targetHeight?: number
 ): HTMLCanvasElement {
+  const rotatedCanvas = getRotatedCanvas(sourceImage, sourceWidth, sourceHeight, rotation)
+  const rotW = rotatedCanvas.width
+  const rotH = rotatedCanvas.height
+
   const cropSettings = crop || createDefaultCrop()
-  const { sx, sy, sWidth, sHeight } = getCropRect(sourceWidth, sourceHeight, cropSettings)
+  const box = cropSettings.box || createDefaultCropBox()
+
+  const sx = Math.max(0, Math.min(rotW - 1, Math.round(box.x * rotW)))
+  const sy = Math.max(0, Math.min(rotH - 1, Math.round(box.y * rotH)))
+  const sWidth = Math.max(1, Math.min(rotW - sx, Math.round(box.width * rotW)))
+  const sHeight = Math.max(1, Math.min(rotH - sy, Math.round(box.height * rotH)))
 
   const width = Math.round(targetWidth || sWidth)
   const height = Math.round(targetHeight || sHeight)
@@ -160,7 +221,7 @@ export function renderAdjustedCanvas(
 
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
-  ctx.drawImage(sourceImage, sx, sy, sWidth, sHeight, 0, 0, width, height)
+  ctx.drawImage(rotatedCanvas, sx, sy, sWidth, sHeight, 0, 0, width, height)
 
   const imageData = ctx.getImageData(0, 0, width, height)
   processImageData(imageData, adjustments)
@@ -181,6 +242,7 @@ export function loadImageElement(url: string): Promise<HTMLImageElement> {
 
 export async function createThumbnailFromImage(
   img: HTMLImageElement,
+  rotation = 0,
   adjustments: ImageAdjustments,
   crop?: CropSettings,
   maxDimension = 640
@@ -188,8 +250,15 @@ export async function createThumbnailFromImage(
   const originalWidth = img.naturalWidth || img.width
   const originalHeight = img.naturalHeight || img.height
 
+  const isSwap = ((rotation % 360) + 360) % 360 === 90 || ((rotation % 360) + 360) % 360 === 270
+  const rotW = isSwap ? originalHeight : originalWidth
+  const rotH = isSwap ? originalWidth : originalHeight
+
   const cropSettings = crop || createDefaultCrop()
-  const { sWidth, sHeight } = getCropRect(originalWidth, originalHeight, cropSettings)
+  const box = cropSettings.box || createDefaultCropBox()
+
+  const sWidth = Math.max(1, Math.round(box.width * rotW))
+  const sHeight = Math.max(1, Math.round(box.height * rotH))
 
   let targetWidth = sWidth
   let targetHeight = sHeight
@@ -208,6 +277,7 @@ export async function createThumbnailFromImage(
     img,
     originalWidth,
     originalHeight,
+    rotation,
     adjustments,
     cropSettings,
     targetWidth,

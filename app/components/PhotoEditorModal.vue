@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { PhotoItem, ImageAdjustments, CropSettings, AspectRatioOption } from '~/types'
+import type { PhotoItem, ImageAdjustments, CropSettings, CropBox, AspectRatioOption } from '~/types'
 import {
   createDefaultAdjustments,
   createDefaultCrop,
-  getCropRect,
+  createDefaultCropBox,
+  calculateInitialCropBox,
+  getNumericRatio,
   loadImageElement,
   renderAdjustedCanvas
 } from '~/utils/image-processing'
@@ -15,7 +17,13 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:open': [value: boolean]
-  apply: [photoId: string, adjustments: ImageAdjustments, crop: CropSettings, newPreviewUrl: string]
+  apply: [
+    photoId: string,
+    rotation: number,
+    adjustments: ImageAdjustments,
+    crop: CropSettings,
+    newPreviewUrl: string
+  ]
 }>()
 
 const isOpen = computed({
@@ -23,6 +31,7 @@ const isOpen = computed({
   set: (val) => emit('update:open', val)
 })
 
+const rotation = ref(0)
 const adjustments = ref<ImageAdjustments>(createDefaultAdjustments())
 const crop = ref<CropSettings>(createDefaultCrop())
 const previewDataUrl = ref<string>('')
@@ -41,17 +50,20 @@ const aspectRatioOptions = [
 let cachedImage: HTMLImageElement | null = null
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
-const canPanHorizontal = computed(() => {
-  if (!cachedImage || crop.value.aspectRatio === 'original') return false
-  const rect = getCropRect(cachedImage.naturalWidth, cachedImage.naturalHeight, crop.value)
-  return rect.sWidth < cachedImage.naturalWidth
-})
+// Overlay interaction state
+const previewContainerRef = ref<HTMLDivElement | null>(null)
+const imageElementRef = ref<HTMLImageElement | null>(null)
 
-const canPanVertical = computed(() => {
-  if (!cachedImage || crop.value.aspectRatio === 'original') return false
-  const rect = getCropRect(cachedImage.naturalWidth, cachedImage.naturalHeight, crop.value)
-  return rect.sHeight < cachedImage.naturalHeight
-})
+interface DragState {
+  type: 'move' | 'nw' | 'ne' | 'se' | 'sw'
+  startX: number
+  startY: number
+  initialBox: CropBox
+  containerWidth: number
+  containerHeight: number
+}
+
+let activeDrag: DragState | null = null
 
 watch(
   () => props.photo,
@@ -61,8 +73,14 @@ watch(
       return
     }
 
+    rotation.value = newPhoto.rotation || 0
     adjustments.value = { ...newPhoto.adjustments }
-    crop.value = { ...newPhoto.crop }
+    crop.value = {
+      aspectRatio: newPhoto.crop?.aspectRatio || 'original',
+      customWidth: newPhoto.crop?.customWidth || 1,
+      customHeight: newPhoto.crop?.customHeight || 1,
+      box: newPhoto.crop?.box ? { ...newPhoto.crop.box } : createDefaultCropBox()
+    }
     isPreviewLoading.value = true
 
     try {
@@ -80,28 +98,39 @@ watch(
 function updatePreview() {
   if (!cachedImage) return
 
-  const maxDimension = 600
-  const cropRect = getCropRect(cachedImage.naturalWidth, cachedImage.naturalHeight, crop.value)
+  const maxDimension = 640
+  const isSwap = ((rotation.value % 360) + 360) % 360 === 90 || ((rotation.value % 360) + 360) % 360 === 270
+  const rotW = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+  const rotH = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
 
-  let targetWidth = cropRect.sWidth
-  let targetHeight = cropRect.sHeight
+  let targetWidth = rotW
+  let targetHeight = rotH
 
-  if (cropRect.sWidth > maxDimension || cropRect.sHeight > maxDimension) {
-    if (cropRect.sWidth >= cropRect.sHeight) {
-      targetHeight = Math.round((cropRect.sHeight / cropRect.sWidth) * maxDimension)
+  if (rotW > maxDimension || rotH > maxDimension) {
+    if (rotW >= rotH) {
       targetWidth = maxDimension
+      targetHeight = Math.round((rotH / rotW) * maxDimension)
     } else {
-      targetWidth = Math.round((cropRect.sWidth / cropRect.sHeight) * maxDimension)
       targetHeight = maxDimension
+      targetWidth = Math.round((rotW / rotH) * maxDimension)
     }
+  }
+
+  // To display the full image in the editor with the overlay on top, render full rotated image with tone adjustments
+  const fullCrop = {
+    aspectRatio: 'original' as AspectRatioOption,
+    customWidth: 1,
+    customHeight: 1,
+    box: createDefaultCropBox()
   }
 
   const canvas = renderAdjustedCanvas(
     cachedImage,
     cachedImage.naturalWidth,
     cachedImage.naturalHeight,
+    rotation.value,
     adjustments.value,
-    crop.value,
+    fullCrop,
     targetWidth,
     targetHeight
   )
@@ -113,27 +142,221 @@ function handleParamChange() {
   if (debounceTimer) clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
     updatePreview()
-  }, 40)
+  }, 30)
+}
+
+function handleRotate() {
+  rotation.value = (rotation.value + 90) % 360
+  if (cachedImage) {
+    const isSwap = rotation.value === 90 || rotation.value === 270
+    const w = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+    const h = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
+    crop.value.box = calculateInitialCropBox(
+      w,
+      h,
+      crop.value.aspectRatio,
+      crop.value.customWidth,
+      crop.value.customHeight
+    )
+  }
+  updatePreview()
 }
 
 function handleAspectRatioChange(newRatio: AspectRatioOption) {
   crop.value.aspectRatio = newRatio
-  crop.value.panX = 0.5
-  crop.value.panY = 0.5
-  updatePreview()
+  if (cachedImage) {
+    const isSwap = rotation.value === 90 || rotation.value === 270
+    const w = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+    const h = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
+    crop.value.box = calculateInitialCropBox(
+      w,
+      h,
+      newRatio,
+      crop.value.customWidth,
+      crop.value.customHeight
+    )
+  }
+}
+
+function handleCustomRatioChange() {
+  if (crop.value.aspectRatio === 'custom' && cachedImage) {
+    const isSwap = rotation.value === 90 || rotation.value === 270
+    const w = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+    const h = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
+    crop.value.box = calculateInitialCropBox(
+      w,
+      h,
+      'custom',
+      crop.value.customWidth,
+      crop.value.customHeight
+    )
+  }
+}
+
+function resetSlider(key: keyof ImageAdjustments) {
+  adjustments.value[key] = 0
+  handleParamChange()
 }
 
 function resetAll() {
+  rotation.value = 0
   adjustments.value = createDefaultAdjustments()
   crop.value = createDefaultCrop()
   updatePreview()
 }
 
 function handleApply() {
-  if (props.photo && previewDataUrl.value) {
-    emit('apply', props.photo.id, { ...adjustments.value }, { ...crop.value }, previewDataUrl.value)
+  if (!props.photo || !cachedImage) return
+
+  // Generate thumbnail with applied crop and rotation
+  const isSwap = rotation.value === 90 || rotation.value === 270
+  const rotW = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+  const rotH = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
+
+  const cropW = Math.max(1, Math.round(crop.value.box.width * rotW))
+  const cropH = Math.max(1, Math.round(crop.value.box.height * rotH))
+
+  let thumbW = cropW
+  let thumbH = cropH
+  const maxThumb = 600
+  if (thumbW > maxThumb || thumbH > maxThumb) {
+    if (thumbW >= thumbH) {
+      thumbH = Math.round((thumbH / thumbW) * maxThumb)
+      thumbW = maxThumb
+    } else {
+      thumbW = Math.round((thumbW / thumbH) * maxThumb)
+      thumbH = maxThumb
+    }
   }
+
+  const canvas = renderAdjustedCanvas(
+    cachedImage,
+    cachedImage.naturalWidth,
+    cachedImage.naturalHeight,
+    rotation.value,
+    adjustments.value,
+    crop.value,
+    thumbW,
+    thumbH
+  )
+
+  const thumbUrl = canvas.toDataURL('image/jpeg', 0.88)
+
+  emit(
+    'apply',
+    props.photo.id,
+    rotation.value,
+    { ...adjustments.value },
+    { ...crop.value, box: { ...crop.value.box } },
+    thumbUrl
+  )
+
   isOpen.value = false
+}
+
+// Interactive Overlay Drag & Resize Logic
+function startDrag(type: DragState['type'], event: PointerEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+
+  const target = event.currentTarget as HTMLElement
+  target.setPointerCapture?.(event.pointerId)
+
+  const rect = imageElementRef.value?.getBoundingClientRect()
+  if (!rect) return
+
+  activeDrag = {
+    type,
+    startX: event.clientX,
+    startY: event.clientY,
+    initialBox: { ...crop.value.box },
+    containerWidth: rect.width,
+    containerHeight: rect.height
+  }
+
+  window.addEventListener('pointermove', onPointerMove)
+  window.addEventListener('pointerup', onPointerUp)
+}
+
+function onPointerMove(event: PointerEvent) {
+  if (!activeDrag || !cachedImage) return
+
+  const deltaX = (event.clientX - activeDrag.startX) / activeDrag.containerWidth
+  const deltaY = (event.clientY - activeDrag.startY) / activeDrag.containerHeight
+
+  const isSwap = rotation.value === 90 || rotation.value === 270
+  const rotW = isSwap ? cachedImage.naturalHeight : cachedImage.naturalWidth
+  const rotH = isSwap ? cachedImage.naturalWidth : cachedImage.naturalHeight
+  const targetRatio = getNumericRatio(
+    crop.value.aspectRatio,
+    rotW >= rotH,
+    crop.value.customWidth,
+    crop.value.customHeight
+  )
+
+  const box = { ...activeDrag.initialBox }
+
+  if (activeDrag.type === 'move') {
+    box.x = Math.max(0, Math.min(1 - box.width, activeDrag.initialBox.x + deltaX))
+    box.y = Math.max(0, Math.min(1 - box.height, activeDrag.initialBox.y + deltaY))
+  } else {
+    // Resize with corner handles
+    let newWidth = box.width
+    let newHeight = box.height
+    let newX = box.x
+    let newY = box.y
+
+    if (activeDrag.type === 'se') {
+      newWidth = Math.max(0.1, Math.min(1 - box.x, activeDrag.initialBox.width + deltaX))
+      newHeight = Math.max(0.1, Math.min(1 - box.y, activeDrag.initialBox.height + deltaY))
+    } else if (activeDrag.type === 'sw') {
+      const maxX = activeDrag.initialBox.x + activeDrag.initialBox.width
+      newX = Math.max(0, Math.min(maxX - 0.1, activeDrag.initialBox.x + deltaX))
+      newWidth = maxX - newX
+      newHeight = Math.max(0.1, Math.min(1 - box.y, activeDrag.initialBox.height + deltaY))
+    } else if (activeDrag.type === 'ne') {
+      newWidth = Math.max(0.1, Math.min(1 - box.x, activeDrag.initialBox.width + deltaX))
+      const maxY = activeDrag.initialBox.y + activeDrag.initialBox.height
+      newY = Math.max(0, Math.min(maxY - 0.1, activeDrag.initialBox.y + deltaY))
+      newHeight = maxY - newY
+    } else if (activeDrag.type === 'nw') {
+      const maxX = activeDrag.initialBox.x + activeDrag.initialBox.width
+      const maxY = activeDrag.initialBox.y + activeDrag.initialBox.height
+      newX = Math.max(0, Math.min(maxX - 0.1, activeDrag.initialBox.x + deltaX))
+      newY = Math.max(0, Math.min(maxY - 0.1, activeDrag.initialBox.y + deltaY))
+      newWidth = maxX - newX
+      newHeight = maxY - newY
+    }
+
+    // Maintain aspect ratio constraint if specified
+    if (targetRatio !== null) {
+      // In pixel terms: (newWidth * rotW) / (newHeight * rotH) = targetRatio
+      // Therefore: newHeight = (newWidth * rotW) / (rotH * targetRatio)
+      const ratioInNorm = (targetRatio * rotH) / rotW
+      newHeight = newWidth / ratioInNorm
+      if (newY + newHeight > 1) {
+        newHeight = 1 - newY
+        newWidth = newHeight * ratioInNorm
+      }
+      if (newX + newWidth > 1) {
+        newWidth = 1 - newX
+        newHeight = newWidth / ratioInNorm
+      }
+    }
+
+    box.x = newX
+    box.y = newY
+    box.width = newWidth
+    box.height = newHeight
+  }
+
+  crop.value.box = box
+}
+
+function onPointerUp() {
+  activeDrag = null
+  window.removeEventListener('pointermove', onPointerMove)
+  window.removeEventListener('pointerup', onPointerUp)
 }
 </script>
 
@@ -141,33 +364,132 @@ function handleApply() {
   <UModal
     v-model:open="isOpen"
     title="Fine-tune Negative"
-    description="Adjust crop and positive tone curves before negative inversion"
+    description="Adjust crop, rotation, and positive tone curves before negative inversion"
     :ui="{ content: 'sm:max-w-2xl' }"
   >
     <template #body>
       <div v-if="photo" class="space-y-6">
-        <!-- Live Preview -->
-        <div class="flex items-center justify-center bg-neutral-900/80 rounded-lg p-3 min-h-64 overflow-hidden">
-          <img
+        <!-- Interactive Preview & Crop Overlay Container -->
+        <div
+          ref="previewContainerRef"
+          class="flex items-center justify-center bg-neutral-950 rounded-lg p-3 min-h-72 overflow-hidden select-none"
+        >
+          <div
             v-if="previewDataUrl"
-            :src="previewDataUrl"
-            :alt="photo.name"
-            class="max-h-72 w-auto object-contain rounded shadow"
+            class="relative inline-block overflow-hidden"
           >
+            <!-- Background Image -->
+            <img
+              ref="imageElementRef"
+              :src="previewDataUrl"
+              :alt="photo.name"
+              class="max-h-72 w-auto object-contain rounded block pointer-events-none"
+            >
+
+            <!-- Dark Shaded Mask Outside Crop Box -->
+            <div
+              class="absolute inset-0 pointer-events-none"
+            >
+              <!-- Top Mask -->
+              <div
+                class="absolute left-0 top-0 right-0 bg-black/60"
+                :style="{ height: `${crop.box.y * 100}%` }"
+              />
+              <!-- Bottom Mask -->
+              <div
+                class="absolute left-0 right-0 bottom-0 bg-black/60"
+                :style="{ height: `${(1 - crop.box.y - crop.box.height) * 100}%` }"
+              />
+              <!-- Left Mask -->
+              <div
+                class="absolute left-0 bg-black/60"
+                :style="{
+                  top: `${crop.box.y * 100}%`,
+                  height: `${crop.box.height * 100}%`,
+                  width: `${crop.box.x * 100}%`
+                }"
+              />
+              <!-- Right Mask -->
+              <div
+                class="absolute right-0 bg-black/60"
+                :style="{
+                  top: `${crop.box.y * 100}%`,
+                  height: `${crop.box.height * 100}%`,
+                  width: `${(1 - crop.box.x - crop.box.width) * 100}%`
+                }"
+              />
+            </div>
+
+            <!-- Draggable & Resizable Crop Box -->
+            <div
+              class="absolute border-2 border-primary cursor-move touch-none z-10"
+              :style="{
+                left: `${crop.box.x * 100}%`,
+                top: `${crop.box.y * 100}%`,
+                width: `${crop.box.width * 100}%`,
+                height: `${crop.box.height * 100}%`
+              }"
+              @pointerdown="(e) => startDrag('move', e)"
+            >
+              <!-- Rule-of-Thirds Grid Lines -->
+              <div class="w-full h-full grid grid-cols-3 grid-rows-3 pointer-events-none">
+                <div class="border-r border-b border-white/25" />
+                <div class="border-r border-b border-white/25" />
+                <div class="border-b border-white/25" />
+                <div class="border-r border-b border-white/25" />
+                <div class="border-r border-b border-white/25" />
+                <div class="border-b border-white/25" />
+                <div class="border-r border-white/25" />
+                <div class="border-r border-white/25" />
+                <div />
+              </div>
+
+              <!-- Corner Resize Handles -->
+              <div
+                class="absolute -left-2 -top-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nwse-resize"
+                @pointerdown="(e) => startDrag('nw', e)"
+              />
+              <div
+                class="absolute -right-2 -top-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nesw-resize"
+                @pointerdown="(e) => startDrag('ne', e)"
+              />
+              <div
+                class="absolute -right-2 -bottom-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nwse-resize"
+                @pointerdown="(e) => startDrag('se', e)"
+              />
+              <div
+                class="absolute -left-2 -bottom-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nesw-resize"
+                @pointerdown="(e) => startDrag('sw', e)"
+              />
+            </div>
+          </div>
+
           <div v-else class="text-neutral-400 text-sm flex items-center gap-2">
-            <UIcon name="i-lucide-loader" class="w-5 h-5 animate-spin" />
+            <UIcon name="i-lucide-loader" class="w-5 h-5 animate-spin text-primary" />
             Generating preview...
           </div>
         </div>
 
-        <!-- Cropping Controls -->
+        <!-- Crop & Orientation Bar -->
         <div class="space-y-3 p-3 bg-neutral-100 dark:bg-neutral-800/40 rounded-lg">
-          <h3 class="text-sm font-semibold flex items-center gap-2">
-            <UIcon name="i-lucide-crop" class="w-4 h-4 text-primary" />
-            <span>Crop & Aspect Ratio</span>
-          </h3>
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold flex items-center gap-2">
+              <UIcon name="i-lucide-crop" class="w-4 h-4 text-primary" />
+              <span>Crop & Orientation</span>
+            </h3>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Rotate 90 Button -->
+            <UButton
+              label="Rotate 90°"
+              icon="i-lucide-rotate-cw"
+              color="neutral"
+              variant="outline"
+              size="xs"
+              @click="handleRotate"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
             <UFormField label="Aspect Ratio">
               <USelect
                 :model-value="crop.aspectRatio"
@@ -186,7 +508,7 @@ function handleApply() {
                   :max="100"
                   :step="1"
                   class="w-full"
-                  @update:model-value="handleParamChange"
+                  @update:model-value="handleCustomRatioChange"
                 />
               </UFormField>
               <span class="pt-6 font-bold text-neutral-400">:</span>
@@ -197,90 +519,74 @@ function handleApply() {
                   :max="100"
                   :step="1"
                   class="w-full"
-                  @update:model-value="handleParamChange"
+                  @update:model-value="handleCustomRatioChange"
                 />
               </UFormField>
             </div>
           </div>
-
-          <!-- Position Adjustments when cropping -->
-          <div v-if="canPanHorizontal" class="pt-1">
-            <UFormField label="Horizontal Position" :hint="`${Math.round(crop.panX * 100)}%`">
-              <USlider
-                v-model="crop.panX"
-                :min="0"
-                :max="1"
-                :step="0.01"
-                tooltip
-                @update:model-value="handleParamChange"
-              />
-            </UFormField>
-          </div>
-
-          <div v-if="canPanVertical" class="pt-1">
-            <UFormField label="Vertical Position" :hint="`${Math.round(crop.panY * 100)}%`">
-              <USlider
-                v-model="crop.panY"
-                :min="0"
-                :max="1"
-                :step="0.01"
-                tooltip
-                @update:model-value="handleParamChange"
-              />
-            </UFormField>
-          </div>
         </div>
 
-        <!-- Tone Adjustment Sliders -->
+        <!-- Tone Adjustment Sliders (Double click resets to 0) -->
         <div class="space-y-4">
-          <h3 class="text-sm font-semibold flex items-center gap-2">
-            <UIcon name="i-lucide-sliders" class="w-4 h-4 text-primary" />
-            <span>Tone Adjustments</span>
-          </h3>
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold flex items-center gap-2">
+              <UIcon name="i-lucide-sliders" class="w-4 h-4 text-primary" />
+              <span>Tone Adjustments</span>
+            </h3>
+            <span class="text-[11px] text-neutral-400">Double click slider to reset to 0</span>
+          </div>
 
-          <UFormField label="Brightness" :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`">
-            <USlider
-              v-model="adjustments.brightness"
-              :min="-100"
-              :max="100"
-              :step="1"
-              tooltip
-              @update:model-value="handleParamChange"
-            />
-          </UFormField>
+          <div @dblclick="resetSlider('brightness')">
+            <UFormField label="Brightness" :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`">
+              <USlider
+                v-model="adjustments.brightness"
+                :min="-100"
+                :max="100"
+                :step="1"
+                tooltip
+                @update:model-value="handleParamChange"
+              />
+            </UFormField>
+          </div>
 
-          <UFormField label="Contrast" :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`">
-            <USlider
-              v-model="adjustments.contrast"
-              :min="-100"
-              :max="100"
-              :step="1"
-              tooltip
-              @update:model-value="handleParamChange"
-            />
-          </UFormField>
+          <div @dblclick="resetSlider('contrast')">
+            <UFormField label="Contrast" :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`">
+              <USlider
+                v-model="adjustments.contrast"
+                :min="-100"
+                :max="100"
+                :step="1"
+                tooltip
+                @update:model-value="handleParamChange"
+              />
+            </UFormField>
+          </div>
 
-          <UFormField label="Highlights" :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`">
-            <USlider
-              v-model="adjustments.highlights"
-              :min="-100"
-              :max="100"
-              :step="1"
-              tooltip
-              @update:model-value="handleParamChange"
-            />
-          </UFormField>
+          <div @dblclick="resetSlider('highlights')">
+            <UFormField label="Highlights" :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`">
+              <USlider
+                v-model="adjustments.highlights"
+                :min="-100"
+                :max="100"
+                :step="1"
+                tooltip
+                @update:model-value="handleParamChange"
+              />
+            </UFormField>
+          </div>
 
-          <UFormField label="Shadows" :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`">
-            <USlider
-              v-model="adjustments.shadows"
-              :min="-100"
-              :max="100"
-              :step="1"
-              tooltip
-              @update:model-value="handleParamChange"
-            />
-          </UFormField>
+          <div @dblclick="resetSlider('shadows')">
+            <UFormField label="Shadows" :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`">
+              <USlider
+                v-model="adjustments.shadows"
+                :min="-100"
+                :max="100"
+                :step="1"
+                tooltip
+                @update:model-value="handleParamChange"
+              />
+            </UFormField>
+          </div>
         </div>
       </div>
     </template>
