@@ -74,46 +74,15 @@ const summaryText = computed(() => {
 
     <!-- Main Action Card -->
     <UCard v-if="photos.length > 0">
-      <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
-          <!-- Summary Info -->
-          <div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
-            <UIcon name="i-lucide-info" class="w-4 h-4 text-primary shrink-0" />
-            <span>{{ summaryText }}</span>
-          </div>
-
-          <!-- Preview Mode Switch: Negatives / Cyanotype -->
-          <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/70 dark:border-neutral-700/60 select-none text-xs font-medium">
-            <button
-              type="button"
-              class="transition-colors cursor-pointer"
-              :class="previewMode === 'negative' ? 'text-neutral-950 dark:text-white font-semibold' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'"
-              @click="emit('update:previewMode', 'negative')"
-            >
-              Negatives
-            </button>
-
-            <USwitch
-              :model-value="previewMode === 'cyanotype'"
-              size="sm"
-              color="primary"
-              aria-label="Toggle between negatives and cyanotype thumbnail preview"
-              @update:model-value="(val) => emit('update:previewMode', val ? 'cyanotype' : 'negative')"
-            />
-
-            <button
-              type="button"
-              class="flex items-center gap-1.5 transition-colors cursor-pointer"
-              :class="previewMode === 'cyanotype' ? 'text-primary font-semibold' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'"
-              @click="emit('update:previewMode', 'cyanotype')"
-            >
-              <span class="w-2 h-2 rounded-full bg-[#1C39BB]" />
-              <span>Cyanotype</span>
-            </button>
-          </div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <!-- Summary Info -->
+        <div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+          <UIcon name="i-lucide-info" class="w-4 h-4 text-primary shrink-0" />
+          <span>{{ summaryText }}</span>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-end">
+        <!-- Action Buttons (wrapping onto multiple lines on mobile when space is limited) -->
+        <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-start sm:justify-end">
           <UButton
             label="Clear All"
             color="neutral"
@@ -146,5 +115,37 @@ const summaryText = computed(() => {
         </div>
       </div>
     </UCard>
+
+    <!-- Global Preview Mode Switch: Negatives / Cyanotype (Centered under the card) -->
+    <div v-if="photos.length > 0" class="flex justify-center items-center pt-1 pb-1">
+      <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/70 shadow-xs select-none text-xs sm:text-sm font-medium">
+        <button
+          type="button"
+          class="transition-colors cursor-pointer"
+          :class="previewMode === 'negative' ? 'text-neutral-950 dark:text-white font-semibold' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'"
+          @click="emit('update:previewMode', 'negative')"
+        >
+          Negatives
+        </button>
+
+        <USwitch
+          :model-value="previewMode === 'cyanotype'"
+          size="sm"
+          color="primary"
+          aria-label="Toggle between negatives and cyanotype thumbnail preview"
+          @update:model-value="(val) => emit('update:previewMode', val ? 'cyanotype' : 'negative')"
+        />
+
+        <button
+          type="button"
+          class="flex items-center gap-1.5 transition-colors cursor-pointer"
+          :class="previewMode === 'cyanotype' ? 'text-primary font-semibold' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'"
+          @click="emit('update:previewMode', 'cyanotype')"
+        >
+          <span class="w-2.5 h-2.5 rounded-full bg-[#1C39BB]" />
+          <span>Cyanotype</span>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
