@@ -41,8 +41,21 @@ useHead({
     <UFooter>
       <template #left>
         <p class="text-xs text-neutral-500">
-          Cyanotype • Client-side Cyanotype Negative Generator
+          Cyanotype • Open-source project created by <a href="https://github.com/FelyCZ" target="_blank" rel="noopener noreferrer" class="hover:underline text-neutral-700 dark:text-neutral-300">Jakub Ferencik</a>
         </p>
+      </template>
+
+      <template #right>
+        <UButton
+          to="https://github.com/FelyCZ/cyanotyper"
+          target="_blank"
+          icon="i-simple-icons-github"
+          label="GitHub"
+          color="neutral"
+          variant="ghost"
+          size="xs"
+          aria-label="GitHub repository"
+        />
       </template>
     </UFooter>
   </UApp>
