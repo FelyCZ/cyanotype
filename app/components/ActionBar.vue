@@ -31,7 +31,7 @@ const emit = defineEmits<{
 const summaryText = computed(() => {
   if (props.photos.length === 0) return 'No images selected'
   const count = props.photos.length
-  return `${count} image${count > 1 ? 's' : ''} converted to negatives`
+  return `${count} image${count > 1 ? 's' : ''} loaded!`
 })
 </script>
 
