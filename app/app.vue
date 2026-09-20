@@ -1,26 +1,17 @@
-<script setup>
+<script setup lang="ts">
 useHead({
+  title: 'Cyanotyper — Digital Negative Generator for Cyanotype',
   meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    {
+      name: 'description',
+      content: 'Client-side digital negative generator for cyanotype alternative photography process. Transform photos to grayscale negatives at 300 DPI.'
+    }
   ],
-  link: [
-    { rel: 'icon', href: '/favicon.ico' }
-  ],
+  link: [{ rel: 'icon', href: '/favicon.ico' }],
   htmlAttrs: {
     lang: 'en'
   }
-})
-
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
-
-useSeoMeta({
-  title,
-  description,
-  ogTitle: title,
-  ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
-  twitterCard: 'summary_large_image'
 })
 </script>
 
@@ -28,27 +19,23 @@ useSeoMeta({
   <UApp>
     <UHeader>
       <template #left>
-        <NuxtLink
-          to="/"
-          class="focus-visible:outline-3 outline-primary/25 rounded-md p-1 -ms-1"
-        >
-          <AppLogo class="w-auto h-6 shrink-0" />
+        <NuxtLink to="/" class="flex items-center gap-2">
+          <div class="rounded-lg bg-primary/15 p-1.5 text-primary flex items-center justify-center">
+            <UIcon name="i-lucide-contrast" class="w-5 h-5" />
+          </div>
+          <span class="font-bold text-lg tracking-tight">Cyanotyper</span>
+          <UBadge
+            label="Digital Negatives"
+            color="primary"
+            variant="subtle"
+            size="xs"
+            class="hidden sm:inline-flex"
+          />
         </NuxtLink>
-
-        <TemplateMenu />
       </template>
 
       <template #right>
         <UColorModeButton />
-
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
       </template>
     </UHeader>
 
@@ -56,24 +43,13 @@ useSeoMeta({
       <NuxtPage />
     </UMain>
 
-    <USeparator icon="i-simple-icons-nuxtdotjs" />
+    <USeparator />
 
     <UFooter>
       <template #left>
-        <p class="text-sm text-muted">
-          Built with Nuxt UI • © {{ new Date().getFullYear() }}
+        <p class="text-xs text-neutral-500">
+          Cyanotyper • Client-side Cyanotype Negative Generator
         </p>
-      </template>
-
-      <template #right>
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
       </template>
     </UFooter>
   </UApp>
