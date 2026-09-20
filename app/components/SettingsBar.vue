@@ -11,7 +11,7 @@ const emit = defineEmits<{
 
 const settings = computed({
   get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val)
+  set: val => emit('update:modelValue', val)
 })
 
 const pageSizeOptions = [
@@ -44,8 +44,13 @@ const imageFormatOptions = [
   <UCard>
     <template #header>
       <div class="flex items-center gap-2">
-        <UIcon name="i-lucide-sliders" class="w-5 h-5 text-primary" />
-        <h2 class="text-base font-semibold">Page & Export Settings</h2>
+        <UIcon
+          name="i-lucide-sliders"
+          class="w-5 h-5 text-primary"
+        />
+        <h2 class="text-base font-semibold">
+          Page & Export Settings
+        </h2>
       </div>
     </template>
 

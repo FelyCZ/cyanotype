@@ -8,7 +8,7 @@ import type {
   PhotoItem
 } from '~/types'
 
-export const PAGE_SIZES_MM: Record<PageSize, { width: number; height: number }> = {
+export const PAGE_SIZES_MM: Record<PageSize, { width: number, height: number }> = {
   A3: { width: 297, height: 420 },
   A4: { width: 210, height: 297 },
   A5: { width: 148, height: 210 },
@@ -141,7 +141,7 @@ export function calculateFitPlacement(
   imgWidth: number,
   imgHeight: number,
   slot: CellSlot
-): { renderX: number; renderY: number; renderWidth: number; renderHeight: number } {
+): { renderX: number, renderY: number, renderWidth: number, renderHeight: number } {
   const scale = Math.min(slot.cellWidth / imgWidth, slot.cellHeight / imgHeight)
   const renderWidth = Math.round(imgWidth * scale)
   const renderHeight = Math.round(imgHeight * scale)

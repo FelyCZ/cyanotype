@@ -22,10 +22,10 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   'update:previewMode': [value: 'negative' | 'cyanotype']
-  saveAll: []
-  previewPages: []
-  clearAll: []
-  dismissAlert: []
+  'saveAll': []
+  'previewPages': []
+  'clearAll': []
+  'dismissAlert': []
 }>()
 
 const summaryText = computed(() => {
@@ -63,12 +63,18 @@ const summaryText = computed(() => {
       <div class="space-y-2">
         <div class="flex items-center justify-between text-sm">
           <span class="font-medium flex items-center gap-2">
-            <UIcon name="i-lucide-loader" class="w-4 h-4 animate-spin text-primary" />
+            <UIcon
+              name="i-lucide-loader"
+              class="w-4 h-4 animate-spin text-primary"
+            />
             {{ exportStatusText || (isPreviewing ? 'Generating preview pages...' : 'Exporting negatives...') }}
           </span>
           <span class="text-neutral-500">{{ Math.round(exportProgress) }}%</span>
         </div>
-        <UProgress :model-value="exportProgress" :max="100" />
+        <UProgress
+          :model-value="exportProgress"
+          :max="100"
+        />
       </div>
     </UCard>
 
@@ -77,7 +83,10 @@ const summaryText = computed(() => {
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <!-- Summary Info -->
         <div class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
-          <UIcon name="i-lucide-info" class="w-4 h-4 text-primary shrink-0" />
+          <UIcon
+            name="i-lucide-info"
+            class="w-4 h-4 text-primary shrink-0"
+          />
           <span>{{ summaryText }}</span>
         </div>
 
@@ -117,7 +126,10 @@ const summaryText = computed(() => {
     </UCard>
 
     <!-- Global Preview Mode Switch: Negatives / Cyanotype (Centered under the card) -->
-    <div v-if="photos.length > 0" class="flex justify-center items-center pt-1 pb-1">
+    <div
+      v-if="photos.length > 0"
+      class="flex justify-center items-center pt-1 pb-1"
+    >
       <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/70 shadow-xs select-none text-xs sm:text-sm font-medium">
         <button
           type="button"

@@ -22,8 +22,8 @@ export async function exportSheetsToPdfBlob(
   settings: PageSettings,
   onProgress?: (progress: ExportProgress) => void
 ): Promise<Blob> {
-  const avgAspect =
-    photos.length > 0
+  const avgAspect
+    = photos.length > 0
       ? photos.reduce((acc, p) => acc + p.originalWidth / p.originalHeight, 0) / photos.length
       : 1
 
@@ -102,8 +102,8 @@ export async function exportIndividualNegatives(
   format: ImageFormat = 'jpeg',
   jpegQuality = 80,
   onProgress?: (progress: ExportProgress) => void
-): Promise<Array<{ name: string; blob: Blob }>> {
-  const results: Array<{ name: string; blob: Blob }> = []
+): Promise<Array<{ name: string, blob: Blob }>> {
+  const results: Array<{ name: string, blob: Blob }> = []
   const isJpeg = format === 'jpeg'
   const mimeType = isJpeg ? 'image/jpeg' : 'image/png'
   const ext = isJpeg ? 'jpg' : 'png'
@@ -149,7 +149,7 @@ export const exportIndividualPngs = (photos: PhotoItem[], onProgress?: (progress
   exportIndividualNegatives(photos, 'png', 100, onProgress)
 
 export async function saveFilesToUserSelection(
-  files: Array<{ name: string; blob: Blob }>,
+  files: Array<{ name: string, blob: Blob }>,
   onStatus?: (msg: string) => void
 ): Promise<{ method: 'directory' | 'zip' | 'single' }> {
   // Check if File System Access API is supported

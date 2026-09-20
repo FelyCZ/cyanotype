@@ -264,7 +264,7 @@ export async function createThumbnailFromImage(
   crop?: CropSettings,
   maxDimension = 640,
   mode: ToneRenderMode = 'negative'
-): Promise<{ previewUrl: string; width: number; height: number }> {
+): Promise<{ previewUrl: string, width: number, height: number }> {
   const originalWidth = img.naturalWidth || img.width
   const originalHeight = img.naturalHeight || img.height
 

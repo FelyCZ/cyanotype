@@ -26,7 +26,7 @@ const props = withDefaults(
 const emit = defineEmits<{
   'update:open': [value: boolean]
   'update:previewMode': [value: 'negative' | 'cyanotype']
-  apply: [
+  'apply': [
     photoId: string,
     rotation: number,
     adjustments: ImageAdjustments,
@@ -34,7 +34,7 @@ const emit = defineEmits<{
     newPreviewUrl: string,
     newCyanotypeUrl: string
   ]
-  applyToAll: [
+  'applyToAll': [
     photoId: string,
     rotation: number,
     adjustments: ImageAdjustments,
@@ -46,7 +46,7 @@ const emit = defineEmits<{
 
 const isOpen = computed({
   get: () => props.open,
-  set: (val) => emit('update:open', val)
+  set: val => emit('update:open', val)
 })
 
 const rotation = ref(0)
@@ -524,7 +524,10 @@ function onPointerUp() {
     :ui="{ content: 'sm:max-w-2xl' }"
   >
     <template #body>
-      <div v-if="photo" class="space-y-6">
+      <div
+        v-if="photo"
+        class="space-y-6"
+      >
         <!-- Interactive Preview & Crop Overlay Container -->
         <div
           ref="previewContainerRef"
@@ -557,7 +560,10 @@ function onPointerUp() {
                 @pointercancel="onEyePointerCancel"
                 @click="onEyeClick"
               >
-                <UIcon name="i-lucide-eye" class="w-3.5 h-3.5 shrink-0" />
+                <UIcon
+                  name="i-lucide-eye"
+                  class="w-3.5 h-3.5 shrink-0"
+                />
                 <span>Cyanotype</span>
                 <span
                   class="w-2 h-2 rounded-full transition-colors"
@@ -644,8 +650,14 @@ function onPointerUp() {
             </div>
           </div>
 
-          <div v-else class="text-neutral-400 text-sm flex items-center gap-2">
-            <UIcon name="i-lucide-loader" class="w-5 h-5 animate-spin text-primary" />
+          <div
+            v-else
+            class="text-neutral-400 text-sm flex items-center gap-2"
+          >
+            <UIcon
+              name="i-lucide-loader"
+              class="w-5 h-5 animate-spin text-primary"
+            />
             Generating preview...
           </div>
         </div>
@@ -654,7 +666,10 @@ function onPointerUp() {
         <div class="space-y-3 p-3 bg-neutral-100 dark:bg-neutral-800/40 rounded-lg">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-semibold flex items-center gap-2">
-              <UIcon name="i-lucide-crop" class="w-4 h-4 text-primary" />
+              <UIcon
+                name="i-lucide-crop"
+                class="w-4 h-4 text-primary"
+              />
               <span>Crop & Orientation</span>
             </h3>
 
@@ -680,8 +695,14 @@ function onPointerUp() {
             </UFormField>
 
             <!-- Custom Ratio Inputs -->
-            <div v-if="crop.aspectRatio === 'custom'" class="flex items-center gap-2">
-              <UFormField label="Width" class="flex-1">
+            <div
+              v-if="crop.aspectRatio === 'custom'"
+              class="flex items-center gap-2"
+            >
+              <UFormField
+                label="Width"
+                class="flex-1"
+              >
                 <UInputNumber
                   v-model="crop.customWidth"
                   :min="1"
@@ -692,7 +713,10 @@ function onPointerUp() {
                 />
               </UFormField>
               <span class="pt-6 font-bold text-neutral-400">:</span>
-              <UFormField label="Height" class="flex-1">
+              <UFormField
+                label="Height"
+                class="flex-1"
+              >
                 <UInputNumber
                   v-model="crop.customHeight"
                   :min="1"
@@ -710,14 +734,20 @@ function onPointerUp() {
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-semibold flex items-center gap-2">
-              <UIcon name="i-lucide-sliders" class="w-4 h-4 text-primary" />
+              <UIcon
+                name="i-lucide-sliders"
+                class="w-4 h-4 text-primary"
+              />
               <span>Tone Adjustments</span>
             </h3>
             <span class="text-[11px] text-neutral-400">Double click slider to reset to 0</span>
           </div>
 
           <div @dblclick="resetSlider('brightness')">
-            <UFormField label="Brightness" :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`">
+            <UFormField
+              label="Brightness"
+              :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`"
+            >
               <USlider
                 v-model="adjustments.brightness"
                 :min="-100"
@@ -730,7 +760,10 @@ function onPointerUp() {
           </div>
 
           <div @dblclick="resetSlider('contrast')">
-            <UFormField label="Contrast" :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`">
+            <UFormField
+              label="Contrast"
+              :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`"
+            >
               <USlider
                 v-model="adjustments.contrast"
                 :min="-100"
@@ -743,7 +776,10 @@ function onPointerUp() {
           </div>
 
           <div @dblclick="resetSlider('highlights')">
-            <UFormField label="Highlights" :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`">
+            <UFormField
+              label="Highlights"
+              :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`"
+            >
               <USlider
                 v-model="adjustments.highlights"
                 :min="-100"
@@ -756,7 +792,10 @@ function onPointerUp() {
           </div>
 
           <div @dblclick="resetSlider('shadows')">
-            <UFormField label="Shadows" :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`">
+            <UFormField
+              label="Shadows"
+              :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`"
+            >
               <USlider
                 v-model="adjustments.shadows"
                 :min="-100"

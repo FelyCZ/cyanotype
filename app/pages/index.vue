@@ -65,7 +65,7 @@ async function handleFilesSelected(files: File[]) {
   errorMessage.value = ''
   successMessage.value = ''
 
-  const newItems: PhotoItem[] = files.map((file) => ({
+  const newItems: PhotoItem[] = files.map(file => ({
     id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
     name: file.name,
     file,
@@ -238,7 +238,7 @@ function handleRemovePhoto(photoId: string) {
 }
 
 function handleClearAll() {
-  photos.value.forEach(p => {
+  photos.value.forEach((p) => {
     if (p.originalUrl) URL.revokeObjectURL(p.originalUrl)
   })
   photos.value = []
@@ -321,7 +321,7 @@ async function handleSaveAll() {
 }
 
 onUnmounted(() => {
-  photos.value.forEach(p => {
+  photos.value.forEach((p) => {
     if (p.originalUrl) URL.revokeObjectURL(p.originalUrl)
   })
 })

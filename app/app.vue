@@ -19,9 +19,15 @@ useHead({
   <UApp>
     <UHeader>
       <template #left>
-        <NuxtLink to="/" class="flex items-center gap-2">
+        <NuxtLink
+          to="/"
+          class="flex items-center gap-2"
+        >
           <div class="rounded-lg bg-primary/15 p-1.5 text-primary flex items-center justify-center">
-            <UIcon name="i-lucide-contrast" class="w-5 h-5" />
+            <UIcon
+              name="i-lucide-contrast"
+              class="w-5 h-5"
+            />
           </div>
           <span class="font-bold text-lg tracking-tight">Cyanotype</span>
         </NuxtLink>
@@ -41,7 +47,12 @@ useHead({
     <UFooter>
       <template #left>
         <p class="text-xs text-neutral-500">
-          Cyanotype • Open-source project created by <a href="https://github.com/FelyCZ" target="_blank" rel="noopener noreferrer" class="hover:underline text-neutral-700 dark:text-neutral-300">Jakub Ferencik</a>
+          Cyanotype • Open-source project created by <a
+            href="https://github.com/FelyCZ"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:underline text-neutral-700 dark:text-neutral-300"
+          >Jakub Ferencik</a>
         </p>
       </template>
 

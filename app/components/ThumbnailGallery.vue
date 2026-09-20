@@ -28,11 +28,11 @@ function getDisplayThumbnail(photo: PhotoItem): string {
 
 function isAdjusted(photo: PhotoItem): boolean {
   return (
-    photo.adjustments.brightness !== 0 ||
-    photo.adjustments.contrast !== 0 ||
-    photo.adjustments.highlights !== 0 ||
-    photo.adjustments.shadows !== 0 ||
-    photo.crop.aspectRatio !== 'original'
+    photo.adjustments.brightness !== 0
+    || photo.adjustments.contrast !== 0
+    || photo.adjustments.highlights !== 0
+    || photo.adjustments.shadows !== 0
+    || photo.crop.aspectRatio !== 'original'
   )
 }
 </script>
@@ -44,12 +44,18 @@ function isAdjusted(photo: PhotoItem): boolean {
       <div class="space-y-2">
         <div class="flex items-center justify-between text-sm">
           <span class="font-medium flex items-center gap-2">
-            <UIcon name="i-lucide-loader" class="w-4 h-4 animate-spin text-primary" />
+            <UIcon
+              name="i-lucide-loader"
+              class="w-4 h-4 animate-spin text-primary"
+            />
             {{ processingStatusText || 'Processing negatives...' }}
           </span>
           <span class="text-neutral-500">{{ Math.round(processingProgress) }}%</span>
         </div>
-        <UProgress :model-value="processingProgress" :max="100" />
+        <UProgress
+          :model-value="processingProgress"
+          :max="100"
+        />
       </div>
     </UCard>
 
@@ -79,7 +85,10 @@ function isAdjusted(photo: PhotoItem): boolean {
             v-else
             class="flex flex-col items-center justify-center text-neutral-400 gap-2 p-2"
           >
-            <UIcon name="i-lucide-loader" class="w-6 h-6 animate-spin text-primary" />
+            <UIcon
+              name="i-lucide-loader"
+              class="w-6 h-6 animate-spin text-primary"
+            />
             <span class="text-xs">Converting...</span>
           </div>
 
@@ -88,7 +97,10 @@ function isAdjusted(photo: PhotoItem): boolean {
             class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
           >
             <div class="flex items-center gap-1 bg-neutral-900/80 px-3 py-1.5 rounded-full text-xs font-medium">
-              <UIcon name="i-lucide-sliders-horizontal" class="w-3.5 h-3.5" />
+              <UIcon
+                name="i-lucide-sliders-horizontal"
+                class="w-3.5 h-3.5"
+              />
               <span>Edit</span>
             </div>
           </div>
@@ -98,7 +110,10 @@ function isAdjusted(photo: PhotoItem): boolean {
         <div class="mt-3 space-y-2">
           <div class="flex items-start justify-between gap-2">
             <div class="min-w-0 flex-1">
-              <p class="text-xs font-medium truncate" :title="photo.name">
+              <p
+                class="text-xs font-medium truncate"
+                :title="photo.name"
+              >
                 {{ photo.name }}
               </p>
               <p class="text-[11px] text-neutral-500">

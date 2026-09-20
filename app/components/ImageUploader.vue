@@ -60,7 +60,10 @@ function handleDragLeave() {
 
     <div class="flex flex-col items-center justify-center gap-3">
       <div class="rounded-full bg-primary/10 p-3 text-primary">
-        <UIcon name="i-lucide-upload-cloud" class="w-8 h-8" />
+        <UIcon
+          name="i-lucide-upload-cloud"
+          class="w-8 h-8"
+        />
       </div>
 
       <div class="space-y-1">
