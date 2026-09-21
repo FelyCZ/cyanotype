@@ -20,10 +20,9 @@ In the early 1840s, scientists across Europe were racing to fix images "drawn by
 In 1842, Herschel presented his discovery of the cyanotype process to the Royal Society of London. He noted that ferric salts exposed to sunlight reduce to ferrous salts, which immediately react with potassium ferricyanide to deposit an insoluble, intensely blue dye directly within the cellulose fibers of paper:
 
 <div class="guide-card my-6">
-  <div class="text-xs uppercase font-semibold tracking-wider text-primary mb-3">Photochemical Reaction Scheme</div>
-  
+  <div class="text-xs uppercase font-semibold tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">Photochemical Reaction Scheme</div>
   <div class="space-y-4">
-    <div class="p-3.5 rounded-lg bg-neutral-100/70 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/60">
+    <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-transparent">
       <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">Step 1: Photoreduction of Iron(III) to Iron(II) by UV Light</div>
       <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
         2 [Fe(C₆H₅O₇)] + hν (UV, λ ~ 365 nm) → 2 Fe²⁺ + (oxidized citrate) + CO₂ ↑
@@ -34,8 +33,7 @@ In 1842, Herschel presented his discovery of the cyanotype process to the Royal 
         <div>• <strong>Fe²⁺ (Ferrous ions):</strong> Chemically active reduced iron, ready to couple with the oxidizer.</div>
       </div>
     </div>
-
-    <div class="p-3.5 rounded-lg bg-neutral-100/70 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/60">
+    <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-transparent">
       <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">Step 2: Precipitation of Prussian Blue Pigment</div>
       <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
         4 Fe²⁺ + 4 [Fe(CN)₆]³⁻ + O₂ → Fe₄[Fe(CN)₆]₃ · xH₂O ↓

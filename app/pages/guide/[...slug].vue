@@ -237,15 +237,15 @@ const nextArticle = computed(() => {
   border-top-color: var(--ui-color-neutral-800);
 }
 
-/* Soft callout boxes with thin dotted outline */
+/* Soft callout boxes with thin dotted outline and transparent background */
 [data-guide-content] :deep(.guide-caution),
 [data-guide-content] :deep(.guide-note),
 [data-guide-content] :deep(blockquote) {
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  background-color: var(--ui-bg-elevated);
-  border: 1px dotted var(--ui-color-neutral-400);
-  border-radius: 0.75rem;
+  background-color: transparent;
+  border: 1px dotted var(--ui-color-neutral-300);
+  border-radius: var(--ui-radius, 0.375rem);
 }
 
 :global(.dark) [data-guide-content] :deep(.guide-caution),
@@ -267,14 +267,16 @@ const nextArticle = computed(() => {
   }
 }
 
+/* Outline-only card variant for guides - clean, lightweight, not bright */
 [data-guide-content] :deep(.guide-card) {
   padding: 1.25rem;
-  background-color: var(--ui-bg-elevated);
+  background-color: transparent;
   border: 1px solid var(--ui-color-neutral-300);
-  border-radius: 0.75rem;
+  border-radius: var(--ui-radius, 0.375rem);
 }
 
 :global(.dark) [data-guide-content] :deep(.guide-card) {
+  background-color: transparent;
   border-color: var(--ui-color-neutral-800);
 }
 

@@ -56,10 +56,10 @@ const chapters = computed(() => {
               v-for="chapter in chapters"
               :key="chapter.to"
               :to="chapter.to"
-              class="group relative flex flex-col justify-between rounded-xl border border-default bg-elevated/40 p-5 transition-all hover:border-primary/50 hover:bg-elevated/80"
+              class="group relative flex flex-col justify-between rounded-xl border border-default bg-transparent p-5 transition-all hover:border-primary/50 hover:bg-elevated/30"
             >
               <div class="space-y-3">
-                <div class="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div class="flex size-9 items-center justify-center rounded-lg border border-default bg-transparent text-primary">
                   <UIcon
                     :name="chapter.icon"
                     class="size-5"
@@ -88,7 +88,7 @@ const chapters = computed(() => {
         </div>
 
         <!-- Material Credits Section -->
-        <div class="rounded-xl border border-default bg-elevated/30 p-6 space-y-2">
+        <div class="rounded-xl border border-default bg-transparent p-6 space-y-2">
           <div class="flex items-center gap-2 text-highlighted font-semibold text-sm">
             <UIcon
               name="i-lucide-graduation-cap"
@@ -102,7 +102,7 @@ const chapters = computed(() => {
         </div>
 
         <!-- Chemical Safety Disclaimer with soft background and thin dotted outline -->
-        <div class="rounded-xl border border-dotted border-neutral-400 dark:border-neutral-700 bg-elevated/40 p-6 space-y-2">
+        <div class="rounded-xl border border-dotted border-neutral-300 dark:border-neutral-700 bg-transparent p-6 space-y-2">
           <div class="flex items-center gap-2 font-semibold text-sm text-highlighted">
             <UIcon
               name="i-lucide-shield-alert"

@@ -20,10 +20,9 @@ Počátkem 40. let 19. století se vědci v celé Evropě snažili trvale zachyt
 V roce 1842 představil Herschel svůj objev Královské společnosti v Londýně. Zjistil, že železité soli působením slunečního světla přecházejí na soli železnaté, které okamžitě reagují s červenou krevní solí za vzniku nerozpustné, sytě modré sloučeniny přímo ve vláknech papíru:
 
 <div class="guide-card my-6">
-  <div class="text-xs uppercase font-semibold tracking-wider text-primary mb-3">Schéma fotochemické reakce</div>
-  
+  <div class="text-xs uppercase font-semibold tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">Schéma fotochemické reakce</div>
   <div class="space-y-4">
-    <div class="p-3.5 rounded-lg bg-neutral-100/70 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/60">
+    <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-transparent">
       <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">1. krok: Fotoredukce železitého komplexu UV světlem na ionty Fe²⁺</div>
       <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
         2 [Fe(C₆H₅O₇)] + hν (UV, λ ~ 365 nm) → 2 Fe²⁺ + (oxidované produkty citranu) + CO₂ ↑
@@ -34,8 +33,7 @@ V roce 1842 představil Herschel svůj objev Královské společnosti v Londýn�
         <div>• <strong>Fe²⁺ (ionty dvojmocného železa):</strong> Chemicky aktivní železnaté ionty připravené k okamžité srážecí reakci.</div>
       </div>
     </div>
-
-    <div class="p-3.5 rounded-lg bg-neutral-100/70 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/60">
+    <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-transparent">
       <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">2. krok: Vznik nerozpustné berlínské modři</div>
       <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
         4 Fe²⁺ + 4 [Fe(CN)₆]³⁻ + O₂ → Fe₄[Fe(CN)₆]₃ · xH₂O ↓

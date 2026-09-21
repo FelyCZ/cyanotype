@@ -20,7 +20,7 @@ This recipe yields two concentrated, highly stable stock solutions that are stor
 <div class="guide-grid">
   <div class="guide-card">
     <div class="flex items-center gap-2 mb-3">
-      <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary font-bold text-xs">A</span>
+      <span class="inline-flex items-center justify-center w-6 h-6 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-600 dark:text-neutral-300 font-semibold text-xs">A</span>
       <span class="font-semibold text-highlighted text-base">Stock Solution A (Iron Salt)</span>
     </div>
     <ul class="!ml-4 !mb-3 space-y-1 text-sm">
@@ -34,7 +34,7 @@ This recipe yields two concentrated, highly stable stock solutions that are stor
 
   <div class="guide-card">
     <div class="flex items-center gap-2 mb-3">
-      <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary font-bold text-xs">B</span>
+      <span class="inline-flex items-center justify-center w-6 h-6 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-600 dark:text-neutral-300 font-semibold text-xs">B</span>
       <span class="font-semibold text-highlighted text-base">Stock Solution B (Cyanide Compound)</span>
     </div>
     <ul class="!ml-4 !mb-3 space-y-1 text-sm">
@@ -80,7 +80,7 @@ If you are conducting a quick workshop or want to prepare just enough sensitizer
 <div class="guide-card my-6">
   <div class="flex items-center justify-between mb-3">
     <span class="font-semibold text-highlighted text-base">Single-Session Mix</span>
-    <span class="text-xs font-medium text-primary px-2 py-0.5 rounded-full bg-primary/10">Enough for 2 A4 prints</span>
+    <span class="text-xs font-medium text-neutral-500 dark:text-neutral-400 px-2 py-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent">Enough for 2 A4 prints</span>
   </div>
   <ul class="!ml-4 !mb-3 space-y-1 text-sm">
     <li><strong>Distilled Water:</strong> 12 ml</li>
