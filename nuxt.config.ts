@@ -2,10 +2,16 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
+    '@nuxtjs/seo',
     '@nuxt/ui'
   ],
 
-  ssr: false,
+  site: {
+    url: 'https://blueprinting.pages.dev',
+    name: 'Cyanotype',
+    description: 'Client-side digital negative generator and guide for cyanotype alternative photography process.',
+    defaultLocale: 'en'
+  },
 
   devtools: {
     enabled: true
@@ -15,6 +21,16 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true }
+  },
+
+  ogImage: {
+    enabled: false
+  },
+
+  nitro: {
+    prerender: {
+      crawlLinks: true
+    }
   },
 
   compatibilityDate: '2026-06-30',
