@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxtjs/seo',
+    '@nuxt/content',
     '@nuxt/ui'
   ],
 
