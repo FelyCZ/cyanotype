@@ -28,17 +28,11 @@ const emit = defineEmits<{
   'dismissAlert': []
 }>()
 
-const { locale, t } = useI18n()
+const { t } = useI18n()
 
 const summaryText = computed(() => {
   const count = props.photos.length
-  if (count === 0) return t('actions.noImages')
-  if (locale.value === 'cs') {
-    if (count === 1) return '1 obrázek načten'
-    if (count < 5) return `${count} obrázky načteny`
-    return `${count} obrázků načteno`
-  }
-  return `${count} image${count > 1 ? 's' : ''} loaded`
+  return count === 0 ? t('actions.noImages') : t('actions.imagesLoaded', count)
 })
 </script>
 
@@ -74,7 +68,7 @@ const summaryText = computed(() => {
               name="i-lucide-loader"
               class="w-4 h-4 animate-spin text-primary"
             />
-            {{ exportStatusText || (isPreviewing ? 'Generating preview pages...' : 'Exporting negatives...') }}
+            {{ exportStatusText || (isPreviewing ? t('actions.renderingPreview') : t('actions.exportingNegatives')) }}
           </span>
           <span class="text-neutral-500">{{ Math.round(exportProgress) }}%</span>
         </div>
@@ -151,7 +145,7 @@ const summaryText = computed(() => {
           :model-value="previewMode === 'cyanotype'"
           size="sm"
           color="primary"
-          aria-label="Toggle between negatives and cyanotype thumbnail preview"
+          :aria-label="t('actions.togglePreviewAria')"
           @update:model-value="(val) => emit('update:previewMode', val ? 'cyanotype' : 'negative')"
         />
 

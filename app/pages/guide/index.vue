@@ -2,9 +2,9 @@
 const { locale, t } = useI18n()
 
 useSeoMeta({
-  title: () => `${t('guide.title')} | ${locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'}`,
+  title: () => `${t('guide.title')} | ${t('app.title')}`,
   description: () => t('guide.description'),
-  ogTitle: () => `${t('guide.title')} | ${locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'}`,
+  ogTitle: () => `${t('guide.title')} | ${t('app.title')}`,
   ogDescription: () => t('guide.description')
 })
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { locale, setLocale } = useI18n()
+const { locale, setLocale, t } = useI18n()
 
 const languageOptions = [
   { label: '🇬🇧 English', value: 'en' },
@@ -23,7 +23,7 @@ const current = computed({
       :items="languageOptions"
       size="sm"
       class="w-32 font-medium"
-      aria-label="Select language"
+      :aria-label="t('nav.selectLanguage')"
     />
   </div>
 </template>

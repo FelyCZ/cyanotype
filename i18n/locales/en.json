@@ -1,7 +1,13 @@
 {
+  "app": {
+    "title": "Cyanotype",
+    "description": "Client-side digital negative generator and guide for cyanotype alternative photography process."
+  },
   "nav": {
     "creator": "Negative Creator",
-    "guide": "Guide"
+    "guide": "Guide",
+    "language": "Language",
+    "selectLanguage": "Select language"
   },
   "hero": {
     "title": "Negative Creator",
@@ -35,33 +41,60 @@
     "saveAll": "Save Negatives",
     "previewPdf": "Preview PDF",
     "clearAll": "Clear All",
-    "imagesLoaded": "{count} image loaded! | {count} images loaded!",
+    "imagesLoaded": "{n} image loaded | {n} images loaded",
     "noImages": "No images selected",
     "preparing": "Preparing {format} negatives...",
     "saving": "Saving negative images...",
+    "renderingPreview": "Rendering preview pages...",
+    "exportingNegatives": "Exporting negatives...",
     "successDirectory": "All individual negative {format}s saved successfully to chosen folder.",
     "successZip": "All individual negative {format}s packaged and downloaded as a ZIP archive.",
     "successSingle": "Negative {format} downloaded successfully.",
     "errorPreview": "Failed to generate PDF preview.",
-    "errorExport": "Export failed. Please try again."
+    "errorExport": "Export failed. Please try again.",
+    "togglePreviewAria": "Toggle between negatives and cyanotype thumbnail preview"
   },
   "gallery": {
     "fineTune": "Fine-tune & Crop",
     "remove": "Remove photo",
-    "processing": "Processing images..."
+    "processing": "Processing negatives...",
+    "converting": "Converting...",
+    "convertingProgress": "Converting {name} – {current} of {total}",
+    "failedToProcess": "Failed to process image",
+    "edit": "Edit",
+    "edited": "Edited",
+    "adjust": "Adjust"
   },
   "editor": {
     "title": "Fine-tune Negative",
-    "apply": "Apply",
-    "applyAll": "Apply to All ({count})",
-    "cancel": "Cancel",
-    "done": "Done",
+    "description": "Adjust crop, rotation, and positive tone curves before negative inversion",
+    "cropAndOrientation": "Crop & Orientation",
+    "aspectRatio": "Aspect Ratio",
+    "aspectRatioOriginal": "Original",
+    "aspectRatioSquare": "Square (1:1)",
+    "aspectRatioCustom": "Custom",
+    "width": "Width",
+    "height": "Height",
+    "toneAdjustments": "Tone Adjustments",
+    "sliderResetHint": "Double click slider to reset to 0",
     "brightness": "Brightness",
     "contrast": "Contrast",
     "highlights": "Highlights",
     "shadows": "Shadows",
     "rotate": "Rotate 90°",
-    "reset": "Reset adjustments"
+    "reset": "Reset adjustments",
+    "cancel": "Cancel",
+    "done": "Done",
+    "apply": "Apply Changes",
+    "applyAll": "Apply to All ({count})",
+    "applyAllTooltip": "Apply tone adjustments to all images",
+    "appliedToAll": "Adjustments applied to all images.",
+    "appliedToAllCount": "Adjustments applied to all {count} images.",
+    "applyingToAll": "Applying adjustments to all images...",
+    "generatingPreview": "Generating preview...",
+    "cyanotypeActiveTooltip": "Cyanotype preview active. Click to switch to negative, hold to peek negative",
+    "cyanotypeInactiveTooltip": "Click to preview cyanotype, hold to peek",
+    "toggleCyanotypeAria": "Toggle cyanotype preview"
   },
   "guide": {
     "title": "Cyanotype Guide",
@@ -77,10 +110,28 @@
     "creditsTitle": "Credits & Acknowledgments",
     "creditsText": "The instructional materials, formulas, and historical overviews in this guide were created or compiled from other sources by the Department of Chemical Education and Humanities, University of Chemistry and Technology, Prague (Ústav učitelství a humanitních věd, VŠCHT Praha).",
     "disclaimerTitle": "Chemical Safety Notice & Disclaimer",
-    "disclaimerText": "The handling and preparation of chemicals described in this guide require adequate knowledge of chemical hygiene and safe laboratory practices. Work should only be conducted by individuals knowledgeable in chemistry or under proper academic supervision. Neither the author nor UCT Prague (VŠCHT Praha) assume any liability or responsibility for personal injury, health complications, or property damage resulting from the handling, storage, or disposal of any chemicals mentioned."
+    "disclaimerText": "The handling and preparation of chemicals described in this guide require adequate knowledge of chemical hygiene and safe laboratory practices. Work should only be conducted by individuals knowledgeable in chemistry or under proper academic supervision. Neither the author nor UCT Prague (VŠCHT Praha) assume any liability or responsibility for personal injury, health complications, or property damage resulting from the handling, storage, or disposal of any chemicals mentioned.",
+    "notFound": "Guide article not found",
+    "reaction": {
+      "schemeTitle": "Photochemical Reaction Scheme",
+      "step1Title": "Step 1: Photoreduction of Iron(III) to Iron(II) by UV Light",
+      "step1OxidizedCitrate": "(oxidized citrate)",
+      "step1CitrateLabel": "Ferric Ammonium Citrate",
+      "step1CitrateDesc": "Light-sensitive organic iron(III) complex acting as electron donor.",
+      "step1UvLabel": "UV radiation",
+      "step1UvDesc": "Photons in the 365 – 400 nm band trigger photoreduction to reactive iron(II).",
+      "step1FeLabel": "Ferrous ions",
+      "step1FeDesc": "Chemically active reduced iron ready to couple with the oxidizer.",
+      "step2Title": "Step 2: Precipitation of Prussian Blue Pigment",
+      "step2RedSaltLabel": "Potassium Ferricyanide",
+      "step2RedSaltDesc": "Potassium hexacyanoferrate(III), the iron-cyanide coupling agent.",
+      "step2PrussianBlueLabel": "Prussian Blue / Turnbull's Blue",
+      "step2PrussianBlueDesc": "Insoluble coordination polymer network permanently embedded within paper fibers."
+    }
   },
   "footer": {
     "text": "Cyanotype • Open-source project created by",
-    "github": "GitHub"
+    "github": "GitHub",
+    "githubAria": "GitHub repository"
   }
 }

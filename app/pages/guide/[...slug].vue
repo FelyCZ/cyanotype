@@ -33,15 +33,15 @@ const { data: page } = await useAsyncData(
 if (!page.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'Guide article not found',
+    statusMessage: t('guide.notFound'),
     fatal: true
   })
 }
 
 useSeoMeta({
-  title: () => `${page.value?.title || 'Guide'} | ${locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'}`,
+  title: () => `${page.value?.title || t('nav.guide')} | ${t('app.title')}`,
   description: () => page.value?.description || '',
-  ogTitle: () => `${page.value?.title || 'Guide'} | ${locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'}`,
+  ogTitle: () => `${page.value?.title || t('nav.guide')} | ${t('app.title')}`,
   ogDescription: () => page.value?.description || ''
 })
 

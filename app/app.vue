@@ -20,15 +20,12 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 ])
 
 useHead({
-  title: computed(() => locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'),
+  title: computed(() => t('app.title')),
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     {
       name: 'description',
-      content: computed(() => locale.value === 'cs'
-        ? 'Klientský generátor digitálních negativů a průvodce procesem kyanotypie.'
-        : 'Client-side digital negative generator and guide for cyanotype alternative photography process.'
-      )
+      content: computed(() => t('app.description'))
     }
   ],
   link: [
@@ -55,7 +52,7 @@ useHead({
               class="w-5 h-5"
             />
           </div>
-          <span class="font-bold text-lg tracking-tight">{{ locale === 'cs' ? 'Kyanotypie' : 'Cyanotype' }}</span>
+          <span class="font-bold text-lg tracking-tight">{{ t('app.title') }}</span>
         </NuxtLink>
       </template>
 
@@ -76,7 +73,7 @@ useHead({
             class="-mx-2.5"
           />
           <div class="flex items-center justify-between pt-2 border-t border-default">
-            <span class="text-xs text-neutral-500">Language / Jazyk</span>
+            <span class="text-xs text-neutral-500">{{ t('nav.language') }}</span>
             <LanguageSelect />
           </div>
         </div>
@@ -110,7 +107,7 @@ useHead({
           color="neutral"
           variant="ghost"
           size="xs"
-          aria-label="GitHub repository"
+          :aria-label="t('footer.githubAria')"
         />
       </template>
     </UFooter>

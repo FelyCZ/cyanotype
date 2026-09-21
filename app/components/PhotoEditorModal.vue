@@ -67,20 +67,20 @@ const isCyanotypeMode = computed(() => {
   return baseMode
 })
 
-const { locale } = useI18n()
+const { t } = useI18n()
 
 watch(isCyanotypeMode, () => {
   updatePreview()
 })
 
 const aspectRatioOptions = computed(() => [
-  { label: locale.value === 'cs' ? 'Původní' : 'Original', value: 'original' },
-  { label: locale.value === 'cs' ? 'Čtverec (1:1)' : 'Square (1:1)', value: 'square' },
+  { label: t('editor.aspectRatioOriginal'), value: 'original' },
+  { label: t('editor.aspectRatioSquare'), value: 'square' },
   { label: '2:3', value: '2x3' },
   { label: '4:3', value: '4x3' },
   { label: '16:9', value: '16x9' },
   { label: '1:2', value: '1x2' },
-  { label: locale.value === 'cs' ? 'Vlastní' : 'Custom', value: 'custom' }
+  { label: t('editor.aspectRatioCustom'), value: 'custom' }
 ])
 
 let cachedImage: HTMLImageElement | null = null
@@ -521,8 +521,8 @@ function onPointerUp() {
 <template>
   <UModal
     v-model:open="isOpen"
-    :title="locale === 'cs' ? 'Úprava negativu' : 'Fine-tune Negative'"
-    :description="locale === 'cs' ? 'Upravte ořez, rotaci a tónovou křivku před vytvořením negativu' : 'Adjust crop, rotation, and positive tone curves before negative inversion'"
+    :title="t('editor.title')"
+    :description="t('editor.description')"
     :ui="{ content: 'sm:max-w-2xl' }"
   >
     <template #body>
@@ -555,8 +555,8 @@ function onPointerUp() {
                 :class="isCyanotypeMode
                   ? 'bg-[#1C39BB] hover:bg-[#162e97] text-white border-[#1C39BB] shadow-[#1C39BB]/40 ring-2 ring-[#1C39BB]/40'
                   : 'bg-neutral-900/85 hover:bg-neutral-800 text-neutral-200 border-neutral-700/80 hover:text-white'"
-                :title="isCyanotypeMode ? 'Cyanotype preview active. Click to switch to negative, hold to peek negative' : 'Click to preview cyanotype, hold to peek'"
-                aria-label="Toggle cyanotype preview"
+                :title="isCyanotypeMode ? t('editor.cyanotypeActiveTooltip') : t('editor.cyanotypeInactiveTooltip')"
+                :aria-label="t('editor.toggleCyanotypeAria')"
                 @pointerdown="onEyePointerDown"
                 @pointerup="onEyePointerUp"
                 @pointercancel="onEyePointerCancel"
@@ -566,7 +566,7 @@ function onPointerUp() {
                   name="i-lucide-eye"
                   class="w-3.5 h-3.5 shrink-0"
                 />
-                <span>Cyanotype</span>
+                <span>{{ t('actions.cyanotype') }}</span>
                 <span
                   class="w-2 h-2 rounded-full transition-colors"
                   :class="isCyanotypeMode ? 'bg-white animate-pulse' : 'bg-[#1C39BB]'"
@@ -660,7 +660,7 @@ function onPointerUp() {
               name="i-lucide-loader"
               class="w-5 h-5 animate-spin text-primary"
             />
-            {{ locale === 'cs' ? 'Generování náhledu...' : 'Generating preview...' }}
+            {{ t('editor.generatingPreview') }}
           </div>
         </div>
 
@@ -672,12 +672,12 @@ function onPointerUp() {
                 name="i-lucide-crop"
                 class="w-4 h-4 text-primary"
               />
-              <span>{{ locale === 'cs' ? 'Ořez a orientace' : 'Crop & Orientation' }}</span>
+              <span>{{ t('editor.cropAndOrientation') }}</span>
             </h3>
 
             <!-- Rotate 90 Button -->
             <UButton
-              :label="locale === 'cs' ? 'Otočit o 90°' : 'Rotate 90°'"
+              :label="t('editor.rotate')"
               icon="i-lucide-rotate-cw"
               color="neutral"
               variant="outline"
@@ -687,7 +687,7 @@ function onPointerUp() {
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
-            <UFormField :label="locale === 'cs' ? 'Poměr stran' : 'Aspect Ratio'">
+            <UFormField :label="t('editor.aspectRatio')">
               <USelect
                 :model-value="crop.aspectRatio"
                 :items="aspectRatioOptions"
@@ -702,7 +702,7 @@ function onPointerUp() {
               class="flex items-center gap-2"
             >
               <UFormField
-                :label="locale === 'cs' ? 'Šířka' : 'Width'"
+                :label="t('editor.width')"
                 class="flex-1"
               >
                 <UInputNumber
@@ -716,7 +716,7 @@ function onPointerUp() {
               </UFormField>
               <span class="pt-6 font-bold text-neutral-400">:</span>
               <UFormField
-                :label="locale === 'cs' ? 'Výška' : 'Height'"
+                :label="t('editor.height')"
                 class="flex-1"
               >
                 <UInputNumber
@@ -740,14 +740,14 @@ function onPointerUp() {
                 name="i-lucide-sliders"
                 class="w-4 h-4 text-primary"
               />
-              <span>{{ locale === 'cs' ? 'Úpravy tónů' : 'Tone Adjustments' }}</span>
+              <span>{{ t('editor.toneAdjustments') }}</span>
             </h3>
-            <span class="text-[11px] text-neutral-400">{{ locale === 'cs' ? 'Dvojklikem na posuvník vrátíte hodnotu na 0' : 'Double click slider to reset to 0' }}</span>
+            <span class="text-[11px] text-neutral-400">{{ t('editor.sliderResetHint') }}</span>
           </div>
 
           <div @dblclick="resetSlider('brightness')">
             <UFormField
-              :label="locale === 'cs' ? 'Jas' : 'Brightness'"
+              :label="t('editor.brightness')"
               :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`"
             >
               <USlider
@@ -763,7 +763,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('contrast')">
             <UFormField
-              :label="locale === 'cs' ? 'Kontrast' : 'Contrast'"
+              :label="t('editor.contrast')"
               :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`"
             >
               <USlider
@@ -779,7 +779,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('highlights')">
             <UFormField
-              :label="locale === 'cs' ? 'Světla' : 'Highlights'"
+              :label="t('editor.highlights')"
               :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`"
             >
               <USlider
@@ -795,7 +795,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('shadows')">
             <UFormField
-              :label="locale === 'cs' ? 'Stíny' : 'Shadows'"
+              :label="t('editor.shadows')"
               :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`"
             >
               <USlider
@@ -815,7 +815,7 @@ function onPointerUp() {
     <template #footer>
       <div class="flex items-center justify-between w-full">
         <UButton
-          :label="locale === 'cs' ? 'Obnovit' : 'Reset'"
+          :label="t('editor.reset')"
           color="neutral"
           variant="outline"
           icon="i-lucide-rotate-ccw"
@@ -824,22 +824,22 @@ function onPointerUp() {
 
         <div class="flex items-center gap-2">
           <UButton
-            :label="locale === 'cs' ? 'Zrušit' : 'Cancel'"
+            :label="t('editor.cancel')"
             color="neutral"
             variant="ghost"
             @click="isOpen = false"
           />
           <UButton
             v-if="photosCount > 1"
-            :label="locale === 'cs' ? `Použít na všechny (${photosCount})` : `Apply to All (${photosCount})`"
+            :label="t('editor.applyAll', { count: photosCount })"
             color="neutral"
             variant="subtle"
             icon="i-lucide-copy-check"
-            :title="locale === 'cs' ? 'Použít tónové úpravy na všechny obrázky' : 'Apply tone adjustments to all images'"
+            :title="t('editor.applyAllTooltip')"
             @click="handleApplyToAll"
           />
           <UButton
-            :label="locale === 'cs' ? 'Použít úpravy' : 'Apply Changes'"
+            :label="t('editor.apply')"
             color="primary"
             icon="i-lucide-check"
             @click="handleApply"
