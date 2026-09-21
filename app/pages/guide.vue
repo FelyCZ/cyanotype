@@ -8,12 +8,27 @@ const { data: articles } = await useAsyncData('guide-navigation', () => {
 })
 
 const sidebarItems = computed<NavigationMenuItem[]>(() => {
-  return (articles.value || []).map(article => ({
-    label: article.title,
-    icon: article.icon || 'i-lucide-file-text',
-    to: article.path,
-    active: route.path === article.path
-  }))
+  const items: NavigationMenuItem[] = [
+    {
+      label: 'Overview',
+      icon: 'i-lucide-compass',
+      to: '/guide',
+      active: route.path === '/guide'
+    }
+  ]
+
+  if (articles.value) {
+    items.push(
+      ...articles.value.map(article => ({
+        label: article.title,
+        icon: article.icon || 'i-lucide-file-text',
+        to: article.path,
+        active: route.path === article.path
+      }))
+    )
+  }
+
+  return items
 })
 </script>
 
@@ -34,9 +49,9 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
       </div>
     </div>
 
-    <UPage>
+    <UPage :ui="{ root: 'flex flex-col lg:grid lg:grid-cols-12 lg:gap-10', left: 'lg:col-span-3', center: 'lg:col-span-9' }">
       <template #left>
-        <UPageAside>
+        <UPageAside class="w-full lg:w-64 xl:w-72">
           <div class="space-y-3">
             <div class="px-2.5">
               <span class="text-xs font-semibold uppercase tracking-wider text-neutral-500">
@@ -48,6 +63,10 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
               orientation="vertical"
               variant="pill"
               highlight
+              :ui="{
+                linkLabel: 'whitespace-normal leading-snug text-sm',
+                link: 'py-2 px-3'
+              }"
             />
           </div>
         </UPageAside>

@@ -108,9 +108,9 @@ const imageFormatOptions = [
           <UFormField label="Print DPI">
             <UInputNumber
               v-model="settings.dpi"
-              :min="72"
-              :max="1200"
-              :step="50"
+              :min="300"
+              :max="2400"
+              :step="300"
               class="w-full"
             />
           </UFormField>

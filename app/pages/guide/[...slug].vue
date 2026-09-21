@@ -118,7 +118,7 @@ const nextArticle = computed(() => {
               </h3>
             </div>
             <p class="text-sm text-neutral-500">
-              Transform your photos into calibrated 300 DPI inverted negatives ready for contact printing onto transparency film.
+              Transform your photos into digital negatives ready for contact printing onto transparency film.
             </p>
           </div>
           <UButton
@@ -187,17 +187,25 @@ const nextArticle = computed(() => {
   font-weight: 600;
 }
 
+/* Clean table styling without awkward outer outlines */
 [data-guide-content] :deep(table) {
   width: 100%;
-  margin: 1.5rem 0;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  overflow-x: auto;
-  display: block;
+  margin: 1.75rem 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+  border: 1px solid var(--ui-color-neutral-300);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+:global(.dark) [data-guide-content] :deep(table) {
+  border-color: var(--ui-color-neutral-800);
 }
 
 [data-guide-content] :deep(th) {
-  border-bottom: 2px solid var(--ui-color-neutral-300);
+  background-color: var(--ui-bg-elevated);
+  border-bottom: 1px solid var(--ui-color-neutral-300);
   padding: 0.75rem 1rem;
   text-align: left;
   font-weight: 600;
@@ -205,16 +213,21 @@ const nextArticle = computed(() => {
 }
 
 :global(.dark) [data-guide-content] :deep(th) {
-  border-bottom-color: var(--ui-color-neutral-700);
+  border-bottom-color: var(--ui-color-neutral-800);
 }
 
 [data-guide-content] :deep(td) {
   border-bottom: 1px solid var(--ui-color-neutral-200);
   padding: 0.75rem 1rem;
+  color: var(--ui-text);
 }
 
 :global(.dark) [data-guide-content] :deep(td) {
   border-bottom-color: var(--ui-color-neutral-800);
+}
+
+[data-guide-content] :deep(tr:last-child td) {
+  border-bottom: none;
 }
 
 [data-guide-content] :deep(hr) {
@@ -227,12 +240,35 @@ const nextArticle = computed(() => {
   border-top-color: var(--ui-color-neutral-800);
 }
 
+/* Soft callout boxes with thin dotted outline */
+[data-guide-content] :deep(.guide-caution),
+[data-guide-content] :deep(.guide-note),
 [data-guide-content] :deep(blockquote) {
-  border-left: 3px solid var(--ui-color-primary-500);
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
   margin: 1.5rem 0;
   background-color: var(--ui-bg-elevated);
-  border-radius: 0 0.5rem 0.5rem 0;
+  border: 1px dotted var(--ui-color-neutral-400);
+  border-radius: 0.75rem;
+}
+
+:global(.dark) [data-guide-content] :deep(.guide-caution),
+:global(.dark) [data-guide-content] :deep(.guide-note),
+:global(.dark) [data-guide-content] :deep(blockquote) {
+  border-color: var(--ui-color-neutral-700);
+}
+
+[data-guide-content] :deep(.guide-caution p),
+[data-guide-content] :deep(.guide-note p),
+[data-guide-content] :deep(blockquote p) {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+[data-guide-content] :deep(.guide-caution ul) {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  font-size: 0.875rem;
 }
 
 [data-guide-content] :deep(code:not(pre code)) {

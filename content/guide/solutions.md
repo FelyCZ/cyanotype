@@ -18,14 +18,14 @@ This guide outlines our tested workshop formulation ("Alternativa 1"), small-bat
 This recipe yields two concentrated, highly stable stock solutions that are stored separately and combined just before coating.
 
 ### Stock Solution A (Iron Salt)
-- **Distilled Water**: $40\text{ ml}$
-- **Green Ferric Ammonium Citrate** (*zelený citran železito-amonný*): $12.5\text{ g}$
+- **Distilled Water**: 40 ml
+- **Green Ferric Ammonium Citrate** (zelený citran železito-amonný): 12.5 g
 
-*Note: Always use the vibrant green variety of ferric ammonium citrate rather than brown flakes. Green ferric ammonium citrate exhibits substantially higher UV sensitivity and yields richer maximum density ($D_{\max}$).*
+*Note: Always use the vibrant green variety of ferric ammonium citrate rather than brown flakes. Green ferric ammonium citrate exhibits substantially higher UV sensitivity and yields richer maximum density.*
 
 ### Stock Solution B (Cyanide Compound)
-- **Distilled Water**: $40\text{ ml}$
-- **Potassium Ferricyanide** (*červená krevní sůl* / potassium hexacyanoferrate(III)): $4.5\text{ g}$
+- **Distilled Water**: 40 ml
+- **Potassium Ferricyanide** (červená krevní sůl / potassium hexacyanoferrate(III)): 4.5 g
 
 *Note: Potassium ferricyanide forms bright ruby-red crystalline granules that dissolve readily in room-temperature water.*
 
@@ -35,8 +35,8 @@ This recipe yields two concentrated, highly stable stock solutions that are stor
 
 Do not combine the two stock solutions until you are ready to coat your paper.
 
-1. **Volume Ratio**: Mix **Solution A** and **Solution B** in an exact **1:1 ratio** by volume (e.g. $5\text{ ml}$ of A + $5\text{ ml}$ of B = $10\text{ ml}$ total working sensitizer).
-2. **The Oxalic Acid Additive**: Add **2 drops of 2% Oxalic Acid solution** (*kyselina šťavelová*) for every **$10\text{ ml}$ of final working solution**.
+1. **Volume Ratio**: Mix **Solution A** and **Solution B** in an exact **1:1 ratio** by volume (e.g. 5 ml of A + 5 ml of B = 10 ml total working sensitizer).
+2. **The Oxalic Acid Additive**: Add **2 drops of 2% Oxalic Acid solution** (kyselina šťavelová) for every **10 ml of final working solution**.
 
 ### Why Add Oxalic Acid?
 
@@ -51,11 +51,11 @@ The addition of a trace amount of oxalic acid provides three critical advantages
 
 If you are conducting a quick workshop or want to prepare just enough sensitizer for **two A4 sheets** without keeping long-term stock bottles, use this direct recipe:
 
-- **Potassium Ferricyanide**: $0.5\text{ g}$
-- **Ferric Ammonium Citrate**: $1.0\text{ g}$
-- **Distilled Water**: $12\text{ ml}$
+- **Potassium Ferricyanide**: 0.5 g
+- **Ferric Ammonium Citrate**: 1.0 g
+- **Distilled Water**: 12 ml
 
-Dissolve both powders thoroughly in the $12\text{ ml}$ of lukewarm distilled water in a small glass beaker under dim light. Use immediately.
+Dissolve both powders thoroughly in the 12 ml of lukewarm distilled water in a small glass beaker under dim light. Use immediately.
 
 ---
 
@@ -74,13 +74,16 @@ Dissolve both powders thoroughly in the $12\text{ ml}$ of lukewarm distilled wat
 
 Cyanotype is widely celebrated as one of the safest historic photographic processes, but standard chemical hygiene should always be observed:
 
-> [!IMPORTANT]
-> **Safety Summary**:
-> - **Potassium Ferricyanide is NOT Free Cyanide**: The cyanide ions are tightly bound within the stable iron coordination complex $[Fe(CN)_6]^{3-}$. It cannot be absorbed through the skin and is non-toxic under ordinary darkroom conditions.
-> - **NEVER mix with strong concentrated acids**: Strong mineral acids (such as concentrated sulfuric or hydrochloric acid) can decompose the ferricyanide complex and release hazardous hydrogen cyanide gas. Keep acids strictly separated.
-> - **Wear Gloves**: Wear standard nitrile darkroom gloves. While not caustic, the solution will persistently dye skin and fingernails Prussian blue upon exposure to daylight.
-> - **Avoid Inhalation**: When weighing fine chemical powders, avoid creating airborne dust.
-> - **Disposal**: Dilute with plenty of running tap water. Residues can be safely discharged down municipal domestic drains according to standard environmental lab practices.
+<div class="guide-caution">
+  <p><strong>Safety Precautions:</strong></p>
+  <ul>
+    <li><strong>Potassium Ferricyanide is NOT Free Cyanide:</strong> The cyanide ions are tightly bound within the stable iron coordination complex [Fe(CN)₆]³⁻. It cannot be absorbed through the skin and is non-toxic under ordinary darkroom conditions.</li>
+    <li><strong>NEVER mix with strong concentrated acids:</strong> Strong mineral acids (such as concentrated sulfuric or hydrochloric acid) can decompose the ferricyanide complex and release hazardous hydrogen cyanide gas. Keep acids strictly separated.</li>
+    <li><strong>Wear Gloves:</strong> Wear standard nitrile darkroom gloves. While not caustic, the solution will persistently dye skin and fingernails Prussian blue upon exposure to daylight.</li>
+    <li><strong>Avoid Inhalation:</strong> When weighing fine chemical powders, avoid creating airborne dust.</li>
+    <li><strong>Disposal:</strong> Dilute with plenty of running tap water. Residues can be safely discharged down municipal domestic drains according to standard environmental lab practices.</li>
+  </ul>
+</div>
 
 ---
 
