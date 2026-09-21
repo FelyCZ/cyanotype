@@ -2,15 +2,18 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const route = useRoute()
+const { locale, t } = useI18n()
 
-const { data: articles } = await useAsyncData('guide-navigation', () => {
-  return queryCollection('guide').order('order', 'ASC').all()
-})
+const { data: articles } = await useAsyncData(
+  () => `guide-navigation-${locale.value}`,
+  () => queryCollection('guide').where('path', 'LIKE', `/guide/${locale.value}/%`).order('order', 'ASC').all(),
+  { watch: [locale] }
+)
 
 const sidebarItems = computed<NavigationMenuItem[]>(() => {
   const items: NavigationMenuItem[] = [
     {
-      label: 'Overview',
+      label: t('guide.overview'),
       icon: 'i-lucide-compass',
       to: '/guide',
       active: route.path === '/guide'
@@ -19,12 +22,15 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
 
   if (articles.value) {
     items.push(
-      ...articles.value.map(article => ({
-        label: article.title,
-        icon: article.icon || 'i-lucide-file-text',
-        to: article.path,
-        active: route.path === article.path
-      }))
+      ...articles.value.map((article) => {
+        const url = '/guide/' + article.path.split('/').pop()
+        return {
+          label: article.title,
+          icon: article.icon || 'i-lucide-file-text',
+          to: url,
+          active: route.path === url
+        }
+      })
     )
   }
 
@@ -38,7 +44,7 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
     <div class="mb-6 block lg:hidden">
       <div class="rounded-xl border border-default bg-elevated/40 p-2">
         <p class="px-2.5 pt-1 pb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">
-          Guide Navigation
+          {{ t('guide.navigation') }}
         </p>
         <UNavigationMenu
           :items="sidebarItems"
@@ -55,7 +61,7 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
           <div class="space-y-3">
             <div class="px-2.5">
               <span class="text-xs font-semibold uppercase tracking-wider text-neutral-500">
-                Cyanotype Guide
+                {{ t('guide.title') }}
               </span>
             </div>
             <UNavigationMenu

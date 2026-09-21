@@ -67,19 +67,21 @@ const isCyanotypeMode = computed(() => {
   return baseMode
 })
 
+const { locale } = useI18n()
+
 watch(isCyanotypeMode, () => {
   updatePreview()
 })
 
-const aspectRatioOptions = [
-  { label: 'Original', value: 'original' },
-  { label: 'Square', value: 'square' },
-  { label: '2x3', value: '2x3' },
-  { label: '4x3', value: '4x3' },
-  { label: '16x9', value: '16x9' },
-  { label: '1x2', value: '1x2' },
-  { label: 'Custom', value: 'custom' }
-]
+const aspectRatioOptions = computed(() => [
+  { label: locale.value === 'cs' ? 'Původní' : 'Original', value: 'original' },
+  { label: locale.value === 'cs' ? 'Čtverec (1:1)' : 'Square (1:1)', value: 'square' },
+  { label: '2:3', value: '2x3' },
+  { label: '4:3', value: '4x3' },
+  { label: '16:9', value: '16x9' },
+  { label: '1:2', value: '1x2' },
+  { label: locale.value === 'cs' ? 'Vlastní' : 'Custom', value: 'custom' }
+])
 
 let cachedImage: HTMLImageElement | null = null
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
@@ -519,8 +521,8 @@ function onPointerUp() {
 <template>
   <UModal
     v-model:open="isOpen"
-    title="Fine-tune Negative"
-    description="Adjust crop, rotation, and positive tone curves before negative inversion"
+    :title="locale === 'cs' ? 'Úprava negativu' : 'Fine-tune Negative'"
+    :description="locale === 'cs' ? 'Upravte ořez, rotaci a tónovou křivku před vytvořením negativu' : 'Adjust crop, rotation, and positive tone curves before negative inversion'"
     :ui="{ content: 'sm:max-w-2xl' }"
   >
     <template #body>
@@ -658,7 +660,7 @@ function onPointerUp() {
               name="i-lucide-loader"
               class="w-5 h-5 animate-spin text-primary"
             />
-            Generating preview...
+            {{ locale === 'cs' ? 'Generování náhledu...' : 'Generating preview...' }}
           </div>
         </div>
 
@@ -670,12 +672,12 @@ function onPointerUp() {
                 name="i-lucide-crop"
                 class="w-4 h-4 text-primary"
               />
-              <span>Crop & Orientation</span>
+              <span>{{ locale === 'cs' ? 'Ořez a orientace' : 'Crop & Orientation' }}</span>
             </h3>
 
             <!-- Rotate 90 Button -->
             <UButton
-              label="Rotate 90°"
+              :label="locale === 'cs' ? 'Otočit o 90°' : 'Rotate 90°'"
               icon="i-lucide-rotate-cw"
               color="neutral"
               variant="outline"
@@ -685,7 +687,7 @@ function onPointerUp() {
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
-            <UFormField label="Aspect Ratio">
+            <UFormField :label="locale === 'cs' ? 'Poměr stran' : 'Aspect Ratio'">
               <USelect
                 :model-value="crop.aspectRatio"
                 :items="aspectRatioOptions"
@@ -700,7 +702,7 @@ function onPointerUp() {
               class="flex items-center gap-2"
             >
               <UFormField
-                label="Width"
+                :label="locale === 'cs' ? 'Šířka' : 'Width'"
                 class="flex-1"
               >
                 <UInputNumber
@@ -714,7 +716,7 @@ function onPointerUp() {
               </UFormField>
               <span class="pt-6 font-bold text-neutral-400">:</span>
               <UFormField
-                label="Height"
+                :label="locale === 'cs' ? 'Výška' : 'Height'"
                 class="flex-1"
               >
                 <UInputNumber
@@ -738,14 +740,14 @@ function onPointerUp() {
                 name="i-lucide-sliders"
                 class="w-4 h-4 text-primary"
               />
-              <span>Tone Adjustments</span>
+              <span>{{ locale === 'cs' ? 'Úpravy tónů' : 'Tone Adjustments' }}</span>
             </h3>
-            <span class="text-[11px] text-neutral-400">Double click slider to reset to 0</span>
+            <span class="text-[11px] text-neutral-400">{{ locale === 'cs' ? 'Dvojklikem na posuvník vrátíte hodnotu na 0' : 'Double click slider to reset to 0' }}</span>
           </div>
 
           <div @dblclick="resetSlider('brightness')">
             <UFormField
-              label="Brightness"
+              :label="locale === 'cs' ? 'Jas' : 'Brightness'"
               :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`"
             >
               <USlider
@@ -761,7 +763,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('contrast')">
             <UFormField
-              label="Contrast"
+              :label="locale === 'cs' ? 'Kontrast' : 'Contrast'"
               :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`"
             >
               <USlider
@@ -777,7 +779,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('highlights')">
             <UFormField
-              label="Highlights"
+              :label="locale === 'cs' ? 'Světla' : 'Highlights'"
               :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`"
             >
               <USlider
@@ -793,7 +795,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('shadows')">
             <UFormField
-              label="Shadows"
+              :label="locale === 'cs' ? 'Stíny' : 'Shadows'"
               :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`"
             >
               <USlider
@@ -813,7 +815,7 @@ function onPointerUp() {
     <template #footer>
       <div class="flex items-center justify-between w-full">
         <UButton
-          label="Reset"
+          :label="locale === 'cs' ? 'Obnovit' : 'Reset'"
           color="neutral"
           variant="outline"
           icon="i-lucide-rotate-ccw"
@@ -822,22 +824,22 @@ function onPointerUp() {
 
         <div class="flex items-center gap-2">
           <UButton
-            label="Cancel"
+            :label="locale === 'cs' ? 'Zrušit' : 'Cancel'"
             color="neutral"
             variant="ghost"
             @click="isOpen = false"
           />
           <UButton
             v-if="photosCount > 1"
-            label="Apply to All"
+            :label="locale === 'cs' ? `Použít na všechny (${photosCount})` : `Apply to All (${photosCount})`"
             color="neutral"
             variant="subtle"
             icon="i-lucide-copy-check"
-            title="Apply tone adjustments to all images"
+            :title="locale === 'cs' ? 'Použít tónové úpravy na všechny obrázky' : 'Apply tone adjustments to all images'"
             @click="handleApplyToAll"
           />
           <UButton
-            label="Apply Changes"
+            :label="locale === 'cs' ? 'Použít úpravy' : 'Apply Changes'"
             color="primary"
             icon="i-lucide-check"
             @click="handleApply"

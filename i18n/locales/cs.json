@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "creator": "Tvůrce negativů",
+    "guide": "Návod"
+  },
+  "hero": {
+    "title": "Tvůrce negativů",
+    "description": "Vyberte fotografie pro převod na digitální negativy připravené k tisku na transparentní fólie pro kontaktní kopírování kyanotypie.",
+    "localProcessing": "Veškeré zpracování probíhá výhradně ve vašem zařízení. Žádné obrázky se nikam nenahrávají."
+  },
+  "uploader": {
+    "title": "Kliknutím vyberte obrázky nebo je přetáhněte sem",
+    "subtitle": "Podporuje JPEG, PNG, WebP, TIFF. Veškeré zpracování probíhá lokálně ve vašem prohlížeči.",
+    "selectBtn": "Vybrat obrázky"
+  },
+  "settings": {
+    "title": "Nastavení stránky a exportu",
+    "pageLayout": "Rozvržení stránky",
+    "exportQuality": "Kvalita exportu",
+    "pageSize": "Formát papíru",
+    "photosPerPage": "Fotografií na stránku",
+    "orientation": "Orientace",
+    "margin": "Okraje (mm)",
+    "printDpi": "Tiskové DPI",
+    "format": "Formát negativu",
+    "quality": "Kvalita JPEG %",
+    "perPage": "{n} na stránku",
+    "auto": "Automaticky",
+    "portrait": "Na výšku",
+    "landscape": "Na šířku"
+  },
+  "actions": {
+    "negative": "Negativ",
+    "cyanotype": "Kyanotypie",
+    "saveAll": "Uložit negativy",
+    "previewPdf": "Náhled PDF",
+    "clearAll": "Smazat vše",
+    "imagesLoaded": "{count} obrázek načten! | {count} obrázky načteny! | {count} obrázků načteno!",
+    "noImages": "Žádné obrázky nevybrány",
+    "preparing": "Příprava negativů ve formátu {format}...",
+    "saving": "Ukládání souborů negativů...",
+    "successDirectory": "Všechny jednotlivé negativy ({format}) byly úspěšně uloženy do vybrané složky.",
+    "successZip": "Všechny negativy ({format}) byly zabaleny a staženy jako archiv ZIP.",
+    "successSingle": "Negativ ({format}) byl úspěšně stažen.",
+    "errorPreview": "Nepodařilo se vygenerovat náhled PDF.",
+    "errorExport": "Export se nezdařil. Zkuste to prosím znovu."
+  },
+  "gallery": {
+    "fineTune": "Upravit a oříznout",
+    "remove": "Odebrat fotografii",
+    "processing": "Zpracování obrázků..."
+  },
+  "editor": {
+    "title": "Úprava negativu",
+    "apply": "Použít",
+    "applyAll": "Použít na všechny ({count})",
+    "cancel": "Zrušit",
+    "done": "Hotovo",
+    "brightness": "Jas",
+    "contrast": "Kontrast",
+    "highlights": "Světla",
+    "shadows": "Stíny",
+    "rotate": "Otočit o 90°",
+    "reset": "Obnovit úpravy"
+  },
+  "guide": {
+    "title": "Průvodce kyanotypií",
+    "description": "Praktický a historický průvodce klasickou alternativní fotografií, kontaktním kopírováním a přípravou chemických roztoků.",
+    "overview": "Přehled",
+    "navigation": "Navigace průvodce",
+    "readChapter": "Číst kapitolu",
+    "prevSection": "Předchozí část",
+    "nextSection": "Následující část",
+    "chaptersSection": "Kapitoly průvodce",
+    "introP1": "Kyanotypie je jedním z nejstarších, nejdostupnějších a nejstálejších alternativních fotografických procesů. Objevil ji v roce 1842 Sir John Herschel a namísto sloučenin stříbra využívá soli železa k vytvoření sytých monochromatických tisků v tónech hluboké berlínské modři.",
+    "introP2": "Na rozdíl od klasických temnokomorních technik nevyžaduje kyanotypie žádné specializované vybavení, toxické chemické vývojky ani ustalovače – vyvolává se jednoduše a čistě v tekoucí vodě. Ve spojení s moderními digitálními negativy vytištěnými na průhlednou fólii může kdokoli vytvořit archivní tisky muzejní kvality přímo doma nebo ve školní laboratoři.",
+    "creditsTitle": "Poděkování a zdroje",
+    "creditsText": "Výukové materiály, receptury a historické přehledy v tomto návodu byly vytvořeny námi nebo sestaveny z dalších zdrojů na Ústavu učitelství a humanitních věd, VŠCHT Praha.",
+    "disclaimerTitle": "Bezpečnostní upozornění pro práci s chemií",
+    "disclaimerText": "Manipulace s chemikáliemi a příprava roztoků popsaných v tomto návodu vyžadují odpovídající znalosti chemické hygieny a zásad bezpečné laboratorní práce. Práci by měly provádět pouze osoby poučené v oboru chemie nebo studenti pod odborným pedagogickým dohledem. Autor ani VŠCHT Praha nenesou žádnou odpovědnost za případná zranění, poškození zdraví nebo majetku vzniklá manipulací, skladováním nebo likvidací uvedených chemikálií."
+  },
+  "footer": {
+    "text": "Cyanotype • Open-source projekt vytvořil",
+    "github": "GitHub"
+  }
+}

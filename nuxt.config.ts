@@ -4,7 +4,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/seo',
     '@nuxt/content',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxtjs/i18n'
   ],
 
   devtools: {
@@ -32,8 +33,9 @@ export default defineNuxtConfig({
       crawlLinks: true,
       routes: [
         '/',
-        '/guide/procedure',
+        '/guide',
         '/guide/solutions',
+        '/guide/procedure',
         '/guide/context'
       ]
     }
@@ -46,6 +48,15 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  i18n: {
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'cs', language: 'cs-CZ', name: 'Čeština', file: 'cs.json' }
+    ],
+    strategy: 'no_prefix'
   },
 
   ogImage: {

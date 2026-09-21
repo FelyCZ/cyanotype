@@ -1,9 +1,18 @@
 <script setup lang="ts">
 const route = useRoute()
+const { locale, t } = useI18n()
 
-const { data: page } = await useAsyncData(`guide-page-${route.path}`, () => {
-  return queryCollection('guide').path(route.path).first()
+const slugName = computed(() => {
+  const s = route.params.slug
+  if (Array.isArray(s)) return s[s.length - 1]
+  return s || 'solutions'
 })
+
+const { data: page } = await useAsyncData(
+  () => `guide-page-${locale.value}-${slugName.value}`,
+  () => queryCollection('guide').path(`/guide/${locale.value}/${slugName.value}`).first(),
+  { watch: [locale] }
+)
 
 if (!page.value) {
   throw createError({
@@ -14,28 +23,40 @@ if (!page.value) {
 }
 
 useSeoMeta({
-  title: `${page.value.title} | Cyanotype Guide`,
-  description: page.value.description,
-  ogTitle: `${page.value.title} | Cyanotype Guide`,
-  ogDescription: page.value.description
+  title: () => `${page.value?.title || 'Guide'} | ${locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'}`,
+  description: () => page.value?.description || '',
+  ogTitle: () => `${page.value?.title || 'Guide'} | ${locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'}`,
+  ogDescription: () => page.value?.description || ''
 })
 
-const { data: allArticles } = await useAsyncData('all-guide-articles-surround', () => {
-  return queryCollection('guide').order('order', 'ASC').all()
-})
+const { data: allArticles } = await useAsyncData(
+  () => `all-guide-articles-${locale.value}`,
+  () => queryCollection('guide').where('path', 'LIKE', `/guide/${locale.value}/%`).order('order', 'ASC').all(),
+  { watch: [locale] }
+)
 
 const prevArticle = computed(() => {
   if (!allArticles.value || !page.value) return null
   const currentIndex = allArticles.value.findIndex(a => a.path === page.value?.path)
-  return currentIndex > 0 ? allArticles.value[currentIndex - 1] : null
+  if (currentIndex <= 0) return null
+  const prev = allArticles.value[currentIndex - 1]
+  if (!prev) return null
+  return {
+    ...prev,
+    url: '/guide/' + prev.path.split('/').pop()
+  }
 })
 
 const nextArticle = computed(() => {
   if (!allArticles.value || !page.value) return null
   const currentIndex = allArticles.value.findIndex(a => a.path === page.value?.path)
-  return currentIndex >= 0 && currentIndex < allArticles.value.length - 1
-    ? allArticles.value[currentIndex + 1]
-    : null
+  if (currentIndex < 0 || currentIndex >= allArticles.value.length - 1) return null
+  const next = allArticles.value[currentIndex + 1]
+  if (!next) return null
+  return {
+    ...next,
+    url: '/guide/' + next.path.split('/').pop()
+  }
 })
 </script>
 
@@ -59,10 +80,12 @@ const nextArticle = computed(() => {
 
       <!-- Previous / Next Navigation Buttons -->
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
+        <div
+          v-if="prevArticle"
+          :class="{ 'sm:col-span-2': !nextArticle && prevArticle }"
+        >
           <UButton
-            v-if="prevArticle"
-            :to="prevArticle.path"
+            :to="prevArticle.url"
             icon="i-lucide-arrow-left"
             color="neutral"
             variant="outline"
@@ -72,7 +95,7 @@ const nextArticle = computed(() => {
           >
             <div>
               <div class="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
-                Previous Section
+                {{ t('guide.prevSection') }}
               </div>
               <div class="font-medium text-highlighted">
                 {{ prevArticle.title }}
@@ -81,10 +104,12 @@ const nextArticle = computed(() => {
           </UButton>
         </div>
 
-        <div>
+        <div
+          v-if="nextArticle"
+          :class="{ 'sm:col-span-2': !prevArticle && nextArticle }"
+        >
           <UButton
-            v-if="nextArticle"
-            :to="nextArticle.path"
+            :to="nextArticle.url"
             trailing-icon="i-lucide-arrow-right"
             color="neutral"
             variant="outline"
@@ -94,41 +119,13 @@ const nextArticle = computed(() => {
           >
             <div>
               <div class="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
-                Next Section
+                {{ t('guide.nextSection') }}
               </div>
               <div class="font-medium text-highlighted">
                 {{ nextArticle.title }}
               </div>
             </div>
           </UButton>
-        </div>
-      </div>
-
-      <!-- Call To Action Card to Creator -->
-      <div class="mt-12 rounded-2xl border border-default bg-elevated/50 p-6 sm:p-8">
-        <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-          <div class="space-y-1.5">
-            <div class="flex items-center gap-2">
-              <UIcon
-                name="i-lucide-sparkles"
-                class="size-5 text-primary"
-              />
-              <h3 class="text-base font-semibold text-highlighted sm:text-lg">
-                Ready to create digital negatives?
-              </h3>
-            </div>
-            <p class="text-sm text-neutral-500">
-              Transform your photos into digital negatives ready for contact printing onto transparency film.
-            </p>
-          </div>
-          <UButton
-            to="/"
-            icon="i-lucide-image"
-            label="Open Negative Creator"
-            color="primary"
-            size="md"
-            class="shrink-0"
-          />
         </div>
       </div>
     </UPageBody>
@@ -255,6 +252,30 @@ const nextArticle = computed(() => {
 :global(.dark) [data-guide-content] :deep(.guide-note),
 :global(.dark) [data-guide-content] :deep(blockquote) {
   border-color: var(--ui-color-neutral-700);
+}
+
+[data-guide-content] :deep(.guide-grid) {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 768px) {
+  [data-guide-content] :deep(.guide-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+[data-guide-content] :deep(.guide-card) {
+  padding: 1.25rem;
+  background-color: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-color-neutral-300);
+  border-radius: 0.75rem;
+}
+
+:global(.dark) [data-guide-content] :deep(.guide-card) {
+  border-color: var(--ui-color-neutral-800);
 }
 
 [data-guide-content] :deep(.guide-caution p),

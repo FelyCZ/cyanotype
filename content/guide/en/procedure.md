@@ -1,7 +1,7 @@
 ---
 title: "Development Procedure"
 description: "Step-by-step workflow for coating paper, exposing digital negatives to UV light, water development, oxidation, and toning."
-order: 1
+order: 2
 icon: "i-lucide-sun-medium"
 ---
 
@@ -18,7 +18,7 @@ Follow this step-by-step workflow to turn digital negatives created with our con
 Before you begin, gather the following materials:
 
 - **Sensitizing Solution**: Freshly mixed Solution A + B with oxalic acid (see [Solution Preparation](/guide/solutions)).
-- **Base Paper**: Heavyweight (200 – 300 g/m²) watercolor, printmaking, or hammer paper (kladívková čtvrtka). Cotton rag papers with neutral or slightly acidic sizing work best.
+- **Base Paper**: Heavyweight (200 – 300 g/m²) watercolor, printmaking, or hammer paper. Cotton rag papers with neutral or slightly acidic sizing work best.
 - **Applicator**: A wide synthetic hake brush, foam brush, or glass coating rod. Avoid brushes with metal ferrules, as exposed metal can react with the iron salts.
 - **Digital Negative**: A digital negative printed on transparency film, prepared using our [Negative Creator](/).
 - **Contact Printing Frame**: A sturdy wooden print frame, or two clean panes of heavy float glass clamped tightly with strong binder clips.
@@ -130,5 +130,4 @@ If you prefer warm tones, eggplant blacks, or vintage sepia instead of classic P
 
 ---
 
-Ready to generate digital negatives?  
-Use our [Negative Creator](/) to prepare your photos for contact printing!
+Next step: Explore the history, discovery, and science behind Prussian blue in our [Historical Context](/guide/context) guide.

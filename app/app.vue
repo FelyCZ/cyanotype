@@ -2,16 +2,17 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const route = useRoute()
+const { t, locale } = useI18n()
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
   {
-    label: 'Negative Creator',
+    label: t('nav.creator'),
     icon: 'i-lucide-image',
     to: '/',
     active: route.path === '/'
   },
   {
-    label: 'Guide',
+    label: t('nav.guide'),
     icon: 'i-lucide-book-open',
     to: '/guide',
     active: route.path.startsWith('/guide')
@@ -19,12 +20,15 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 ])
 
 useHead({
-  title: 'Cyanotype | Negatives Creator',
+  title: computed(() => locale.value === 'cs' ? 'Kyanotypie' : 'Cyanotype'),
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     {
       name: 'description',
-      content: 'Client-side digital negative generator and guide for cyanotype alternative photography process. Transform photos to grayscale negatives at 300 DPI.'
+      content: computed(() => locale.value === 'cs'
+        ? 'Klientský generátor digitálních negativů a průvodce procesem kyanotypie.'
+        : 'Client-side digital negative generator and guide for cyanotype alternative photography process.'
+      )
     }
   ],
   link: [
@@ -32,7 +36,7 @@ useHead({
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
-    lang: 'en'
+    lang: computed(() => locale.value)
   }
 })
 </script>
@@ -45,28 +49,37 @@ useHead({
           to="/"
           class="flex items-center gap-2"
         >
-          <div class="rounded-lg bg-blue-500/15 p-1.5 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+          <div class="rounded-lg bg-primary/15 p-1.5 text-primary flex items-center justify-center">
             <UIcon
               name="i-lucide-contrast"
               class="w-5 h-5"
             />
           </div>
-          <span class="font-bold text-lg tracking-tight">Cyanotype</span>
+          <span class="font-bold text-lg tracking-tight">{{ locale === 'cs' ? 'Kyanotypie' : 'Cyanotype' }}</span>
         </NuxtLink>
       </template>
 
       <UNavigationMenu :items="headerItems" />
 
       <template #right>
-        <UColorModeButton />
+        <div class="flex items-center gap-2">
+          <LanguageSelect />
+          <UColorModeButton />
+        </div>
       </template>
 
       <template #body>
-        <UNavigationMenu
-          :items="headerItems"
-          orientation="vertical"
-          class="-mx-2.5"
-        />
+        <div class="space-y-4">
+          <UNavigationMenu
+            :items="headerItems"
+            orientation="vertical"
+            class="-mx-2.5"
+          />
+          <div class="flex items-center justify-between pt-2 border-t border-default">
+            <span class="text-xs text-neutral-500">Language / Jazyk</span>
+            <LanguageSelect />
+          </div>
+        </div>
       </template>
     </UHeader>
 
@@ -79,7 +92,7 @@ useHead({
     <UFooter>
       <template #left>
         <p class="text-xs text-neutral-500">
-          Cyanotype • Open-source project created by <a
+          {{ t('footer.text') }} <a
             href="https://github.com/FelyCZ"
             target="_blank"
             rel="noopener noreferrer"
@@ -93,7 +106,7 @@ useHead({
           to="https://github.com/FelyCZ/cyanotype"
           target="_blank"
           icon="i-simple-icons-github"
-          label="GitHub"
+          :label="t('footer.github')"
           color="neutral"
           variant="ghost"
           size="xs"

@@ -12,6 +12,8 @@ import {
   saveFilesToUserSelection
 } from '~/utils/export-service'
 
+const { t } = useI18n()
+
 const settings = ref<PageSettings>({
   pageSize: 'A4',
   dpi: 300,
@@ -332,10 +334,10 @@ onUnmounted(() => {
     <!-- Intro Banner -->
     <div class="space-y-2">
       <h1 class="text-3xl font-bold tracking-tight">
-        Negative Creator
+        {{ t('hero.title') }}
       </h1>
       <p class="text-neutral-500 max-w-2xl text-sm sm:text-base">
-        Select photos to convert them into digital negatives ready for printing onto transparency film for cyanotype contact printing. <strong class="font-semibold text-neutral-700 dark:text-neutral-200">All processing runs entirely on your device. No images are uploaded anywhere.</strong>
+        {{ t('hero.description') }} <strong class="font-semibold text-neutral-700 dark:text-neutral-200">{{ t('hero.localProcessing') }}</strong>
       </p>
     </div>
 

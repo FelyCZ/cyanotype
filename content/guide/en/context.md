@@ -19,12 +19,37 @@ In the early 1840s, scientists across Europe were racing to fix images "drawn by
 
 In 1842, Herschel presented his discovery of the cyanotype process to the Royal Society of London. He noted that ferric salts exposed to sunlight reduce to ferrous salts, which immediately react with potassium ferricyanide to deposit an insoluble, intensely blue dye directly within the cellulose fibers of paper:
 
-<div class="guide-note">
-  <p class="font-mono text-xs sm:text-sm">Light-sensitive Ferric Salt + UV Light → Ferrous Salt + Potassium Ferricyanide → Prussian Blue (Fe₄[Fe(CN)₆]₃)</p>
+<div class="guide-card my-6">
+  <div class="text-xs uppercase font-semibold tracking-wider text-primary mb-3">Photochemical Reaction Scheme</div>
+  
+  <div class="space-y-4">
+    <div class="p-3.5 rounded-lg bg-neutral-100/70 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/60">
+      <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">Step 1: Photoreduction of Iron(III) to Iron(II) by UV Light</div>
+      <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
+        2 [Fe(C₆H₅O₇)] + hν (UV, λ ~ 365 nm) → 2 Fe²⁺ + (oxidized citrate) + CO₂ ↑
+      </div>
+      <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-2 space-y-1">
+        <div>• <strong>[Fe(C₆H₅O₇)] (Ferric Ammonium Citrate):</strong> Acts as the light-sensitive organic iron(III) complex and electron donor.</div>
+        <div>• <strong>hν (UV radiation):</strong> Photons in the 365 – 400 nm band excite the complex, triggering photoreduction to reactive iron(II).</div>
+        <div>• <strong>Fe²⁺ (Ferrous ions):</strong> Chemically active reduced iron, ready to couple with the oxidizer.</div>
+      </div>
+    </div>
+
+    <div class="p-3.5 rounded-lg bg-neutral-100/70 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/60">
+      <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">Step 2: Precipitation of Prussian Blue Pigment</div>
+      <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
+        4 Fe²⁺ + 4 [Fe(CN)₆]³⁻ + O₂ → Fe₄[Fe(CN)₆]₃ · xH₂O ↓
+      </div>
+      <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-2 space-y-1">
+        <div>• <strong>[Fe(CN)₆]³⁻ (Potassium Ferricyanide):</strong> Potassium hexacyanoferrate(III), the iron-cyanide coupling agent.</div>
+        <div>• <strong>Fe₄[Fe(CN)₆]₃ · xH₂O (Prussian Blue / Turnbull's Blue):</strong> An insoluble, deeply colored coordination polymer network permanently embedded within the paper fibers.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="guide-note">
-  <p><strong>Note:</strong> Sir John Herschel was a polymath of immense influence in photography. Besides discovering cyanotype, he also coined the terms <strong>"photography"</strong>, <strong>"negative"</strong>, <strong>"positive"</strong>, and <strong>"snapshot"</strong>, and discovered that sodium thiosulfate ("hypo") dissolved unexposed silver halides, giving photography its universal fixer.</p>
+  <p><strong>Historical Note:</strong> Sir John Herschel was a polymath of immense influence in photography. Besides discovering cyanotype, he also coined the terms <strong>"photography"</strong>, <strong>"negative"</strong>, <strong>"positive"</strong>, and <strong>"snapshot"</strong>, and discovered that sodium thiosulfate ("hypo") dissolved unexposed silver halides, giving photography its universal fixer.</p>
 </div>
 
 ---
@@ -83,5 +108,4 @@ This convergence liberates artists from the darkroom, allowing anyone with a com
 
 ---
 
-Inspired to start creating?  
-Launch our [Negative Creator](/) to turn your photos into negatives for contact printing!
+Next step: Ready to mix your own chemistry? Check the exact recipes in our [Solution Preparation](/guide/solutions) guide.

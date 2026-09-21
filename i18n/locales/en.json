@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "creator": "Negative Creator",
+    "guide": "Guide"
+  },
+  "hero": {
+    "title": "Negative Creator",
+    "description": "Select photos to convert them into digital negatives ready for printing onto transparency film for cyanotype contact printing.",
+    "localProcessing": "All processing runs entirely on your device. No images are uploaded anywhere."
+  },
+  "uploader": {
+    "title": "Click to choose images or drag and drop here",
+    "subtitle": "Supports JPEG, PNG, WebP, TIFF. All processing happens locally in your browser.",
+    "selectBtn": "Select Images"
+  },
+  "settings": {
+    "title": "Page & Export Settings",
+    "pageLayout": "Page Layout",
+    "exportQuality": "Export Quality",
+    "pageSize": "Paper Size",
+    "photosPerPage": "Photos per Page",
+    "orientation": "Orientation",
+    "margin": "Margins (mm)",
+    "printDpi": "Print DPI",
+    "format": "Negative Format",
+    "quality": "JPEG Quality %",
+    "perPage": "{n} per page",
+    "auto": "Auto",
+    "portrait": "Portrait",
+    "landscape": "Landscape"
+  },
+  "actions": {
+    "negative": "Negative",
+    "cyanotype": "Cyanotype",
+    "saveAll": "Save Negatives",
+    "previewPdf": "Preview PDF",
+    "clearAll": "Clear All",
+    "imagesLoaded": "{count} image loaded! | {count} images loaded!",
+    "noImages": "No images selected",
+    "preparing": "Preparing {format} negatives...",
+    "saving": "Saving negative images...",
+    "successDirectory": "All individual negative {format}s saved successfully to chosen folder.",
+    "successZip": "All individual negative {format}s packaged and downloaded as a ZIP archive.",
+    "successSingle": "Negative {format} downloaded successfully.",
+    "errorPreview": "Failed to generate PDF preview.",
+    "errorExport": "Export failed. Please try again."
+  },
+  "gallery": {
+    "fineTune": "Fine-tune & Crop",
+    "remove": "Remove photo",
+    "processing": "Processing images..."
+  },
+  "editor": {
+    "title": "Fine-tune Negative",
+    "apply": "Apply",
+    "applyAll": "Apply to All ({count})",
+    "cancel": "Cancel",
+    "done": "Done",
+    "brightness": "Brightness",
+    "contrast": "Contrast",
+    "highlights": "Highlights",
+    "shadows": "Shadows",
+    "rotate": "Rotate 90°",
+    "reset": "Reset adjustments"
+  },
+  "guide": {
+    "title": "Cyanotype Guide",
+    "description": "A practical and historical guide to classic alternative photography, contact printing, and chemical solution preparation.",
+    "overview": "Overview",
+    "navigation": "Guide Navigation",
+    "readChapter": "Read chapter",
+    "prevSection": "Previous Section",
+    "nextSection": "Next Section",
+    "chaptersSection": "Guide Chapters",
+    "introP1": "Cyanotype is one of the oldest, most accessible, and most permanent alternative photographic processes. Discovered in 1842 by Sir John Herschel, it uses iron salts rather than silver halides to create rich, velvety monochrome prints in shades of deep Prussian blue.",
+    "introP2": "Unlike conventional darkroom processes, cyanotype requires no specialized darkroom equipment, no noxious chemical developers, and no fixing baths – it develops simply and cleanly in running water. When combined with modern digital negatives printed on transparency film, anyone can produce archival, museum-grade 19th-century prints directly at home or in the laboratory.",
+    "creditsTitle": "Credits & Acknowledgments",
+    "creditsText": "The instructional materials, formulas, and historical overviews in this guide were created by us or compiled from other sources at Ústav učitelství a humanitních věd, VŠCHT Praha (Department of Chemical Education and Humanities, University of Chemistry and Technology, Prague).",
+    "disclaimerTitle": "Chemical Safety Notice & Disclaimer",
+    "disclaimerText": "The handling and preparation of chemicals described in this guide require adequate knowledge of chemical hygiene and safe laboratory practices. Work should only be conducted by individuals knowledgeable in chemistry or under proper academic supervision. Neither the author nor UCT Prague (VŠCHT Praha) assume any liability or responsibility for personal injury, health complications, or property damage resulting from the handling, storage, or disposal of any chemicals mentioned."
+  },
+  "footer": {
+    "text": "Cyanotype • Open-source project created by",
+    "github": "GitHub"
+  }
+}
