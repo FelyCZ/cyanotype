@@ -21,14 +21,21 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { prerender: true }
+    '/': { prerender: true },
+    '/guide/**': { prerender: true }
   },
 
   compatibilityDate: '2026-06-30',
 
   nitro: {
     prerender: {
-      crawlLinks: true
+      crawlLinks: true,
+      routes: [
+        '/',
+        '/guide/procedure',
+        '/guide/solutions',
+        '/guide/context'
+      ]
     }
   },
 

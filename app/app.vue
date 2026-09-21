@@ -1,16 +1,35 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui'
+
+const route = useRoute()
+
+const headerItems = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Negative Creator',
+    icon: 'i-lucide-image',
+    to: '/',
+    active: route.path === '/'
+  },
+  {
+    label: 'Guide',
+    icon: 'i-lucide-book-open',
+    to: '/guide',
+    active: route.path.startsWith('/guide')
+  }
+])
+
 useHead({
   title: 'Cyanotype | Negatives Creator',
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     {
       name: 'description',
-      content: 'Client-side digital negative generator for cyanotype alternative photography process. Transform photos to grayscale negatives at 300 DPI.'
+      content: 'Client-side digital negative generator and guide for cyanotype alternative photography process. Transform photos to grayscale negatives at 300 DPI.'
     }
   ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-    { rel: 'alternate icon', href: '/favicon.ico' }
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
     lang: 'en'
@@ -36,8 +55,18 @@ useHead({
         </NuxtLink>
       </template>
 
+      <UNavigationMenu :items="headerItems" />
+
       <template #right>
         <UColorModeButton />
+      </template>
+
+      <template #body>
+        <UNavigationMenu
+          :items="headerItems"
+          orientation="vertical"
+          class="-mx-2.5"
+        />
       </template>
     </UHeader>
 
