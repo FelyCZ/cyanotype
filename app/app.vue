@@ -8,7 +8,10 @@ useHead({
       content: 'Client-side digital negative generator for cyanotype alternative photography process. Transform photos to grayscale negatives at 300 DPI.'
     }
   ],
-  link: [{ rel: 'icon', href: '/favicon.ico' }],
+  link: [
+    { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+    { rel: 'alternate icon', href: '/favicon.ico' }
+  ],
   htmlAttrs: {
     lang: 'en'
   }
@@ -23,7 +26,7 @@ useHead({
           to="/"
           class="flex items-center gap-2"
         >
-          <div class="rounded-lg bg-primary/15 p-1.5 text-primary flex items-center justify-center">
+          <div class="rounded-lg bg-blue-500/15 p-1.5 text-blue-600 dark:text-blue-400 flex items-center justify-center">
             <UIcon
               name="i-lucide-contrast"
               class="w-5 h-5"

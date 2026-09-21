@@ -6,6 +6,12 @@ export default defineNuxtConfig({
     '@nuxt/ui'
   ],
 
+  devtools: {
+    enabled: true
+  },
+
+  css: ['~/assets/css/main.css'],
+
   site: {
     url: 'https://blueprinting.pages.dev',
     name: 'Cyanotype',
@@ -13,27 +19,17 @@ export default defineNuxtConfig({
     defaultLocale: 'en'
   },
 
-  devtools: {
-    enabled: true
-  },
-
-  css: ['~/assets/css/main.css'],
-
   routeRules: {
     '/': { prerender: true }
   },
 
-  ogImage: {
-    enabled: false
-  },
+  compatibilityDate: '2026-06-30',
 
   nitro: {
     prerender: {
       crawlLinks: true
     }
   },
-
-  compatibilityDate: '2026-06-30',
 
   eslint: {
     config: {
@@ -42,5 +38,9 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  ogImage: {
+    enabled: false
   }
 })
