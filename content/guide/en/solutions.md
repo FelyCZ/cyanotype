@@ -1,125 +1,92 @@
 ---
 title: "Solution Preparation"
-description: "Precise chemical formulations, mixing ratios, print yield, foil-wrapped amber bottle storage, and safety guidelines."
+description: "The tested recipe for preparing stock solutions A and B, the working sensitizer mixture, and a single-session small batch for cyanotype from UCT Prague materials."
 order: 1
 icon: "i-lucide-flask-conical"
 ---
 
 # Solution Preparation
 
-The cyanotype process relies on the photochemical reaction between two key iron salts in the presence of ultraviolet radiation: **Ferric Ammonium Citrate** (the light-sensitive organic iron donor) and **Potassium Ferricyanide** (the oxidizer that forms the insoluble Prussian blue pigment).
+Cyanotype (also known as blueprint or iron print) is a historic photographic process invented in 1842 based on the photosensitivity of iron salts. It produces distinctly blue images formed by an insoluble inorganic pigment – Prussian blue.
 
-This guide outlines our tested formula, small-batch ratios, print yield, storage best practices, and safety precautions.
-
----
-
-## The Tested Formula
-
-This recipe yields two concentrated, highly stable stock solutions that are stored separately and combined just before coating.
-
-<div class="guide-grid">
-  <div class="guide-card">
-    <div class="flex items-center gap-2 mb-3">
-      <span class="inline-flex items-center justify-center w-6 h-6 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-600 dark:text-neutral-300 font-semibold text-xs">A</span>
-      <span class="font-semibold text-highlighted text-base">Stock Solution A (Iron Salt)</span>
-    </div>
-    <ul class="!ml-4 !mb-3 space-y-1 text-sm">
-      <li><strong>Distilled Water:</strong> 40 ml</li>
-      <li><strong>Green Ferric Ammonium Citrate:</strong> 12.5 g</li>
-    </ul>
-    <p class="text-xs text-neutral-500 dark:text-neutral-400 !mb-0 leading-relaxed">
-      <em>Note: Always use the vibrant green variety rather than brown flakes. Green ferric ammonium citrate exhibits substantially higher UV sensitivity and yields richer maximum density.</em>
-    </p>
-  </div>
-
-  <div class="guide-card">
-    <div class="flex items-center gap-2 mb-3">
-      <span class="inline-flex items-center justify-center w-6 h-6 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-600 dark:text-neutral-300 font-semibold text-xs">B</span>
-      <span class="font-semibold text-highlighted text-base">Stock Solution B (Cyanide Compound)</span>
-    </div>
-    <ul class="!ml-4 !mb-3 space-y-1 text-sm">
-      <li><strong>Distilled Water:</strong> 40 ml</li>
-      <li><strong>Potassium Ferricyanide:</strong> 4.5 g</li>
-    </ul>
-    <p class="text-xs text-neutral-500 dark:text-neutral-400 !mb-0 leading-relaxed">
-      <em>Note: Potassium ferricyanide forms bright ruby-red crystalline granules that dissolve readily in room-temperature distilled water.</em>
-    </p>
-  </div>
-</div>
+Cyanotype is a relatively simple, fast, and economical process. For your work, you can prepare either two proven stock bottles for long-term storage and dozens of prints, or a small single-session batch for immediate creation on two A4 sheets.
 
 ---
 
-## The Working Sensitizer Mixture
+## The Tested Formula (Two Stock Bottles)
 
-Do not combine the two stock solutions until you are ready to coat your paper.
+This recipe yields two separate, stable stock solutions. The solutions are stored in separate bottles and mixed only immediately before coating the paper.
 
-<div class="guide-card my-6">
-  <div class="font-semibold text-highlighted text-base mb-3">Mixing Procedure & Print Yield</div>
-  <ol class="!ml-4 !mb-3 space-y-1.5 text-sm">
-    <li><strong>Equal Volume Ratio:</strong> Mix <strong>Solution A</strong> and <strong>Solution B</strong> in an exact <strong>1:1 ratio</strong> by volume (e.g. 5 ml of A + 5 ml of B = 10 ml total working sensitizer).</li>
-    <li><strong>Oxalic Acid Additive:</strong> Add <strong>2 drops of 2% Oxalic Acid solution</strong> for every <strong>10 ml of working sensitizer</strong>.</li>
-  </ol>
-  <div class="mt-4 pt-3 border-t border-neutral-200 dark:border-neutral-800 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
-    <strong>Yield & Coverage:</strong> Combining the full 40 ml of A and 40 ml of B yields <strong>80 ml of sensitizer</strong>, which is enough to coat approximately <strong>40 – 50 A4 prints</strong> (at ~1.5 – 2 ml per sheet).
-  </div>
-</div>
+::guide-grid
+:::guide-card{title="Stock Solution A (Iron Salt)"}
+- **Distilled Water:** 40 ml
+- **Green Ferric Ammonium Citrate:** 12.5 g
+
+*Note: Always use vibrant green crystals rather than brown scales. Green ferric ammonium citrate exhibits substantially higher light sensitivity and produces richer, deeper tones.*
+:::
+
+:::guide-card{title="Stock Solution B (Cyanide Compound)"}
+- **Distilled Water:** 40 ml
+- **Potassium Ferricyanide:** 4.5 g
+
+*Note: Potassium ferricyanide forms ruby-red crystals that dissolve readily and quickly in room-temperature distilled water.*
+:::
+::
+
+---
+
+## Preparing the Working Sensitizer Mixture
+
+Do not combine the two stock solutions until you have your paper ready and are about to apply the sensitive layer.
+
+::guide-card{title="Mixing Procedure & Yield"}
+1. **Equal Volume Ratio:** Just before use, mix **Solution A** and **Solution B** in an exact **1:1 volume ratio** (e.g. 5 ml A + 5 ml B = 10 ml total working sensitizer).
+2. **Oxalic Acid Additive:** Add **2 drops of 2% oxalic acid solution** for every **10 ml of working sensitizer**.
+
+**Yield:** Combining the full volumes (40 ml A + 40 ml B = **80 ml sensitizer**) is sufficient for approximately **40 to 50 A4 prints** (assuming ~1.5 to 2 ml per sheet).
+::
 
 ### Why Add Oxalic Acid?
 
-The addition of a trace amount of oxalic acid provides three critical advantages:
-- **Prevents Highlight Fogging**: Neutralizes trace alkaline sizing present in modern papers that could otherwise trigger spontaneous premature chemical reduction.
-- **Boosts Tonal Contrast**: Enhances the dynamic range between bright whites and shadow blues.
-- **Cleans Highlights**: Promotes cleaner, faster dissolution of unreacted iron during the water wash.
+Adding a trace amount of oxalic acid serves three essential functions:
+- **Protects Highlights from Fogging:** Neutralizes trace alkaline sizing in modern papers that might otherwise trigger spontaneous reduction of ferric salts and gray out clean white highlights.
+- **Boosts Contrast:** Expands the tonal dynamic range between clean white highlights and deep shadow tones.
+- **Clears Highlights in the Wash:** Facilitates fast and complete rinsing of unreacted iron salts in the water bath.
 
 ---
 
-## Small-Batch Single-Session Recipe
+## Single-Session Small Batch (2 A4 Sheets)
 
-If you are conducting a quick workshop or want to prepare just enough sensitizer for **two A4 sheets** without keeping long-term stock bottles, use this direct recipe:
+If you are hosting a quick workshop or want to prepare just enough sensitizer for **two A4 sheets** without long-term bottle storage, use this direct ratio:
 
-<div class="guide-card my-6">
-  <div class="flex items-center justify-between mb-3">
-    <span class="font-semibold text-highlighted text-base">Single-Session Mix</span>
-    <span class="text-xs font-medium text-neutral-500 dark:text-neutral-400 px-2 py-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent">Enough for 2 A4 prints</span>
-  </div>
-  <ul class="!ml-4 !mb-3 space-y-1 text-sm">
-    <li><strong>Distilled Water:</strong> 12 ml</li>
-    <li><strong>Green Ferric Ammonium Citrate:</strong> 1.0 g</li>
-    <li><strong>Potassium Ferricyanide:</strong> 0.5 g</li>
-  </ul>
-  <p class="text-xs text-neutral-500 dark:text-neutral-400 !mb-0 leading-relaxed">
-    Dissolve both powders thoroughly in the 12 ml of lukewarm distilled water in a small glass beaker under dim light. Use immediately.
-  </p>
-</div>
+::guide-card{title="Single-Session Batch (for 2 A4 Sheets)"}
+- **Distilled Water:** 12 ml
+- **Green Ferric Ammonium Citrate:** 1.0 g
+- **Potassium Ferricyanide:** 0.5 g
+
+Carefully dissolve both chemical powders in a glass beaker in 12 ml of lukewarm distilled water under dim lighting. Use the solution immediately to sensitize two A4 sheets.
+::
 
 ---
 
-## Preparation & Storage Guidelines
+## Rules for Preparation and Storage
 
-- **Water Quality**: Always use **pure distilled or demineralized water**. Common municipal tap water contains dissolved chlorine, calcium, and minerals that can precipitate the salts and cause premature fogging.
-- **Utensils**: Use glassware, ceramic, or plastic mixing vessels. **Never use iron, copper, or unplated metal spoons or spatulas**, as contact with active metals instantly reduces ferric salts.
-- **Storage Bottles**: Store unmixed Stock Solution A and Stock Solution B in dark amber glass bottles with tight phenolic caps, **ideally wrapped in aluminium or tin foil** to provide complete shielding against ambient light.
-- **Shelf Life**:
-  - **Stock Solutions (unmixed)**: Stored in darkness in a cool place, Solution A and B will remain potent for **6 to 12 months**.
-  - **Working Mixture (A + B combined)**: Remains active for approximately **2 to 4 hours**. Mix only what you plan to use in a single printing session.
-
----
-
-## Chemical Safety & Handling
-
-Cyanotype is widely celebrated as one of the safest historic photographic processes, but standard chemical hygiene should always be observed:
-
-<div class="guide-caution">
-  <p><strong>Safety Precautions:</strong></p>
-  <ul>
-    <li><strong>Potassium Ferricyanide is NOT Free Cyanide:</strong> The cyanide ions are tightly bound within the stable iron coordination complex [Fe(CN)₆]³⁻. It cannot be absorbed through the skin and is non-toxic under ordinary darkroom conditions.</li>
-    <li><strong>NEVER mix with strong concentrated acids:</strong> Strong mineral acids (such as concentrated sulfuric or hydrochloric acid) can decompose the ferricyanide complex and release hazardous hydrogen cyanide gas. Keep acids strictly separated.</li>
-    <li><strong>Wear Gloves:</strong> Wear standard protective gloves (latex, nitrile, or whatever is available). While not caustic, the solution will persistently dye skin and fingernails Prussian blue upon exposure to daylight.</li>
-    <li><strong>Avoid Inhalation:</strong> When weighing chemical powders, avoid breathing them in.</li>
-    <li><strong>Disposal:</strong> Dilute with plenty of running tap water. Residues can be safely discharged down municipal domestic drains according to standard environmental lab practices.</li>
-  </ul>
-</div>
+- **Water Quality:** Always use **pure distilled or demineralized water**. Regular tap water contains chlorine and dissolved calcium minerals that cause unwanted precipitates and premature highlight clouding.
+- **Utensils:** Use glassware, porcelain, or plastic tools. **Never use metal spoons or spatulas made of iron or copper**, as direct metal contact immediately reduces ferric salts.
+- **Storage Bottles:** Store Stock Solutions A and B separately in dark amber glass dropper bottles with tight caps, **ideally wrapped in aluminum foil** for complete shielding from daylight.
+- **Work in Dim Light:** Always handle ferric ammonium citrate and its solutions in dim interior lighting.
+- **Shelf Life:**
+  - **Stock Solutions (Unmixed):** Kept cool in the dark, solutions A and B reliably keep for **6 to 12 months**.
+  - **Working Sensitizer (Mixed A + B):** Remains active for approximately **2 to 4 hours**. Mix only as much as you can coat immediately.
 
 ---
 
-Next step: Learn the step-by-step coating, exposure, and washing technique in our [Development Procedure](/guide/procedure) guide.
+## Chemical Safety Precautions
+
+Cyanotype is one of the safest historic photographic processes, but standard laboratory rules should always be observed:
+
+- **Potassium Ferricyanide is NOT free cyanide:** The cyanide ions are firmly bound in the stable complex `[Fe(CN)₆]³⁻`. It cannot penetrate the skin and is non-toxic under normal darkroom conditions.
+- **NEVER mix with strong concentrated acids:** Strong mineral acids (such as concentrated sulfuric or hydrochloric acid) can decompose the complex and release toxic hydrogen cyanide gas. Store acids completely separate.
+- **Wear Protective Gloves:** Use standard protective gloves (latex, nitrile, or any available darkroom gloves). The sensitizer is not caustic, but in daylight it leaves persistent dark blue stains on skin and fingernails.
+- **Do Not Inhale Dust:** When weighing fine chemical powders, avoid breathing in airborne dust.
+- **Disposal:** Residues and spent solutions can be safely flushed down the drain with copious running water according to standard chemical hygiene guidelines.

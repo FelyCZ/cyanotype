@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import GuideCard from '~/components/content/GuideCard.vue'
+import GuideGrid from '~/components/content/GuideGrid.vue'
+import GuideNote from '~/components/content/GuideNote.vue'
+import GuideReactionScheme from '~/components/content/GuideReactionScheme.vue'
+
+const guideComponents = {
+  GuideCard,
+  GuideGrid,
+  GuideNote,
+  GuideReactionScheme,
+  'guide-card': GuideCard,
+  'guide-grid': GuideGrid,
+  'guide-note': GuideNote,
+  'guide-reaction-scheme': GuideReactionScheme
+}
+
 const route = useRoute()
 const { locale, t } = useI18n()
 
@@ -73,7 +89,10 @@ const nextArticle = computed(() => {
 
     <UPageBody>
       <div data-guide-content>
-        <ContentRenderer :value="page" />
+        <ContentRenderer
+          :value="page"
+          :components="guideComponents"
+        />
       </div>
 
       <USeparator class="my-10" />

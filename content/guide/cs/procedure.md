@@ -1,127 +1,118 @@
 ---
 title: "Pracovní postup"
-description: "Krok za krokem: nanášení roztoku na čtvrtku, sušení v temnu, kontaktní kopírování, osvit UV zářením, vyvolání ve vodě a tónování."
+description: "Kompletní návod na kyanotypii krok za krokem: nanášení citlivé vrstvy, sušení, expozice na slunci, vyvolávání ve vodě a tónování čajem či kávou z podkladů VŠCHT Praha."
 order: 2
-icon: "i-lucide-sun-medium"
+icon: "i-lucide-sun"
 ---
 
 # Pracovní postup
 
-Kyanotypie je ušlechtilý fotografický proces kontaktního kopírování vynalezený v 19. století, který vytváří stálé obrazy v tónech hluboké berlínské modři (Turnbullovy modři). Na rozdíl od klasické černobílé fotografie nevyžaduje žádné specializované vybavení temné komory, žádné toxické vývojky ani ustalovače – **vyvolává se jednoduše v čisté vodě**.
+Kyanotypie (nazývaná také modrotisk nebo železitý tisk) je historická fotografická technika z roku 1842, která využívá fotocitlivosti železných solí a poskytuje výrazně modré obrazy. Nevyžaduje klasickou temnou komoru, žádné chemické vývojky ani ustalovače.
 
-Tento návod vás provede celým procesem od přípravy papíru až po finální usušení archivního tisku z digitálního negativu.
-
----
-
-## Potřebné pomůcky
-
-Před začátkem si připravte následující vybavení:
-
-- **Zcitlivovací roztok:** Čerstvě smíchaný roztok A + B s kyselinou šťavelovou (viz [Příprava roztoků](/guide/solutions)).
-- **Papír:** Bezdřevá čtvrtka vyšší gramáže (200 až 300 g/m²), akvarelový papír nebo kladívková čtvrtka.
-- **Štětec:** Široký plochý štětec s jemným vlasem (hake brush), molitanový štětec nebo skleněná tyčinka. Vyhněte se štětcům s kovovou objímkou (kov reaguje se solemi železa).
-- **Digitální negativ:** Negativ vytištěný na průhledné fólii pomocí našeho [Tvůrce negativů](/).
-- **Kopírovací rámeček:** Pevný fotografický rámeček nebo dvě čisté tabulky těžkého skla stažené kancelářskými svorkami.
-- **Zdroj UV záření:** Přímé polední slunce nebo UV osvitová jednotka (horské slunce, UV LED osvit).
-- **Miska na praní:** Běžná fotografická nebo plastová miska s čistou studenou vodou.
-- **Oxidační lázeň (volitelně):** Běžný 3% peroxid vodíku (H₂O₂) z lékárny.
-- **Sušicí prostor:** Šňůra s kolíčky nebo čistý savý papír.
+Přenesme se teď o více než 150 let zpátky a pojďme si vytvořit vlastní modré fotografie!
 
 ---
 
-## Krok 1: Zcitlivění papíru
+## Přehled postupu
 
-Pracujte při tlumeném osvětlení obyčejné wolframové žárovky nebo v místnosti se zataženými žaluziemi. Roztok není citlivý na žluté žárovkové světlo, ale **přísně se vyhněte přímému dennímu světlu a zářivkám s UV složkou**.
-
-1. Položte papír na rovnou podložku. Rohy můžete lehce přichytit papírovou páskou.
-2. Odměřte potřebné množství čerstvě smíchaného roztoku (cca 1,5 až 2 ml na formát A4).
-3. Rychlými, plynulými křížovými tahy (střídavě vodorovně a svisle) rovnoměrně rozetřete roztok po ploše papíru.
-4. Výsledná vrstva by měla mít světlý limetkově žlutý odstín. Roztok nesmí vytvářet loužičky.
-
-<div class="guide-note">
-  <p><strong>Výtvarný tip:</strong> Přiznané nepravidelné tahy štětcem na okrajích obrazu dodávají kyanotypii autentický rukodělný charakter historického tisku.</p>
-</div>
+::guide-card{title="Pracovní postup v 6 krocích"}
+1. **Zcitlivení papíru:** Nanesení světlocitlivého roztoku štětcem na kladívkovou čtvrtku v příšeří.
+2. **Sušení:** Dokonalé vysušení čtvrtky potmě (lze urychlit fénem či horkovzdušnou pistolí).
+3. **Příprava předlohy:** Přiložení negativu nebo předmětů a zatížení sklem.
+4. **Expozice na denním světle:** Osvit na slunečním světle nebo v UV jednotce po dobu několika desítek minut.
+5. **„Vyvolávání“ ve vodě:** Vymytí nezreagovaných chemikálií v čisté vodě (cca 5 minut).
+6. **Závěrečné praní a sušení:** Důkladné spláchnutí vodou a usušení hotové fotografie.
+::
 
 ---
 
-## Krok 2: Sušení papíru
+## 1. Zcitlivení papíru
 
-Důkladné usušení je nezbytné pro ostrost obrazu i pro ochranu tiskové fólie:
+Cílem tohoto kroku je rovnoměrně napustit povrchová vlákna papíru světlocitlivým roztokem a získat tak vlastní „fotografický papír“.
 
-1. Zcitlivěný papír uložte do úplné tmy (např. do zásuvky stolu nebo neprůsvitné krabice).
-2. Nechte volně schnout 30 až 60 minut.
-3. Rychlé sušení: Můžete použít fén nastavený na **studený nebo vlažný vzduch** (nikdy horký) ze vzdálenosti alespoň 30 cm.
-4. **Důležité:** Papír musí být před kopírováním **zcela suchý**. Jakákoli zbytková vlhkost by zničila fólii s negativem i samotný tisk.
-
----
-
-## Krok 3: Příprava kontaktního sendviče
-
-Vzhledem k velmi nízké citlivosti zcitlivovací emulze nelze kyanotypii zvětšovat ve zvětšovacím přístroji. Negativ musí být v přímém kontaktu s papírem v poměru 1:1:
-
-1. Suchý zcitlivěný papír položte citlivou stranou nahoru na pevnou podložku.
-2. Na papír položte digitální negativ **potištěnou stranou dolů** (inkoustem k papíru), aby byl kontakt co nejtěsnější a obraz dokonale ostrý.
-3. Přiklopte čistým sklem a po všech stranách pevně stáhněte svorkami.
+- **Výběr papíru:** Nejlépe se osvědčila **kladívková čtvrtka** nebo kvalitní akvarelový papír (ideálně 200–300 g/m²). Papír by neměl mít silné alkalické klížení křídou.
+- **Pracovní prostředí:** S citronanem amonno-železitým i jeho roztokem pracujte **vždy (!) v příšeří** – při slabé klasické žárovce (s wolframovým vláknem), se zataženými závěsy, mimo přímé sluneční světlo i zářivky.
+- **Nanášení:** Připravený zcitlivovací roztok naneste na kladívkovou čtvrtku plochým štětcem s jemným vlasem nebo pěnovým štětcem (bez kovové objímky ze železa). Roztok roztírejte rovnoměrnými tahy křížem krážem (svisle a vodorovně), aby se rovnoměrně vpil do vláken papíru a netvořil loužičky.
 
 ---
 
-## Krok 4: Osvit UV zářením
+## 2. Sušení
 
-Připravený sendvič vystavte ultrafialovému světlu:
+Nanesenou vrstvu je nutné nechat **potmě dokonale vysušit**.
 
-- **Polední letní slunce (jasná obloha):** Přibližně **3 až 8 minut**.
-- **Zimní slunce / zataženo:** Přibližně **15 až 30+ minut**.
-- **UV osvitová jednotka (365 – 395 nm):** Zpravidla **8 až 15 minut** (nutno vyzkoušet expoziční zkouškou).
-
-### Jak poznat správný osvit?
-
-Sledujte změnu barvy zcitlivěné vrstvy:
-- Původní žlutozelená barva přechází do ocelově modré a na nejvíce osvícených místech až do **matné bronzově olivové šedi** (solarisace stínů).
-- Pokud je vrstva stále jasně zelená, osvit byl příliš krátký.
-- Pokud jsou i světla tmavě modrošedá, došlo k přeexponování.
+- Čtvrtku umístěte do tmavé místnosti, skříně nebo zásuvky.
+- Pro urychlení schnutí **lze využít i fén na vlasy či horkovzdušnou pistoli** (používejte chladný až vlažný vzduch).
+- Papír musí být před expozicí naprosto suchý; zbytková vlhkost snižuje ostrost, způsobuje fleky a může poškodit přiložený negativ. Správně usušený papír má rovnoměrný světle žlutozelený odstín.
 
 ---
 
-## Krok 5: Vyvolání ve vodě
+## 3. Příprava předlohy a kontaktní upevnění
 
-Kyanotypie se vyvolává i ustaluje prostým vypráním ve studené vodě:
+Staré fotografické techniky kopírují všechny **kontaktně v poměru 1:1** – výsledný obraz má přesně stejnou velikost jako předloha.
 
-1. Rozeberte rámeček a exponovaný list vložte obrazem dolů do misky s čistou tekoucí vodou.
-2. Misku zlehka kolébejte po dobu **3 až 5 minut**.
-3. Uvidíte, jak se žluté nezreagované soli železa vymývají do vody.
-4. Perte tak dlouho, dokud nejsou světla zcela bílá a voda neodtéká křišťálově čistá.
-
-<div class="guide-caution">
-  <p><strong>Kvalita vody:</strong> Vyhněte se silně zásadité vodě, která může modř zesvětlovat. Pokud máte tvrdou vodu, přidejte do první prací lázně pár kapek octa nebo špetku kyseliny citronové.</p>
-</div>
+- **Na fotografický papír položte předmět, jehož podobu chcete získat.**
+- **Typy předloh:**
+  - **Digitální negativ:** Černobílý invertovaný negativ vytištěný na průhlednou fólii pomocí našeho nástroje **Tvůrce negativů**.
+  - **Klasické materiály:** Negativy starších fotografií velkého formátu nebo diapozitivy.
+  - **Fotogramy (jako Anna Atkins):** Skutečné předměty – lisované rostliny, kapradiny, listy, peří, krajky či jiné ploché předměty položené přímo na papír.
+- **Upevnění pod sklo:** Předlohu položte na citlivou vrstvu (u negativu emulzí / tiskem dolů). Pro lepší upevnění, těsný kontakt a ostrý obraz **přikryjte předlohu čistým těžkým sklem** nebo použijte dřevěný kopírovací rámeček s přítlačnými pružinami.
 
 ---
 
-## Krok 6: Rychlá oxidace a sušení
+## 4. Expozice na denním světle
 
-Čerstvě vypraná kyanotypie má světlejší šedomodrý odstín. Teprve působením vzdušného kyslíku během 24 hodin plně zoxiduje do hluboké, syté berlínské modři.
+Následně světlocitlivý materiál exponujte na slunečním světle po dobu několika desítek minut, dokud se nevybarví.
 
-### Metoda s peroxidem vodíku
-
-Chcete-li vidět konečný kontrast okamžitě:
-- Do čisté vody v misce přidejte lžičku (cca 5 až 10 ml) běžného **3% peroxidu vodíku (H₂O₂)**.
-- Vypraný obraz ponořte do lázně na 10 až 15 sekund.
-- Před očima proběhne okamžitá chemická reakce a obraz se rozzáří do sytě modrého tónu.
-- Následuje krátký oplach ve vodě a usušení na vzduchu.
-
----
-
-## Krok 7: Možnosti tónování (změna barevného odstínu)
-
-Kromě klasické pruské modři lze kyanotypii tónovat přírodními tříslovinami:
-
-| Metoda | Použitá chemie / surovina | Výsledný odstín |
-| :--- | :--- | :--- |
-| **Přímé tónování čajem** | Silný černý čaj (kyselina tříslová) | Zjemnění modři do teplé lilek / břidlicové černi |
-| **Přímé tónování kávou** | Koncentrovaná rozpustná káva | Teplá hnědá / zemitá sépie |
-| **Bělení a tónování** | 0,5% roztok sody, následně čaj | Neutrální uhlová čerň / tmavá čokoláda |
-| **Tanin / víno** | Čistý tanin nebo výluh z červeného vína | Hluboké fialovo-černé archivní tóny |
+- **Zdroj osvitu:**
+  - **Přímé slunce:** Nejrychlejší a nejpřirozenější expozice.
+  - **Difuzní denní světlo:** Exponovat lze venku na zahradě či na balkóně i při zatažené obloze.
+  - **UV osvitová jednotka:** Laboratorní osvitka či obličejové solárium (~365 nm) pro nezávislost na počasí.
+- **Doba expozice:** Obvykle **několik desítek minut** podle intenzity slunečního svitu:
+  - Letní polední slunce: cca 5 až 15 minut.
+  - Jarní či podzimní slunce: cca 15 až 30 minut.
+  - Zatažená obloha nebo zimní den: 30 až 60 minut.
+- **Vizuální kontrola:** Kyanotypie je přímo kopírující proces. V průběhu expozice můžete přímo sledovat, jak žlutozelený povrch tmavne, přechází přes šedomodrou do ocelově modré a v nejhlubších stínech až do charakteristického bronzově olivového odstínu.
 
 ---
 
-Další krok: Přečtěte si o objevu kyanotypie a vzniku modrotisků v části [Historický kontext](/guide/context).
+## 5. „Vyvolávání“ ve vodě (cca 5 minut)
+
+Kyanotypie nevyžaduje žádné chemické vývojky ani ustalovače – vyvolává se pouhou čistou vodou.
+
+- Exponovaný papír vyjměte z rámečku a vložte do misky s čistou vodou.
+- Papírem v lázni mírně pohybujte. Během několika sekund uvidíte, jak se nezreagované žluté soli rozpouštějí a odplavují, zatímco osvícená místa se vybarvují do jasné modři.
+- Nechte papír ve vodní lázni přibližně **5 minut**, dokud z neosvětlených míst (světel) zcela nezmizí žluté zabarvení.
+
+---
+
+## 6. Závěrečné praní a sušení
+
+- **Závěrečné praní:** Poté nezreagované chemikálie **důkladně spláchněte destilovanou vodou** (nebo čistou tekoucí vodou) po dobu dalších cca 5 minut, dokud z papíru neodtéká zcela čirá voda.
+- **Sušení:** Vzniklou fotografii usušte volně zavěšenou na šňůře nebo položenou na čistém savém papíře.
+- **Oxidace tónu:** Čerstvě vypraná kyanotypie má světlejší modrý odstín. Plné sytosti hluboké berlínské modři dosáhne postupnou oxidací se vzdušným kyslíkem během 24 hodin. (Pro okamžité ztmavení lze do poslední prací lázně přidat pár kapek běžného 3% peroxidu vodíku).
+
+---
+
+## Tónování
+
+Vzniklé modro-bílé fotografie lze dále upravit pomocí tónovacích přípravků, například **taninu**, který je přirozeně obsažen v **čaji a kávě**.
+
+Tónování lze provádět **dvěma postupy**:
+
+::guide-grid
+:::guide-card{title="Postup 1: Bělení a vybarvení"}
+Vzniklý modrý obraz se nejprve **zcela vybělí v 0,5% roztoku NaOH** (případně prací sody), až modrá barva téměř zmizí do světle žluté.
+
+Po důkladném opláchnutí vodou se nechá **znovu vybarvit v roztoku taninu** (případně v silném výluhu černého čaje nebo kávy). Výsledkem jsou teplé hnědé, sépiové až fialovo-černé tóny.
+:::
+
+:::guide-card{title="Postup 2: Přímé tónování v taninu"}
+Tento postup využívá **pouze roztoku taninu**, do kterého se přímo namočí hotový modrý obrázek (bez předchozího bělení).
+
+Při tomto postupu se křiklavé modré zbarvení zjemňuje do ušlechtilého přírodního šedomodrého až temně břidlicového zabarvení.
+:::
+::
+
+::guide-note{title="Další odstíny"}
+Pro jiná zbarvení fotografií je možno použít také historické tónování solemi mědi či olova.
+::

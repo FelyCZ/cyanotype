@@ -1,99 +1,113 @@
 ---
 title: "Historický kontext"
-description: "Sir John Herschel, Anna Atkins a první fotografická kniha na světě, vznik technických modrotisků (blueprints) a současná renesance."
+description: "Přehled historických fotografických procesů od počátků po současnost: vynález kyanotypie, Anna Atkins, technické modrotisky a renesance v digitální době z podkladů VŠCHT Praha."
 order: 3
-icon: "i-lucide-book-open"
+icon: "i-lucide-history"
 ---
 
 # Historický kontext
 
-Kyanotypie zaujímá výjimečné místo v dějinách vědy i výtvarného umění. Byla vynalezena v roce 1842 v samotných počátcích fotografie. Namísto drahých a nestálých sloučenin stříbra využila fotochemii železitých solí a dala vzniknout jak vůbec první fotograficky ilustrované knize v historii, tak technickým modrotiskům („blueprints“).
+Historické fotografické techniky zažívají v současném světě nebývalé oživení. Spojení moderní digitální technologie s rukodělným zpracováním 19. století otevírá tvůrcům cestu k vytváření svébytných výtvarných originálů bez nutnosti klasické temné komory.
 
-Dnes kyanotypie zažívá nebývalou renesanci, protože propojuje rukodělnou techniku 19. století s přesností digitálních negativů.
+---
+
+## Digitální dokonalost a kouzlo historických tisků
+
+Poslední léta vývoje fotografické techniky ukazují, že vytvoření technicky dokonalé fotografie se stává celkem snadnou záležitostí i pro laiky. Digitální fotografie je dnes schopna informovat a dokumentovat velmi snadno a klasická fotografie jí v tom již stěží může konkurovat.
+
+Sledujeme-li ovšem možnosti digitální fotografie jako individuální umělecké tvorby, všimneme si, že jednotně vytvořené počítačové programy pro úpravu snímků a podobnost digitálního tisku i u snímků zcela rozdílného typu vedou k určité konformitě výsledků. Fotografie jsou sice technicky dokonalé, ale všechny dost podobné.
+
+Můžeme očekávat, že čím více bude snímková technika digitální fotografie a příprava pro tisk snadnější, tím více budou chtít lidé využít ke svým tvůrčím snahám opět postupy fotografie klasické. Nebo kombinovat postupy fotografie digitální a klasické, hlavně při vytváření konečné podoby fotografie, při tvorbě svébytného výtvarného originálu díla, tedy vlastně v procesu přenášení obrazu na papír.
+
+Staré fotografie mají své kouzlo. Jsou neopakovatelné, každá je vytvořena zcela individuálně a i když jich bylo zhotoveno z jednoho negativu více, nenalezneme dvě zcela stejné. Na každé fotografii je velký podíl vlastní tvůrčí práce. Každý obraz je jiný – provedený jiným procesem, na různém papíře, s jinou tonalitou. Mezi uhlotisky, platinotisky a tištěnými fotografiemi z moderního minilabu, byť jsou provedeny čistě, bez zrna a v dokonalých barvách, je veliký rozdíl.
+
+---
+
+## Konec temné komory: Digitální negativ jako most
+
+K použití v dnešních podmínkách se využívají nejvíce historické fotografické procesy **kopírování negativu**. Zcitlivovat papír pro kopírování je totiž mnohem schůdnější než připravovat například citlivé skleněné desky pro kolódiový proces.
+
+Staré fotografické techniky kopírují všechny **kontaktně v poměru 1:1** – potřebujeme tedy negativ stejně velký, jako bude výsledná fotografie. Vytvořit takový negativ klasickou fotografií znamenalo v minulosti buď fotografovat přímo na obří velkoformátové komory, nebo v temné komoře pracně zhotovovat duplikátní velkoformátový negativ, což zvládl jen zkušený fotograf s dobře vybavenou fotolaboratoří.
+
+**Digitální technika dnes umožňuje vytvořit velkoformátový negativ bez temné komory.** Stačí pořídit snímek běžným fotoaparátem či telefonem, v našem webovém nástroji **Tvůrce negativů** jej upravit a vytisknout na průhlednou fólii na běžné tiskárně.
+
+Historické fotografické techniky navíc klasickou temnou komoru nevyžadují:
+- Citlivý papír se připravuje a zpracovává při **obyčejné slabé klasické žárovce (s wolframovým vláknem)**.
+- K expozici není třeba zvětšovací přístroj – stačí obyčejný dřevěný kopírovací rámeček se sklem.
+- Expozice může probíhat venku na slunci, v zahradě či na balkóně.
+- Zpracování a vyvolání probíhá pouhou čistou vodou.
 
 ---
 
 ## Vynález kyanotypie: Sir John Herschel (1842)
 
-Počátkem 40. let 19. století se vědci v celé Evropě snažili trvale zachytit obrazy kreslené slunečními paprsky. Zatímco William Henry Fox Talbot pracoval se solemi stříbra (talbotypie / kalotypie) a Louis Daguerre zdokonaloval postříbřené měděné desky (daguerrotypie), anglický astronom, matematik a chemik **Sir John Herschel** zkoumal světlocitlivost železitých solí.
+V první polovině 19. století se v Evropě experimentovalo s nejrůznějšími chemikáliemi, které by se daly použít ke „kreslení světlem“. Po předchozích fotochemických experimentech se solemi stříbra (William Henry Fox Talbot) a rtuťovými parami (Louis Daguerre) obrátil britský astronom, matematik a chemik **Sir John Herschel** svou pozornost k fotochemii solí železa.
 
-V roce 1842 představil Herschel svůj objev Královské společnosti v Londýně. Zjistil, že železité soli působením slunečního světla přecházejí na soli železnaté, které okamžitě reagují s červenou krevní solí za vzniku nerozpustné, sytě modré sloučeniny přímo ve vláknech papíru:
+V roce 1842 představil Herschel svůj objev kyanotypie Královské společnosti v Londýně. Zjistil, že železité soli organických kyselin působením slunečního světla přecházejí na soli železnaté, které okamžitě reagují s červenou krevní solí za vzniku nerozpustné, sytě modré sloučeniny přímo ve vláknech papíru.
 
-<div class="guide-card my-6">
-  <div class="text-xs uppercase font-semibold tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">Schéma fotochemické reakce</div>
-  <div class="space-y-4">
-    <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-transparent">
-      <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">1. krok: Fotoredukce železitého komplexu UV světlem na ionty Fe²⁺</div>
-      <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
-        2 [Fe(C₆H₅O₇)] + hν (UV, λ ~ 365 nm) → 2 Fe²⁺ + (oxidované produkty citranu) + CO₂ ↑
-      </div>
-      <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-2 space-y-1">
-        <div>• <strong>[Fe(C₆H₅O₇)] (zelený citran železito-amonný):</strong> Světlocitlivá organická sloučenina trojmocného železa sloužící jako donor elektronů.</div>
-        <div>• <strong>hν (UV záření):</strong> Fotony o vlnové délce 365 – 400 nm vybudí molekulu a redukují železo z Fe³⁺ na reaktivní Fe²⁺.</div>
-        <div>• <strong>Fe²⁺ (ionty dvojmocného železa):</strong> Chemicky aktivní železnaté ionty připravené k okamžité srážecí reakci.</div>
-      </div>
-    </div>
-    <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-transparent">
-      <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1">2. krok: Vznik nerozpustné berlínské modři</div>
-      <div class="font-mono text-xs sm:text-sm font-medium text-highlighted overflow-x-auto py-1">
-        4 Fe²⁺ + 4 [Fe(CN)₆]³⁻ + O₂ → Fe₄[Fe(CN)₆]₃ · xH₂O ↓
-      </div>
-      <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-2 space-y-1">
-        <div>• <strong>[Fe(CN)₆]³⁻ (červená krevní sůl):</strong> Hexakyanoželezitan draselný, který tvoří koordinační vazbu s ionty železa.</div>
-        <div>• <strong>Fe₄[Fe(CN)₆]₃ · xH₂O (berlínská / Turnbullova modř):</strong> Stálý anorganický pigment trvale zachycený v celulózových vláknech papíru.</div>
-      </div>
-    </div>
-  </div>
-</div>
+::guide-note{title="Historická osobnost"}
+Sir John Herschel byl mimořádně všestranný učenec. Kromě kyanotypie zavedl do fotografie pojmy **„fotografie“**, **„negativ“**, **„pozitiv“** a **„snímek“ (snapshot)**, a objevil schopnost thiosíranu sodného rozpouštět neosvícené halogenidy stříbra, čímž dal světu klasický fotografický ustalovač.
+::
 
-<div class="guide-note">
-  <p><strong>Historická poznámka:</strong> Sir John Herschel byl mimořádně všestranný učenec. Kromě kyanotypie zavedl do fotografie pojmy <strong>„fotografie“</strong>, <strong>„negativ“</strong>, <strong>„pozitiv“</strong> a <strong>„snímek“ (snapshot)</strong>, a objevil schopnost thiosíranu sodného rozpouštět neosvícené halogenidy stříbra, čímž dal světu klasický fotografický ustalovač.</p>
-</div>
+---
+
+## Fotochemický princip procesu
+
+Kyanotypie je založena na citlivosti solí trojmocného železa k ultrafialovému záření:
+
+<guide-reaction-scheme />
 
 ---
 
 ## Anna Atkins a první fotografická kniha na světě (1843)
 
-Herschelova přítelkyně, britská botanička a ilustrátorka **Anna Atkins**, okamžitě rozpoznala vědecký potenciál kyanotypie. Ruční kreslení tisíců jemných mořských řas pro botanické herbáře bylo zdlouhavé a nepřesné.
+Herschelův objev vzápětí využila jeho přítelkyně, britská botanička a ilustrátorka **Anna Atkins**. Ruční kreslení stovek jemných botanických vzorků pro vědecké herbáře bylo zdlouhavé a nepřesné.
 
-V roce 1843 začala sušené řasy pokládat přímo na zcitlivěný papír a exponovat je pod sklem na anglickém slunci:
+Atkins začala sušené řasy a kapradiny klást přímo na zcitlivěný kyanotypický papír pod sklo a exponovat je na slunečním světle (fotogramy). V říjnu 1843 vydala první sešit monumentálního díla *Photographs of British Algae: Cyanotype Impressions*.
 
-- V říjnu 1843 vydala první sešit monumentálního díla ***Photographs of British Algae: Cyanotype Impressions***.
-- Toto dílo je historiky umění uznáváno jako **vůbec první kniha v lidských dějinách ilustrovaná fotografickými obrazy** (předstihla Talbotovu knihu *The Pencil of Nature* o několik měsíců).
-- Atkins vytvořila stovky fotogramů řas v odstínech berlínské modři s dokonalou vědeckou přesností.
+Toto dílo je historicky uznáváno jako **vůbec první kniha na světě ilustrovaná fotografiemi** (předstihla Talbotovu knihu *The Pencil of Nature* o několik měsíců). Její modrotisky se v muzeích a archivech dochovaly v dokonalém stavu dodnes.
 
 ---
 
-## Vznik technického modrotisku („Blueprint“)
+## Technické modrotisky („Blueprinty“)
 
-První čtyři desetiletí sloužila kyanotypie převážně botanikům. V 70. a 80. letech 19. století však průmyslová revoluce vyvolala obrovskou poptávku po rychlém a levném rozmnožování technických a architektonických výkresů.
+Od 70. let 19. století vyvolala průmyslová revoluce obrovskou poptávku po rychlém a levném rozmnožování technických a architektonických výkresů.
 
-Projektanti kreslili originální plány tuší na průsvitný pauzovací papír. Výkres se přiložil na velkoformátový pás kyanotypického papíru a osvítil obloukovou lampou. Po tříminutovém vyprání ve vodě získalo pozadí sytě modrou barvu, zatímco čáry výkresu zůstaly zářivě bílé.
-
-Tato technologie sloužila ve stavebnictví a strojírenství více než sto let a dala vzniknout mezinárodnímu pojmu **„blueprint“**.
+Projektanti kreslili originální plány tuší na průsvitný pauzovací papír. Výkres se přiložil na velkoformátový pás kyanotypického papíru a osvítil obloukovou lampou nebo sluncem. Po několikaminutovém vyprání ve vodě získali projektanti sytě modrý výkres se zářivě bílými liniemi. Kyanotypie tak dala vzniknout mezinárodnímu pojmu **„blueprint“** a sloužila v průmyslu více než sto let.
 
 ---
 
-## Srovnání historických fotografických technik
+## Přehled historických kopírovacích procesů
 
-V 19. a na počátku 20. století se využívala celá řada ušlechtilých tisků rozdělených do tří hlavních skupin:
+Podle chemického principu dělíme historické techniky do tří hlavních skupin:
 
-| Skupina procesů | Významné historické techniky | Vzhled a barevný tón | Stálost a charakteristika |
-| :--- | :--- | :--- | :--- |
-| **Procesy na bázi stříbra** | **Slaný papír** (1834), **Albuminový tisk** (1855), **Mokrý kolodiový proces** (1865) | Teplá červenohnědá až neutrální šedá; částice stříbra ve vaječném bílku nebo kolodiu | Náchylné ke žloutnutí a blednutí stříbra v čase; vyžaduje složité praní a ustalování. |
-| **Procesy na bázi solí železa** | **Kyanotypie** (1842), **Kalotypie na bázi železa** (1844), **Platinotypie** (1873) | Sytá pruská modř, teplá sépie (Van Dyke) nebo sametová čerň (Platina) | **Mimořádná archivní stálost.** Pigment je přímo ve vláknech papíru bez pojiva. Neloupe se a nepraská teplem. |
-| **Chromované koloidy** | **Uhlotisk / pigmentový tisk** (1864), **Gumotisk** (1858), **Olejotisk / bromolej** (1907) | Libovolné pigmenty s reliéfním povrchem | Výtvarný, malířský charakter; složitý vícestupňový přenos s použitím toxických dichromanů. |
+### 1. Procesy založené na citlivosti solí stříbra ke světlu
+Citlivou látkou je chlorid stříbrný a výsledný obraz je tvořen částicemi stříbra. Chlorid stříbrný může být rozptýlen v pojivu různého druhu:
+- **Slaný proces (Talbot 1834):** Vhodný papír se natře roztokem chloridu sodného (kuchyňské soli) a po zaschnutí roztokem dusičnanu stříbrného. Vznikne chlorid stříbrný citlivý na světlo. Obraz vzniká přímo při expozici (proces přímo kopírující). Po expozici se zbytky vypírají ve vodě a ustalují thiosíranem sodným. Obraz je tvořen jemnými částicemi stříbra zakotvenými bez pojiva přímo ve hmotě papíru a má hnědočervenou barvu.
+- **Albuminový proces (1855–1895):** Tenký papír se položí na hladinu vaječného bílku s rozpuštěným chloridem sodným a po zaschnutí potírá dusičnanem stříbrným. Obraz je tvořen ve vrstvě pojiva z vaječného bílku nanesené na povrchu papíru. To umožňuje sytější čerň, vyšší brilanci a kontrast. Tvořil naprostou většinu dochovaných fotografií druhé poloviny 19. století.
+- **Kolódiové a želatinové papíry (od 1865 / 1884):** Průmyslově vyráběné kopírovací papíry s vrstvou kolódia nebo želatiny.
+
+*Poznámka k vyvolávání:* Všechny uvedené procesy jsou tzv. **přímo kopírující** (obraz vzniká již v průběhu expozice). Tím se liší od skupiny procesů **vyvolávacích**, při nichž vzniká při expozici jen slabý latentní obraz a vyvolává se až následným chemickým zpracováním.
+
+### 2. Procesy založené na citlivosti solí železa ke světlu
+Používají se železité soli organických kyselin, které se UV složkou světla redukují na soli železnaté:
+- **Kyanotypie (1842):** Zcitlivovací roztok obsahuje citran železito-amonný a hexakyanoželezitan draselný. Vyvolává se pouhou vodou. Obraz vzniká přímo při expozici (proces přímo kopírující) a je tvořen nerozpustnou berlínskou modří.
+- **Kallitypie (1844):** Obsahuje šťavelan železitý a dusičnan stříbrný. Jedná se o proces vyvolávací (vyvolává se v roztoku boraxu nebo vínanu sodno-draselného). Obraz je tvořen kovovým stříbrem.
+- **Platinotypie (1873):** Zcitlivovací roztok obsahuje šťavelan železitý a tetrachlorplatnatan draselný. Obraz je tvořen částicemi ryzí kovové platiny zakotvené přímo ve hmotě papíru. Vyznačuje se neomezenou trvanlivostí a unikátní ušlechtilostí.
+- **Sepiový tisk Van Dyke (1889):** Zcitlivovací roztok obsahuje citran železito-amonný a dusičnan stříbrný. Jednoduchý přímo kopírující proces s červenohnědým stříbrným obrazem bez pojiva v papíru, ustalovaný v thiosíranu.
+
+### 3. Procesy založené na citlivosti chromovaných klihovin (ušlechtilé tisky)
+Jsou založeny na skutečnosti, že chromovaná želatina nebo arabská guma se světlem utvrzují, přestávají ve vodě bobtnat a nejsou v ní rozpustné:
+- **Pigmentový tisk (uhlotisk):** Vhodný papír se opatří vrstvou želatiny s jemně rozptýleným uhelným či barevným pigmentem. Po expozici se obraz přenese na přenášecí papír a nevytvrzená želatina se odplaví teplou vodou.
+- **Gumotisk:** Na papír se nanese roztok arabské gumy s pigmentem a dvojchromanem draselným. Vyvolává se ve studené vodě. Pro bohaté prokreslení tónů se často kopíruje ve více vrstvách na sebe s opětovným klížením papíru.
+- **Olejotisk a bromolejotisk:** Obraz je tvořen mastnou tiskařskou barvou nanášenou na vlhký nabobtnalý želatinový reliéf speciálními štětci z tchořích chlupů nebo molitanovým válečkem.
 
 ---
 
-## Digitální negativ: Spojení historie s moderní tvorbou
+## Volba procesu a přednosti kyanotypie
 
-Proč dnes historické techniky zažívají takový rozkvět?
+Chceme-li sami nějaký historický proces zkusit, bude dobré volit zpočátku proces jednodušší a finančně nepříliš náročný:
 
-1. **Nutnost kontaktního kopírování:** Historické emulze mají velmi nízkou citlivost. Nelze je promítat zvětšovacím přístrojem a negativ musí mít **přesně stejnou velikost jako výsledný obraz**.
-2. **Překážka 19. století:** V roce 1860 musel fotograf do terénu nosit dřevěný velkoformátový fotoaparát a těžké skleněné desky.
-3. **Digitální řešení:** Dnešní digitální fotoaparáty a telefony zachycují jemné detaily. Pomocí našeho konvertoru můžete libovolnou fotografii převést na negativ a vytisknout na běžné domácí tiskárně na průhlednou fólii.
-
----
-
-Další krok: Připravte si chemii a vyzkoušejte vlastní tisk podle návodu na [Přípravu roztoků](/guide/solutions).
+- **Dostupnost a nenáročnost:** Kyanotypie je proces nejlevnější, nejrychlejší a technicky nejméně náročný. Můžeme s ní dosáhnout stejně působivých obrazů jako s mnohem nákladnějšími technikami.
+- **Obraz bez vrstvy pojiva:** Obraz je zakotven přímo ve vláknech papíru bez jakékoli vrstvy pojiva. Svým charakterem připomíná spíše umělecký litografický tisk než běžnou fotografii a na rozdíl od klasických fotografií se teplem nekroutí.
+- **Vhodnost motivů:** Její intenzivní modrá barva se dokonale hodí pro zasněžené nebo zamlžené krajiny, vodní hladiny, siluety i technické a botanické motivy.

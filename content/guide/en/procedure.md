@@ -1,133 +1,118 @@
 ---
-title: "Development Procedure"
-description: "Step-by-step workflow for coating paper, exposing digital negatives to UV light, water development, oxidation, and toning."
+title: "Procedure"
+description: "A complete step-by-step cyanotype workflow: applying the sensitive layer, drying, daylight exposure, water developing, and tea/coffee toning from UCT Prague materials."
 order: 2
-icon: "i-lucide-sun-medium"
+icon: "i-lucide-sun"
 ---
 
-# Development Procedure
+# Procedure
 
-Cyanotype is an elegant photographic contact printing process invented in the 19th century that produces permanent images in shades of deep Prussian blue (Turnbull's blue). Unlike traditional silver halide darkroom photography, cyanotype requires no specialized darkroom equipment, no toxic developers, and no chemical fixing agents – **it develops simply in plain water**.
+Cyanotype (also known as blueprint or iron print) is a historic photographic process invented in 1842 that utilizes the light sensitivity of iron salts to produce vibrant blue images. It requires no traditional darkroom, no chemical developers, and no fixing baths.
 
-Follow this step-by-step workflow to turn digital negatives created with our converter into archival cyanotype prints.
-
----
-
-## Required Supplies
-
-Before you begin, gather the following materials:
-
-- **Sensitizing Solution**: Freshly mixed Solution A + B with oxalic acid (see [Solution Preparation](/guide/solutions)).
-- **Base Paper**: Heavyweight (200 – 300 g/m²) watercolor, printmaking, or hammer paper. Cotton rag papers with neutral or slightly acidic sizing work best.
-- **Applicator**: A wide synthetic hake brush, foam brush, or glass coating rod. Avoid brushes with metal ferrules, as exposed metal can react with the iron salts.
-- **Digital Negative**: A digital negative printed on transparency film, prepared using our [Negative Creator](/).
-- **Contact Printing Frame**: A sturdy wooden print frame, or two clean panes of heavy float glass clamped tightly with strong binder clips.
-- **UV Light Source**: Direct sunlight or a UV exposure unit (blacklight box / UV LED matrix).
-- **Wash Trays**: Clean plastic trays filled with cool water.
-- **Oxidation Aid (Optional)**: Standard 3% household Hydrogen Peroxide (H₂O₂).
-- **Drying Rack**: Plastic clothespins or clean blotting paper.
+Let us step back more than 150 years into the past and create our own handcrafted blue photographs!
 
 ---
 
-## Step 1: Sensitizing the Paper
+## Workflow Overview
 
-Work under dim indoor tungsten or incandescent lighting, or in a room with blinds drawn. The sensitizer is insensitive to yellow or tungsten light, but **strictly avoid direct daylight, open windows, and fluorescent lamps with UV emission**.
-
-1. Lay your paper on a clean, flat surface. You may lightly tape down the corners with low-tack masking tape.
-2. Pour the required amount of freshly mixed working solution (approximately 1.5 – 2 ml for an A4 sheet) into a small beaker or directly onto the paper.
-3. Using smooth, rapid cross-hatch strokes (alternating horizontally and vertically), spread the solution evenly across the printable area.
-4. Aim for a uniform, light chartreuse/lime-yellow tone. Do not over-saturate or allow the chemical to form puddles, which cause uneven exposure and blotchy spots.
-
-<div class="guide-note">
-  <p><strong>Artistic Tip:</strong> Leaving a visible, uneven border of brush strokes around the edges adds an authentic, hand-crafted artistic signature characteristic of historic alternative prints.</p>
-</div>
+::guide-card{title="The 6-Step Workflow"}
+1. **Sensitizing the Paper:** Applying the light-sensitive solution with a brush onto heavy paper in dim light.
+2. **Drying:** Thorough drying of the paper in the dark (can be accelerated with a hair dryer or heat gun).
+3. **Subject Preparation:** Positioning the negative or objects and weighting them under glass.
+4. **Daylight Exposure:** Exposing to sunlight or a UV unit for several tens of minutes until fully colored.
+5. **“Developing” in Water:** Washing out unreacted chemicals in clean water (~5 minutes).
+6. **Final Rinse and Drying:** Rinsing thoroughly and drying the finished blue photograph.
+::
 
 ---
 
-## Step 2: Drying
+## 1. Sensitizing the Paper
 
-Proper drying is critical for high sharpness and film protection:
+The objective of this step is to evenly coat the surface fibers of the paper with the photosensitive solution to produce your own "photographic paper."
 
-1. Place the coated paper in a completely dark drawer, light-tight box, or darkroom closet.
-2. Allow to dry for 30 to 60 minutes.
-3. Accelerated drying: You may use a hairdryer on a **cool or lukewarm setting** (never hot) held at least 30 cm away from the paper.
-4. **Important**: The paper must be **100% bone dry** before contact printing. Any residual moisture will transfer onto your transparency film, damaging both the negative and the print.
-
----
-
-## Step 3: Contact Sandwich Setup
-
-Because cyanotype is an ultra-low speed contact printing emulsion, you cannot project images with an enlarger. The negative must physically touch the paper in a 1:1 scale:
-
-1. Place your dry sensitized paper face up on the backing board.
-2. Lay your digital negative transparency **ink or emulsion side down** directly onto the coated paper surface. This direct contact eliminates refraction and ensures crisp details.
-3. Place clean glass on top and clamp the edges securely with binder clips on all four sides. Firm, even pressure ensures uniform focus across the entire image.
+- **Paper Selection:** Heavy cartridge drawing paper or quality cold-press watercolor paper (ideally 200–300 g/m²) works best. The paper should not have heavy alkaline calcium carbonate sizing.
+- **Working Environment:** Always work with ferric ammonium citrate and its solutions **in dim lighting** – under a weak incandescent tungsten bulb, with blinds drawn, away from direct sunlight and bright fluorescent tubes.
+- **Application:** Apply the prepared sensitizer solution onto the paper using a flat soft-bristle brush or foam brush (with no exposed iron ferrule). Spread the solution using even criss-cross strokes (vertical then horizontal) so it absorbs uniformly into the paper fibers without forming puddles.
 
 ---
 
-## Step 4: UV Exposure
+## 2. Drying
 
-Expose your clamped sandwich to ultraviolet light:
+The coated sheet must be allowed to **dry thoroughly in complete darkness**.
 
-- **Midday Sunlight (Summer, clear sky)**: Approximately **3 to 8 minutes**.
-- **Overcast Sunlight / Winter**: Approximately **15 to 30+ minutes**.
-- **UV Exposure Unit (365 – 395 nm)**: Typically **8 to 15 minutes** (calibrated via a test strip).
-
-### How to Read the Exposure
-
-Watch the exposed highlights and shadow borders:
-- The initial yellowish-green turns to deep steel-blue, then bronzes into a **dull, metallic olive-gray with visible highlight solarization**.
-- If the image still looks bright green, it is severely underexposed.
-- If the highlights have completely blocked out into uniform dark blue-gray, it is overexposed.
+- Place the paper in a dark room, drying box, cabinet, or drawer.
+- To accelerate drying, **you can also use a hair dryer or heat gun** (use cool to lukewarm air).
+- The paper must be completely dry before exposure; residual moisture impairs sharpness, causes splotches, and can stick to or damage the negative. Properly dried paper has an even, pale yellow-green tint.
 
 ---
 
-## Step 5: Water Development
+## 3. Negative Preparation & Contact Mounting
 
-Cyanotype is self-fixing and self-developing in pure water:
+Historic photographic techniques print **by contact at a 1:1 scale** – the resulting image has the exact same dimensions as the original subject or negative.
 
-1. Disassemble the frame and place the exposed print face down in a tray of cool, running water.
-2. Gently rock the tray for **3 to 5 minutes**.
-3. You will see yellow-green unreacted iron salts dissolve and rinse away into the water.
-4. Continue washing until the white highlight areas of your paper are completely clear and the wash water runs crystal clear.
-
-<div class="guide-caution">
-  <p><strong>Water Quality:</strong> Avoid heavily chlorinated or alkaline tap water, which can prematurely bleach or degrade Prussian blue. If your tap water is hard or alkaline, add a tiny dash of citric acid or white vinegar to the initial rinse bath.</p>
-</div>
+- **Place the object whose image you wish to capture onto the photographic paper.**
+- **Types of Subjects:**
+  - **Digital Negative:** A black-and-white inverted negative printed on transparency film using our web tool **Negative Creator**.
+  - **Traditional Materials:** Historic large-format sheet film negatives or black-and-white slides.
+  - **Photograms (like Anna Atkins):** Real physical items – pressed botanicals, ferns, leaves, feathers, lace, or flat objects placed directly on the paper.
+- **Mounting under Glass:** Position the subject over the sensitized surface (for negatives, emulsion/ink side facing down). For tight contact, stable positioning, and razor-sharp detail, **cover the subject with a clean sheet of heavy glass** or clamp it in a spring-loaded wooden contact printing frame.
 
 ---
 
-## Step 6: Instant Oxidation & Archival Drying
+## 4. Daylight Exposure
 
-Freshly washed cyanotypes appear slightly pale and grayish-blue. As the iron absorbs oxygen from ambient air, it fully oxidizes over 24 hours into deep, velvety Prussian blue.
+Next, expose the photosensitive material to sunlight for several tens of minutes until it is fully colored.
 
-### The Hydrogen Peroxide Method
-
-To inspect your final tonal contrast immediately:
-- Add a splash (approx. 5 – 10 ml) of common **3% Hydrogen Peroxide (H₂O₂)** into a bath of clean water.
-- Submerge your washed print for 10 – 15 seconds.
-- You will witness an immediate, dramatic chemical transformation as the entire print instantly blooms into saturated Prussian blue.
-- Follow with a 1-minute rinse in fresh water, then hang to dry.
-
----
-
-## Step 7: Toning Options (Modifying the Blue)
-
-If you prefer warm tones, eggplant blacks, or vintage sepia instead of classic Prussian blue, cyanotype can be toned with natural plant tannins:
-
-| Method | Chemistry / Botanical | Visual Result |
-| :--- | :--- | :--- |
-| **Direct Tea Toning** | Strong brewed black tea (tannic acid) | Softens harsh blue into warm aubergine / slate black |
-| **Direct Coffee Toning** | Concentrated instant coffee | Rich warm brown / earthy sepia |
-| **Bleach & Re-tone** | 0.5% NaOH or washing soda, then tea | Neutral charcoal black / dark chocolate |
-| **Wine / Tannin** | Pure tannic acid or red wine extract | Deep purple-black archival tones |
-
-### Bleach & Re-Tone Procedure:
-1. Immerse fully washed, dry cyanotype in a weak alkaline bath (0.5% NaOH or 5 g washing soda per liter of water) for 10 – 30 seconds until the blue fades to pale yellow.
-2. Rinse thoroughly in running water for 2 minutes.
-3. Submerge in warm, strong black tea for 10 – 20 minutes until shadows reconstruct into deep, velvety dark brown or black.
-4. Wash in clean water and dry.
+- **Light Source:**
+  - **Direct Sunlight:** The fastest and most natural exposure source.
+  - **Diffused Daylight:** You can expose outdoors in a garden or on a balcony even under an overcast sky.
+  - **UV Exposure Unit:** A laboratory UV exposure unit or facial tanner (~365 nm) for reliable weather-independent work.
+- **Exposure Time:** Typically **several tens of minutes** depending on solar intensity and season:
+  - Summer midday sun: approx. 5 to 15 minutes.
+  - Spring or autumn sun: approx. 15 to 30 minutes.
+  - Overcast sky or winter day: 30 to 60 minutes.
+- **Visual Inspection:** Cyanotype is a printing-out process. During exposure, you can directly observe the yellow-green surface darken through slate gray to steel blue, and in the deepest shadows to a characteristic bronze-olive hue.
 
 ---
 
-Next step: Explore the history, discovery, and science behind Prussian blue in our [Historical Context](/guide/context) guide.
+## 5. “Developing” in Water (~5 minutes)
+
+Cyanotype requires no chemical developer or fixer – it develops simply and purely in clean water.
+
+- Remove the exposed sheet from the frame and submerge it in a tray of clean water.
+- Gently agitate the bath. Within seconds, unreacted yellow iron salts will dissolve and wash away, while the exposed areas color into vibrant blue.
+- Keep the paper in the bath for approximately **5 minutes**, until all yellow staining has completely vanished from the unexposed highlights.
+
+---
+
+## 6. Final Rinse and Drying
+
+- **Final Rinse:** Then **rinse the unreacted chemicals thoroughly with distilled water** (or clean running water) for another ~5 minutes until the runoff water is crystal clear.
+- **Drying:** Dry the resulting photograph hanging freely on a line with wooden pegs or laid flat on clean blotting paper.
+- **Tone Maturation:** Freshly washed cyanotypes have a lighter blue tone. The print achieves its full, deep Prussian blue intensity through gradual oxidation with atmospheric oxygen over the next 24 hours. (For immediate darkening, add a few drops of standard 3% hydrogen peroxide to the final wash bath).
+
+---
+
+## Toning
+
+The resulting blue-and-white photographs can be further modified using organic toning agents, such as **tannin**, which is naturally present in **tea and coffee**.
+
+Toning can be performed using **two procedures**:
+
+::guide-grid
+:::guide-card{title="Procedure 1: Bleaching and Redeveloping"}
+The blue image is first **completely bleached in a 0.5% solution of sodium hydroxide (NaOH)** or washing soda until the blue image almost disappears into faint yellow.
+
+After a thorough water wash, the print is **re-dyed in a tannin solution** (or a strong brew of black tea or coffee). This produces warm brown, sepia, or purple-black tones.
+:::
+
+:::guide-card{title="Procedure 2: Direct Tannin Toning"}
+This procedure uses **only the tannin solution**, immersing the finished blue print directly without prior bleaching.
+
+With this procedure, the electric blue hue is softened into an elegant, natural slate blue-green or deep charcoal tone.
+:::
+::
+
+::guide-note{title="Additional Hues"}
+For other photograph colorations, historic toning using copper or lead salts can also be explored.
+::
