@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
+import { cs, en } from '@nuxt/ui/locale'
 
 const route = useRoute()
 const { t, locale } = useI18n()
+
+const locales = { cs, en }
+const currentLocale = computed(() => locales[locale.value as 'cs' | 'en'] || en)
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
   {
@@ -39,7 +43,7 @@ useHead({
 </script>
 
 <template>
-  <UApp>
+  <UApp :locale="currentLocale">
     <UHeader>
       <template #left>
         <NuxtLink
@@ -60,7 +64,9 @@ useHead({
 
       <template #right>
         <div class="flex items-center gap-2">
-          <LanguageSelect />
+          <div class="hidden lg:flex">
+            <LanguageSelect />
+          </div>
           <UColorModeButton />
         </div>
       </template>
