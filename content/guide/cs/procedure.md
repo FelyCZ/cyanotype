@@ -31,7 +31,7 @@ Přenesme se teď o více než 150 let zpátky a pojďme si vytvořit vlastní m
 Cílem tohoto kroku je rovnoměrně napustit povrchová vlákna papíru světlocitlivým roztokem a získat tak vlastní „fotografický papír“.
 
 - **Výběr papíru:** Nejlépe se osvědčila **kladívková čtvrtka** nebo kvalitní akvarelový papír (ideálně 200–300 g/m²). Papír by neměl mít silné alkalické klížení křídou.
-- **Pracovní prostředí:** S citronanem amonno-železitým i jeho roztokem pracujte **vždy (!) v příšeří** – při slabé klasické žárovce (s wolframovým vláknem), se zataženými závěsy, mimo přímé sluneční světlo i zářivky.
+- **Pracovní prostředí:** S citrátem amonno-železitým i jeho roztokem pracujte **vždy (!) v příšeří** – při slabé klasické žárovce (s wolframovým vláknem), se zataženými závěsy, mimo přímé sluneční světlo i zářivky.
 - **Nanášení:** Připravený zcitlivovací roztok naneste na kladívkovou čtvrtku plochým štětcem s jemným vlasem nebo pěnovým štětcem (bez kovové objímky ze železa). Roztok roztírejte rovnoměrnými tahy křížem krážem (svisle a vodorovně), aby se rovnoměrně vpil do vláken papíru a netvořil loužičky.
 
 ---
