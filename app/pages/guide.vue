@@ -39,7 +39,7 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
 </script>
 
 <template>
-  <UContainer class="py-6 sm:py-10">
+  <UContainer class="py-6 sm:py-10 max-w-7xl 2xl:max-w-[88rem]">
     <!-- Mobile Navigation Selector (visible on small/medium screens) -->
     <div class="mb-6 block lg:hidden">
       <div class="rounded-xl border border-default bg-elevated/40 p-2">
@@ -48,14 +48,18 @@ const sidebarItems = computed<NavigationMenuItem[]>(() => {
         </p>
         <UNavigationMenu
           :items="sidebarItems"
-          orientation="horizontal"
+          orientation="vertical"
           variant="pill"
-          class="w-full overflow-x-auto"
+          highlight
+          :ui="{
+            linkLabel: 'whitespace-normal leading-snug text-sm',
+            link: 'py-2 px-3'
+          }"
         />
       </div>
     </div>
 
-    <UPage :ui="{ root: 'flex flex-col lg:grid lg:grid-cols-12 lg:gap-10', left: 'lg:col-span-3', center: 'lg:col-span-9' }">
+    <UPage :ui="{ root: 'flex flex-col lg:grid lg:grid-cols-12 lg:gap-8 xl:gap-10', left: 'lg:col-span-3 xl:col-span-3 2xl:col-span-2', center: 'lg:col-span-9 xl:col-span-9 2xl:col-span-10' }">
       <template #left>
         <UPageAside class="w-full lg:w-64 xl:w-72">
           <div class="space-y-3">
