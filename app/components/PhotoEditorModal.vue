@@ -813,17 +813,27 @@ function onPointerUp() {
     </template>
 
     <template #footer>
-      <div class="flex items-center justify-between w-full">
-        <UButton
-          :label="t('editor.reset')"
-          color="neutral"
-          variant="outline"
-          icon="i-lucide-rotate-ccw"
-          @click="resetAll"
-        />
-
-        <div class="flex items-center gap-2">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
+        <div class="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
           <UButton
+            :label="t('editor.reset')"
+            color="neutral"
+            variant="outline"
+            icon="i-lucide-rotate-ccw"
+            @click="resetAll"
+          />
+          <UButton
+            class="sm:hidden"
+            :label="t('editor.cancel')"
+            color="neutral"
+            variant="ghost"
+            @click="isOpen = false"
+          />
+        </div>
+
+        <div class="flex flex-wrap items-center justify-end gap-2 w-full sm:w-auto">
+          <UButton
+            class="hidden sm:inline-flex"
             :label="t('editor.cancel')"
             color="neutral"
             variant="ghost"
@@ -835,6 +845,7 @@ function onPointerUp() {
             color="neutral"
             variant="subtle"
             icon="i-lucide-copy-check"
+            class="flex-1 sm:flex-initial justify-center"
             :title="t('editor.applyAllTooltip')"
             @click="handleApplyToAll"
           />
@@ -842,6 +853,7 @@ function onPointerUp() {
             :label="t('editor.apply')"
             color="primary"
             icon="i-lucide-check"
+            class="flex-1 sm:flex-initial justify-center"
             @click="handleApply"
           />
         </div>
