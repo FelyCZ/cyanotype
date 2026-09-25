@@ -28,10 +28,11 @@ const emit = defineEmits<{
   'dismissAlert': []
 }>()
 
+const { t } = useI18n()
+
 const summaryText = computed(() => {
-  if (props.photos.length === 0) return 'No images selected'
   const count = props.photos.length
-  return `${count} image${count > 1 ? 's' : ''} loaded!`
+  return count === 0 ? t('actions.noImages') : t('actions.imagesLoaded', count)
 })
 </script>
 
@@ -67,7 +68,7 @@ const summaryText = computed(() => {
               name="i-lucide-loader"
               class="w-4 h-4 animate-spin text-primary"
             />
-            {{ exportStatusText || (isPreviewing ? 'Generating preview pages...' : 'Exporting negatives...') }}
+            {{ exportStatusText || (isPreviewing ? t('actions.renderingPreview') : t('actions.exportingNegatives')) }}
           </span>
           <span class="text-neutral-500">{{ Math.round(exportProgress) }}%</span>
         </div>
@@ -90,10 +91,10 @@ const summaryText = computed(() => {
           <span>{{ summaryText }}</span>
         </div>
 
-        <!-- Action Buttons (wrapping onto multiple lines on mobile when space is limited) -->
+        <!-- Action Buttons -->
         <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-start sm:justify-end">
           <UButton
-            label="Clear All"
+            :label="t('actions.clearAll')"
             color="neutral"
             variant="ghost"
             icon="i-lucide-trash"
@@ -102,7 +103,7 @@ const summaryText = computed(() => {
           />
 
           <UButton
-            label="Preview pages"
+            :label="t('actions.previewPdf')"
             color="neutral"
             variant="subtle"
             size="lg"
@@ -113,7 +114,7 @@ const summaryText = computed(() => {
           />
 
           <UButton
-            label="Save All Negatives"
+            :label="t('actions.saveAll')"
             color="primary"
             size="lg"
             icon="i-lucide-download"
@@ -125,7 +126,7 @@ const summaryText = computed(() => {
       </div>
     </UCard>
 
-    <!-- Global Preview Mode Switch: Negatives / Cyanotype (Centered under the card) -->
+    <!-- Global Preview Mode Switch: Negatives / Cyanotype -->
     <div
       v-if="photos.length > 0"
       class="flex justify-center items-center pt-1 pb-1"
@@ -137,14 +138,14 @@ const summaryText = computed(() => {
           :class="previewMode === 'negative' ? 'text-neutral-950 dark:text-white font-semibold' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'"
           @click="emit('update:previewMode', 'negative')"
         >
-          Negatives
+          {{ t('actions.negative') }}
         </button>
 
         <USwitch
           :model-value="previewMode === 'cyanotype'"
           size="sm"
           color="primary"
-          aria-label="Toggle between negatives and cyanotype thumbnail preview"
+          :aria-label="t('actions.togglePreviewAria')"
           @update:model-value="(val) => emit('update:previewMode', val ? 'cyanotype' : 'negative')"
         />
 
@@ -155,7 +156,7 @@ const summaryText = computed(() => {
           @click="emit('update:previewMode', 'cyanotype')"
         >
           <span class="w-2.5 h-2.5 rounded-full bg-[#1C39BB]" />
-          <span>Cyanotype</span>
+          <span>{{ t('actions.cyanotype') }}</span>
         </button>
       </div>
     </div>

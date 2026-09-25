@@ -9,6 +9,8 @@ const emit = defineEmits<{
   'update:modelValue': [value: PageSettings]
 }>()
 
+const { t } = useI18n()
+
 const settings = computed({
   get: () => props.modelValue,
   set: val => emit('update:modelValue', val)
@@ -21,18 +23,18 @@ const pageSizeOptions = [
   { label: 'A6', value: 'A6' }
 ]
 
-const perPageOptions = [
-  { label: '1 per page', value: 1 },
-  { label: '2 per page', value: 2 },
-  { label: '3 per page', value: 3 },
-  { label: '4 per page', value: 4 }
-]
+const perPageOptions = computed(() => [
+  { label: t('settings.perPage', { n: 1 }), value: 1 },
+  { label: t('settings.perPage', { n: 2 }), value: 2 },
+  { label: t('settings.perPage', { n: 3 }), value: 3 },
+  { label: t('settings.perPage', { n: 4 }), value: 4 }
+])
 
-const orientationOptions = [
-  { label: 'Auto', value: 'auto' },
-  { label: 'Portrait', value: 'portrait' },
-  { label: 'Landscape', value: 'landscape' }
-]
+const orientationOptions = computed(() => [
+  { label: t('settings.auto'), value: 'auto' },
+  { label: t('settings.portrait'), value: 'portrait' },
+  { label: t('settings.landscape'), value: 'landscape' }
+])
 
 const imageFormatOptions = [
   { label: 'JPEG', value: 'jpeg' },
@@ -49,7 +51,7 @@ const imageFormatOptions = [
           class="w-5 h-5 text-primary"
         />
         <h2 class="text-base font-semibold">
-          Page & Export Settings
+          {{ t('settings.title') }}
         </h2>
       </div>
     </template>
@@ -58,10 +60,10 @@ const imageFormatOptions = [
       <!-- Row 1: Page Layout -->
       <div>
         <h3 class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
-          Page & Sheet Layout
+          {{ t('settings.pageLayout') }}
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <UFormField label="Page Size">
+          <UFormField :label="t('settings.pageSize')">
             <USelect
               v-model="settings.pageSize"
               :items="pageSizeOptions"
@@ -69,7 +71,7 @@ const imageFormatOptions = [
             />
           </UFormField>
 
-          <UFormField label="Photos Per Page">
+          <UFormField :label="t('settings.photosPerPage')">
             <USelect
               v-model="settings.photosPerPage"
               :items="perPageOptions"
@@ -77,7 +79,7 @@ const imageFormatOptions = [
             />
           </UFormField>
 
-          <UFormField label="Orientation">
+          <UFormField :label="t('settings.orientation')">
             <USelect
               v-model="settings.orientation"
               :items="orientationOptions"
@@ -85,7 +87,7 @@ const imageFormatOptions = [
             />
           </UFormField>
 
-          <UFormField label="Page Margin mm">
+          <UFormField :label="t('settings.margin')">
             <UInputNumber
               v-model="settings.marginMm"
               :min="0"
@@ -102,20 +104,20 @@ const imageFormatOptions = [
       <!-- Row 2: Resolution & Export Settings -->
       <div>
         <h3 class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
-          Print Quality & Negative Export
+          {{ t('settings.exportQuality') }}
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-          <UFormField label="Print DPI">
+          <UFormField :label="t('settings.printDpi')">
             <UInputNumber
               v-model="settings.dpi"
-              :min="72"
-              :max="1200"
-              :step="50"
+              :min="300"
+              :max="2400"
+              :step="300"
               class="w-full"
             />
           </UFormField>
 
-          <UFormField label="Negative Format">
+          <UFormField :label="t('settings.format')">
             <USelect
               v-model="settings.imageFormat"
               :items="imageFormatOptions"
@@ -125,7 +127,7 @@ const imageFormatOptions = [
 
           <UFormField
             v-if="settings.imageFormat === 'jpeg'"
-            label="JPEG Quality %"
+            :label="t('settings.quality')"
             :hint="`${settings.jpegQuality}%`"
           >
             <div class="flex items-center gap-3">

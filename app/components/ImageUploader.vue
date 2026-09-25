@@ -3,6 +3,7 @@ const emit = defineEmits<{
   filesSelected: [files: File[]]
 }>()
 
+const { t } = useI18n()
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const isDragging = ref(false)
 
@@ -39,11 +40,13 @@ function handleDragLeave() {
 </script>
 
 <template>
-  <UCard
+  <div
     :class="[
-      'cursor-pointer transition-colors duration-200 border-2 border-dashed text-center p-6',
-      isDragging ? 'border-primary bg-primary/5' : 'border-neutral-300 dark:border-neutral-700'
+      'cursor-pointer transition-colors duration-200 border-2 border-dashed rounded-xl text-center py-6 px-4 bg-elevated/30 hover:bg-elevated/60',
+      isDragging ? 'border-primary bg-primary/10' : 'border-neutral-300 dark:border-neutral-700'
     ]"
+    role="button"
+    tabindex="0"
     @click="triggerFilePicker"
     @dragover="handleDragOver"
     @dragleave="handleDragLeave"
@@ -59,29 +62,30 @@ function handleDragLeave() {
     >
 
     <div class="flex flex-col items-center justify-center gap-3">
-      <div class="rounded-full bg-primary/10 p-3 text-primary">
+      <div class="rounded-xl bg-primary/10 p-2.5 text-primary flex items-center justify-center">
         <UIcon
-          name="i-lucide-upload-cloud"
-          class="w-8 h-8"
+          name="i-lucide-image-plus"
+          class="size-7"
         />
       </div>
 
-      <div class="space-y-1">
-        <p class="font-medium text-base">
-          Click to choose images or drag and drop here
+      <div class="space-y-1 max-w-lg">
+        <p class="font-medium text-base text-highlighted">
+          {{ t('uploader.title') }}
         </p>
-        <p class="text-sm text-neutral-500">
-          Supports JPEG, PNG, WebP, TIFF. All processing happens locally in your browser.
+        <p class="text-xs sm:text-sm text-neutral-500">
+          {{ t('uploader.subtitle') }}
         </p>
       </div>
 
       <UButton
-        label="Select Images"
+        :label="t('uploader.selectBtn')"
         icon="i-lucide-images"
         color="primary"
         variant="subtle"
+        size="sm"
         @click.stop="triggerFilePicker"
       />
     </div>
-  </UCard>
+  </div>
 </template>

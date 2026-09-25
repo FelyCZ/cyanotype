@@ -12,6 +12,8 @@ import {
   saveFilesToUserSelection
 } from '~/utils/export-service'
 
+const { t } = useI18n()
+
 const settings = ref<PageSettings>({
   pageSize: 'A4',
   dpi: 300,
@@ -94,7 +96,7 @@ async function processPendingPhotos() {
   for (let i = 0; i < total; i++) {
     const photo = pendingPhotos[i]!
     photo.status = 'processing'
-    processingStatusText.value = `Converting ${photo.name} - ${i + 1} of ${total}`
+    processingStatusText.value = t('gallery.convertingProgress', { name: photo.name, current: i + 1, total })
     processingProgress.value = Math.round(((i) / total) * 100)
 
     try {
@@ -125,7 +127,7 @@ async function processPendingPhotos() {
     } catch (err: unknown) {
       console.error('Error converting photo:', err)
       photo.status = 'error'
-      photo.errorMessage = 'Failed to process image'
+      photo.errorMessage = t('gallery.failedToProcess')
     }
 
     processingProgress.value = Math.round(((i + 1) / total) * 100)
@@ -177,12 +179,12 @@ async function handleApplyAdjustmentsToAll(
 
   const otherPhotos = photos.value.filter(p => p.id !== photoId && p.status === 'done')
   if (otherPhotos.length === 0) {
-    successMessage.value = 'Adjustments applied to all images.'
+    successMessage.value = t('editor.appliedToAll')
     return
   }
 
   isBatchProcessing.value = true
-  processingStatusText.value = 'Applying adjustments to all images...'
+  processingStatusText.value = t('editor.applyingToAll')
   processingProgress.value = 0
 
   let completed = 0
@@ -224,7 +226,7 @@ async function handleApplyAdjustmentsToAll(
 
   isBatchProcessing.value = false
   processingStatusText.value = ''
-  successMessage.value = `Adjustments applied to all ${photos.value.length} images.`
+  successMessage.value = t('editor.appliedToAllCount', { count: photos.value.length })
 }
 
 function handleRemovePhoto(photoId: string) {
@@ -253,7 +255,7 @@ async function handlePreviewPages() {
   successMessage.value = ''
   isPreviewing.value = true
   exportProgress.value = 0
-  exportStatusText.value = 'Rendering preview pages...'
+  exportStatusText.value = t('actions.renderingPreview')
 
   try {
     const pdfBlob = await exportSheetsToPdfBlob(photos.value, settings.value, (progress) => {
@@ -265,7 +267,7 @@ async function handlePreviewPages() {
     window.open(pdfUrl, '_blank')
   } catch (err) {
     console.error('Failed to generate PDF preview:', err)
-    errorMessage.value = 'Failed to generate PDF preview.'
+    errorMessage.value = t('actions.errorPreview')
   } finally {
     isPreviewing.value = false
     exportProgress.value = 0
@@ -281,7 +283,7 @@ async function handleSaveAll() {
   successMessage.value = ''
   isExporting.value = true
   exportProgress.value = 0
-  exportStatusText.value = `Preparing individual ${formatUpper} negatives...`
+  exportStatusText.value = t('actions.preparing', { format: formatUpper })
 
   try {
     const files = await exportIndividualNegatives(
@@ -294,24 +296,23 @@ async function handleSaveAll() {
       }
     )
 
-    exportStatusText.value = 'Saving negative images...'
+    exportStatusText.value = t('actions.saving')
     const result = await saveFilesToUserSelection(files, (status) => {
       exportStatusText.value = status
     })
 
-    if (result.method === 'directory') {
-      successMessage.value = `All individual negative ${formatUpper}s saved successfully to chosen folder.`
-    } else if (result.method === 'zip') {
-      successMessage.value = `All individual negative ${formatUpper}s packaged and downloaded as a ZIP archive.`
-    } else {
-      successMessage.value = `Negative ${formatUpper} downloaded successfully.`
+    const successMessages: Record<'directory' | 'zip' | 'single', string> = {
+      directory: t('actions.successDirectory', { format: formatUpper }),
+      zip: t('actions.successZip', { format: formatUpper }),
+      single: t('actions.successSingle', { format: formatUpper })
     }
+    successMessage.value = successMessages[result.method]
   } catch (err: unknown) {
     if ((err as Error)?.name === 'AbortError') {
       // User cancelled directory picker
     } else {
       console.error('Export failed:', err)
-      errorMessage.value = 'Export failed. Please try again.'
+      errorMessage.value = t('actions.errorExport')
     }
   } finally {
     isExporting.value = false
@@ -332,10 +333,10 @@ onUnmounted(() => {
     <!-- Intro Banner -->
     <div class="space-y-2">
       <h1 class="text-3xl font-bold tracking-tight">
-        Cyanotyper
+        {{ t('hero.title') }}
       </h1>
       <p class="text-neutral-500 max-w-2xl text-sm sm:text-base">
-        Select photos to convert them into inverted grayscale negatives ready for printing onto transparency film for cyanotype contact printing. <strong class="font-semibold text-neutral-700 dark:text-neutral-200">All processing runs entirely on your device. No images are uploaded anywhere.</strong>
+        {{ t('hero.description') }} <strong class="font-semibold text-neutral-700 dark:text-neutral-200">{{ t('hero.localProcessing') }}</strong>
       </p>
     </div>
 

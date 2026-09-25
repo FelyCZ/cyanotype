@@ -27,12 +27,21 @@ Cyanotype is a privacy-first, client-side web application designed to transform 
 - **Individual Negative Export**:
   - Export as JPEG (with configurable 10–100% compression) or lossless PNG.
   - Saves directly to a chosen folder using the File System Access API or bundles into a ZIP archive.
+- **Process Guides & Documentation (`/guide`)**:
+  - Step-by-step development workflow (coating, drying, UV exposure, water rinse, oxidation with $H_2O_2$, toning).
+  - Tested laboratory chemical formulations (Solution A, Solution B, 1:1 mix + 2% oxalic acid boost, small-batch workshop recipe).
+  - Historical context (Sir John Herschel 1842, Anna Atkins' British Algae, blueprint origins, alternative photographic comparison).
+- **SEO & Discoverability**:
+  - Automated XML sitemap generation (`/sitemap.xml`) and robots.txt (`/robots.txt`).
+  - Full static HTML prerendering for search engine crawlers and social share previews.
 
 ---
 
 ## Tech Stack
 
-- **Framework**: [Nuxt 4](https://nuxt.com/) (Vue 3, TypeScript, SSR-disabled static target)
+- **Framework**: [Nuxt 4](https://nuxt.com/) (Vue 3, TypeScript, Nitro static prerendering)
+- **Content Engine**: [@nuxt/content v3](https://content.nuxt.com/) (Markdown collections with Zod schema validation)
+- **SEO**: [@nuxtjs/seo](https://nuxtseo.com/) (automated sitemap, robots.txt, meta tags, schema.org)
 - **UI Components**: [@nuxt/ui v4](https://ui.nuxt.com/) & [Tailwind CSS v4](https://tailwindcss.com/)
 - **PDF & Archive Generation**: [jsPDF](https://github.com/parallax/jsPDF) & [JSZip](https://stuk.github.io/jszip/)
 - **Package Manager & Runtime**: [Bun](https://bun.sh/)

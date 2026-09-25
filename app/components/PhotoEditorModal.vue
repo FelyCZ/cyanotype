@@ -67,19 +67,21 @@ const isCyanotypeMode = computed(() => {
   return baseMode
 })
 
+const { t } = useI18n()
+
 watch(isCyanotypeMode, () => {
   updatePreview()
 })
 
-const aspectRatioOptions = [
-  { label: 'Original', value: 'original' },
-  { label: 'Square', value: 'square' },
-  { label: '2x3', value: '2x3' },
-  { label: '4x3', value: '4x3' },
-  { label: '16x9', value: '16x9' },
-  { label: '1x2', value: '1x2' },
-  { label: 'Custom', value: 'custom' }
-]
+const aspectRatioOptions = computed(() => [
+  { label: t('editor.aspectRatioOriginal'), value: 'original' },
+  { label: t('editor.aspectRatioSquare'), value: 'square' },
+  { label: '2:3', value: '2x3' },
+  { label: '4:3', value: '4x3' },
+  { label: '16:9', value: '16x9' },
+  { label: '1:2', value: '1x2' },
+  { label: t('editor.aspectRatioCustom'), value: 'custom' }
+])
 
 let cachedImage: HTMLImageElement | null = null
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
@@ -411,15 +413,22 @@ function handleApplyToAll() {
 }
 
 // Interactive Overlay Drag & Resize Logic
+let activeDragElement: HTMLElement | null = null
+
 function startDrag(type: DragState['type'], event: PointerEvent) {
   event.preventDefault()
   event.stopPropagation()
 
-  const target = event.currentTarget as HTMLElement
-  target.setPointerCapture?.(event.pointerId)
+  const target = event.currentTarget as HTMLElement | null
+  activeDragElement = target
+  try {
+    target?.setPointerCapture?.(event.pointerId)
+  } catch {
+    // Ignore pointer capture errors on unsupported devices/browsers
+  }
 
   const rect = imageElementRef.value?.getBoundingClientRect()
-  if (!rect) return
+  if (!rect || rect.width <= 0 || rect.height <= 0) return
 
   activeDrag = {
     type,
@@ -432,6 +441,7 @@ function startDrag(type: DragState['type'], event: PointerEvent) {
 
   window.addEventListener('pointermove', onPointerMove)
   window.addEventListener('pointerup', onPointerUp)
+  window.addEventListener('pointercancel', onPointerUp)
 }
 
 function onPointerMove(event: PointerEvent) {
@@ -450,53 +460,97 @@ function onPointerMove(event: PointerEvent) {
     crop.value.customHeight
   )
 
-  const box = { ...activeDrag.initialBox }
+  const initial = activeDrag.initialBox
+  const box = { ...initial }
 
   if (activeDrag.type === 'move') {
-    box.x = Math.max(0, Math.min(1 - box.width, activeDrag.initialBox.x + deltaX))
-    box.y = Math.max(0, Math.min(1 - box.height, activeDrag.initialBox.y + deltaY))
+    box.x = Math.max(0, Math.min(1 - box.width, initial.x + deltaX))
+    box.y = Math.max(0, Math.min(1 - box.height, initial.y + deltaY))
   } else {
-    // Resize with corner handles
-    let newWidth = box.width
-    let newHeight = box.height
-    let newX = box.x
-    let newY = box.y
+    // Corner resize
+    let newX = initial.x
+    let newY = initial.y
+    let newWidth = initial.width
+    let newHeight = initial.height
 
-    if (activeDrag.type === 'se') {
-      newWidth = Math.max(0.1, Math.min(1 - box.x, activeDrag.initialBox.width + deltaX))
-      newHeight = Math.max(0.1, Math.min(1 - box.y, activeDrag.initialBox.height + deltaY))
-    } else if (activeDrag.type === 'sw') {
-      const maxX = activeDrag.initialBox.x + activeDrag.initialBox.width
-      newX = Math.max(0, Math.min(maxX - 0.1, activeDrag.initialBox.x + deltaX))
-      newWidth = maxX - newX
-      newHeight = Math.max(0.1, Math.min(1 - box.y, activeDrag.initialBox.height + deltaY))
-    } else if (activeDrag.type === 'ne') {
-      newWidth = Math.max(0.1, Math.min(1 - box.x, activeDrag.initialBox.width + deltaX))
-      const maxY = activeDrag.initialBox.y + activeDrag.initialBox.height
-      newY = Math.max(0, Math.min(maxY - 0.1, activeDrag.initialBox.y + deltaY))
-      newHeight = maxY - newY
-    } else if (activeDrag.type === 'nw') {
-      const maxX = activeDrag.initialBox.x + activeDrag.initialBox.width
-      const maxY = activeDrag.initialBox.y + activeDrag.initialBox.height
-      newX = Math.max(0, Math.min(maxX - 0.1, activeDrag.initialBox.x + deltaX))
-      newY = Math.max(0, Math.min(maxY - 0.1, activeDrag.initialBox.y + deltaY))
-      newWidth = maxX - newX
-      newHeight = maxY - newY
-    }
-
-    // Maintain aspect ratio constraint if specified
     if (targetRatio !== null) {
-      // In pixel terms: (newWidth * rotW) / (newHeight * rotH) = targetRatio
-      // Therefore: newHeight = (newWidth * rotW) / (rotH * targetRatio)
+      // In normalized coordinates: (newWidth * rotW) / (newHeight * rotH) = targetRatio
+      // Therefore: ratioInNorm = (targetRatio * rotH) / rotW
+      // And newHeight = newWidth / ratioInNorm
       const ratioInNorm = (targetRatio * rotH) / rotW
-      newHeight = newWidth / ratioInNorm
-      if (newY + newHeight > 1) {
-        newHeight = 1 - newY
-        newWidth = newHeight * ratioInNorm
-      }
-      if (newX + newWidth > 1) {
-        newWidth = 1 - newX
+
+      // Projection of movement along corner diagonal
+      // sX = +1 for east, -1 for west
+      // sY = +1 for south, -1 for north
+      const sX = (activeDrag.type === 'se' || activeDrag.type === 'ne') ? 1 : -1
+      const sY = (activeDrag.type === 'se' || activeDrag.type === 'sw') ? 1 : -1
+
+      // Delta width projected along diagonal
+      const deltaW = (sX * deltaX * (ratioInNorm * ratioInNorm) + sY * deltaY * ratioInNorm) / (1 + ratioInNorm * ratioInNorm)
+
+      const minW = Math.max(0.05, 0.05 * ratioInNorm)
+
+      if (activeDrag.type === 'se') {
+        const anchorX = initial.x
+        const anchorY = initial.y
+        const maxW = Math.min(1 - anchorX, (1 - anchorY) * ratioInNorm)
+        newWidth = Math.max(minW, Math.min(maxW, initial.width + deltaW))
         newHeight = newWidth / ratioInNorm
+        newX = anchorX
+        newY = anchorY
+      } else if (activeDrag.type === 'sw') {
+        const anchorX = initial.x + initial.width
+        const anchorY = initial.y
+        const maxW = Math.min(anchorX, (1 - anchorY) * ratioInNorm)
+        newWidth = Math.max(minW, Math.min(maxW, initial.width + deltaW))
+        newHeight = newWidth / ratioInNorm
+        newX = anchorX - newWidth
+        newY = anchorY
+      } else if (activeDrag.type === 'ne') {
+        const anchorX = initial.x
+        const anchorY = initial.y + initial.height
+        const maxW = Math.min(1 - anchorX, anchorY * ratioInNorm)
+        newWidth = Math.max(minW, Math.min(maxW, initial.width + deltaW))
+        newHeight = newWidth / ratioInNorm
+        newX = anchorX
+        newY = anchorY - newHeight
+      } else if (activeDrag.type === 'nw') {
+        const anchorX = initial.x + initial.width
+        const anchorY = initial.y + initial.height
+        const maxW = Math.min(anchorX, anchorY * ratioInNorm)
+        newWidth = Math.max(minW, Math.min(maxW, initial.width + deltaW))
+        newHeight = newWidth / ratioInNorm
+        newX = anchorX - newWidth
+        newY = anchorY - newHeight
+      }
+    } else {
+      // Free aspect ratio
+      const minSize = 0.05
+
+      if (activeDrag.type === 'se') {
+        newWidth = Math.max(minSize, Math.min(1 - initial.x, initial.width + deltaX))
+        newHeight = Math.max(minSize, Math.min(1 - initial.y, initial.height + deltaY))
+        newX = initial.x
+        newY = initial.y
+      } else if (activeDrag.type === 'sw') {
+        const maxX = initial.x + initial.width
+        newX = Math.max(0, Math.min(maxX - minSize, initial.x + deltaX))
+        newWidth = maxX - newX
+        newHeight = Math.max(minSize, Math.min(1 - initial.y, initial.height + deltaY))
+        newY = initial.y
+      } else if (activeDrag.type === 'ne') {
+        newWidth = Math.max(minSize, Math.min(1 - initial.x, initial.width + deltaX))
+        const maxY = initial.y + initial.height
+        newY = Math.max(0, Math.min(maxY - minSize, initial.y + deltaY))
+        newHeight = maxY - newY
+        newX = initial.x
+      } else if (activeDrag.type === 'nw') {
+        const maxX = initial.x + initial.width
+        const maxY = initial.y + initial.height
+        newX = Math.max(0, Math.min(maxX - minSize, initial.x + deltaX))
+        newY = Math.max(0, Math.min(maxY - minSize, initial.y + deltaY))
+        newWidth = maxX - newX
+        newHeight = maxY - newY
       }
     }
 
@@ -509,18 +563,37 @@ function onPointerMove(event: PointerEvent) {
   crop.value.box = box
 }
 
-function onPointerUp() {
+function onPointerUp(event?: PointerEvent) {
+  if (activeDragElement && event) {
+    try {
+      activeDragElement.releasePointerCapture?.(event.pointerId)
+    } catch {
+      // Ignore release pointer capture errors if pointer was lost
+    }
+  }
+  activeDragElement = null
   activeDrag = null
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
+  window.removeEventListener('pointercancel', onPointerUp)
 }
+
+watch(isOpen, (val) => {
+  if (!val) {
+    onPointerUp()
+  }
+})
+
+onUnmounted(() => {
+  onPointerUp()
+})
 </script>
 
 <template>
   <UModal
     v-model:open="isOpen"
-    title="Fine-tune Negative"
-    description="Adjust crop, rotation, and positive tone curves before negative inversion"
+    :title="t('editor.title')"
+    :description="t('editor.description')"
     :ui="{ content: 'sm:max-w-2xl' }"
   >
     <template #body>
@@ -531,11 +604,11 @@ function onPointerUp() {
         <!-- Interactive Preview & Crop Overlay Container -->
         <div
           ref="previewContainerRef"
-          class="flex items-center justify-center bg-neutral-950 rounded-lg p-3 min-h-72 overflow-hidden select-none"
+          class="flex items-center justify-center bg-neutral-950 rounded-lg p-5 min-h-72 overflow-hidden select-none"
         >
           <div
             v-if="previewDataUrl"
-            class="relative inline-block overflow-hidden"
+            class="relative inline-block"
           >
             <!-- Background Image -->
             <img
@@ -546,15 +619,15 @@ function onPointerUp() {
             >
 
             <!-- Cyanotype Preview Button in Corner of Image -->
-            <div class="absolute top-2.5 right-2.5 z-30">
+            <div class="absolute top-2.5 right-2.5 z-20">
               <button
                 type="button"
                 class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg backdrop-blur-md cursor-pointer select-none transition-all duration-200 border"
                 :class="isCyanotypeMode
                   ? 'bg-[#1C39BB] hover:bg-[#162e97] text-white border-[#1C39BB] shadow-[#1C39BB]/40 ring-2 ring-[#1C39BB]/40'
                   : 'bg-neutral-900/85 hover:bg-neutral-800 text-neutral-200 border-neutral-700/80 hover:text-white'"
-                :title="isCyanotypeMode ? 'Cyanotype preview active. Click to switch to negative, hold to peek negative' : 'Click to preview cyanotype, hold to peek'"
-                aria-label="Toggle cyanotype preview"
+                :title="isCyanotypeMode ? t('editor.cyanotypeActiveTooltip') : t('editor.cyanotypeInactiveTooltip')"
+                :aria-label="t('editor.toggleCyanotypeAria')"
                 @pointerdown="onEyePointerDown"
                 @pointerup="onEyePointerUp"
                 @pointercancel="onEyePointerCancel"
@@ -564,7 +637,7 @@ function onPointerUp() {
                   name="i-lucide-eye"
                   class="w-3.5 h-3.5 shrink-0"
                 />
-                <span>Cyanotype</span>
+                <span>{{ t('actions.cyanotype') }}</span>
                 <span
                   class="w-2 h-2 rounded-full transition-colors"
                   :class="isCyanotypeMode ? 'bg-white animate-pulse' : 'bg-[#1C39BB]'"
@@ -574,7 +647,7 @@ function onPointerUp() {
 
             <!-- Dark Shaded Mask Outside Crop Box -->
             <div
-              class="absolute inset-0 pointer-events-none"
+              class="absolute inset-0 pointer-events-none rounded overflow-hidden"
             >
               <!-- Top Mask -->
               <div
@@ -630,23 +703,35 @@ function onPointerUp() {
                 <div />
               </div>
 
-              <!-- Corner Resize Handles -->
+              <!-- Corner Resize Handles (enlarged touch hit target with centered visual dot) -->
               <div
-                class="absolute -left-2 -top-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nwse-resize"
+                class="absolute -left-5 -top-5 w-10 h-10 flex items-center justify-center cursor-nwse-resize touch-none select-none z-30 group"
+                aria-label="Resize top-left"
                 @pointerdown="(e) => startDrag('nw', e)"
-              />
+              >
+                <div class="w-4 h-4 rounded-full bg-white border-2 border-primary shadow-sm pointer-events-none transition-transform group-hover:scale-125 group-active:scale-125" />
+              </div>
               <div
-                class="absolute -right-2 -top-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nesw-resize"
+                class="absolute -right-5 -top-5 w-10 h-10 flex items-center justify-center cursor-nesw-resize touch-none select-none z-30 group"
+                aria-label="Resize top-right"
                 @pointerdown="(e) => startDrag('ne', e)"
-              />
+              >
+                <div class="w-4 h-4 rounded-full bg-white border-2 border-primary shadow-sm pointer-events-none transition-transform group-hover:scale-125 group-active:scale-125" />
+              </div>
               <div
-                class="absolute -right-2 -bottom-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nwse-resize"
+                class="absolute -right-5 -bottom-5 w-10 h-10 flex items-center justify-center cursor-nwse-resize touch-none select-none z-30 group"
+                aria-label="Resize bottom-right"
                 @pointerdown="(e) => startDrag('se', e)"
-              />
+              >
+                <div class="w-4 h-4 rounded-full bg-white border-2 border-primary shadow-sm pointer-events-none transition-transform group-hover:scale-125 group-active:scale-125" />
+              </div>
               <div
-                class="absolute -left-2 -bottom-2 w-4 h-4 rounded-full bg-white border-2 border-primary cursor-nesw-resize"
+                class="absolute -left-5 -bottom-5 w-10 h-10 flex items-center justify-center cursor-nesw-resize touch-none select-none z-30 group"
+                aria-label="Resize bottom-left"
                 @pointerdown="(e) => startDrag('sw', e)"
-              />
+              >
+                <div class="w-4 h-4 rounded-full bg-white border-2 border-primary shadow-sm pointer-events-none transition-transform group-hover:scale-125 group-active:scale-125" />
+              </div>
             </div>
           </div>
 
@@ -658,7 +743,7 @@ function onPointerUp() {
               name="i-lucide-loader"
               class="w-5 h-5 animate-spin text-primary"
             />
-            Generating preview...
+            {{ t('editor.generatingPreview') }}
           </div>
         </div>
 
@@ -670,12 +755,12 @@ function onPointerUp() {
                 name="i-lucide-crop"
                 class="w-4 h-4 text-primary"
               />
-              <span>Crop & Orientation</span>
+              <span>{{ t('editor.cropAndOrientation') }}</span>
             </h3>
 
             <!-- Rotate 90 Button -->
             <UButton
-              label="Rotate 90°"
+              :label="t('editor.rotate')"
               icon="i-lucide-rotate-cw"
               color="neutral"
               variant="outline"
@@ -685,7 +770,7 @@ function onPointerUp() {
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
-            <UFormField label="Aspect Ratio">
+            <UFormField :label="t('editor.aspectRatio')">
               <USelect
                 :model-value="crop.aspectRatio"
                 :items="aspectRatioOptions"
@@ -700,7 +785,7 @@ function onPointerUp() {
               class="flex items-center gap-2"
             >
               <UFormField
-                label="Width"
+                :label="t('editor.width')"
                 class="flex-1"
               >
                 <UInputNumber
@@ -714,7 +799,7 @@ function onPointerUp() {
               </UFormField>
               <span class="pt-6 font-bold text-neutral-400">:</span>
               <UFormField
-                label="Height"
+                :label="t('editor.height')"
                 class="flex-1"
               >
                 <UInputNumber
@@ -738,14 +823,14 @@ function onPointerUp() {
                 name="i-lucide-sliders"
                 class="w-4 h-4 text-primary"
               />
-              <span>Tone Adjustments</span>
+              <span>{{ t('editor.toneAdjustments') }}</span>
             </h3>
-            <span class="text-[11px] text-neutral-400">Double click slider to reset to 0</span>
+            <span class="text-[11px] text-neutral-400">{{ t('editor.sliderResetHint') }}</span>
           </div>
 
           <div @dblclick="resetSlider('brightness')">
             <UFormField
-              label="Brightness"
+              :label="t('editor.brightness')"
               :hint="`${adjustments.brightness > 0 ? '+' : ''}${adjustments.brightness}`"
             >
               <USlider
@@ -761,7 +846,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('contrast')">
             <UFormField
-              label="Contrast"
+              :label="t('editor.contrast')"
               :hint="`${adjustments.contrast > 0 ? '+' : ''}${adjustments.contrast}`"
             >
               <USlider
@@ -777,7 +862,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('highlights')">
             <UFormField
-              label="Highlights"
+              :label="t('editor.highlights')"
               :hint="`${adjustments.highlights > 0 ? '+' : ''}${adjustments.highlights}`"
             >
               <USlider
@@ -793,7 +878,7 @@ function onPointerUp() {
 
           <div @dblclick="resetSlider('shadows')">
             <UFormField
-              label="Shadows"
+              :label="t('editor.shadows')"
               :hint="`${adjustments.shadows > 0 ? '+' : ''}${adjustments.shadows}`"
             >
               <USlider
@@ -811,35 +896,47 @@ function onPointerUp() {
     </template>
 
     <template #footer>
-      <div class="flex items-center justify-between w-full">
-        <UButton
-          label="Reset"
-          color="neutral"
-          variant="outline"
-          icon="i-lucide-rotate-ccw"
-          @click="resetAll"
-        />
-
-        <div class="flex items-center gap-2">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
+        <div class="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
           <UButton
-            label="Cancel"
+            :label="t('editor.reset')"
+            color="neutral"
+            variant="outline"
+            icon="i-lucide-rotate-ccw"
+            @click="resetAll"
+          />
+          <UButton
+            class="sm:hidden"
+            :label="t('editor.cancel')"
+            color="neutral"
+            variant="ghost"
+            @click="isOpen = false"
+          />
+        </div>
+
+        <div class="flex flex-wrap items-center justify-end gap-2 w-full sm:w-auto">
+          <UButton
+            class="hidden sm:inline-flex"
+            :label="t('editor.cancel')"
             color="neutral"
             variant="ghost"
             @click="isOpen = false"
           />
           <UButton
             v-if="photosCount > 1"
-            label="Apply to All"
+            :label="t('editor.applyAll', { count: photosCount })"
             color="neutral"
             variant="subtle"
             icon="i-lucide-copy-check"
-            title="Apply tone adjustments to all images"
+            class="flex-1 sm:flex-initial justify-center"
+            :title="t('editor.applyAllTooltip')"
             @click="handleApplyToAll"
           />
           <UButton
-            label="Apply Changes"
+            :label="t('editor.apply')"
             color="primary"
             icon="i-lucide-check"
+            class="flex-1 sm:flex-initial justify-center"
             @click="handleApply"
           />
         </div>

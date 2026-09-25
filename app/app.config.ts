@@ -4,64 +4,69 @@ export default defineAppConfig({
       primary: 'violet',
       neutral: 'neutral'
     },
+    card: {
+      defaultVariants: {
+        variant: 'outline'
+      }
+    },
     input: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     select: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     textarea: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     selectMenu: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     inputMenu: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     inputNumber: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     inputTags: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     inputDate: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     inputTime: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     },
     pinInput: {
       defaultVariants: {
         variant: 'soft',
-        color: 'neutral'
+        color: 'secondary'
       }
     }
   }

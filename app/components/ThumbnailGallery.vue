@@ -19,6 +19,8 @@ const emit = defineEmits<{
   removePhoto: [photoId: string]
 }>()
 
+const { t } = useI18n()
+
 function getDisplayThumbnail(photo: PhotoItem): string {
   if (props.previewMode === 'cyanotype' && photo.cyanotypeUrl) {
     return photo.cyanotypeUrl
@@ -48,7 +50,7 @@ function isAdjusted(photo: PhotoItem): boolean {
               name="i-lucide-loader"
               class="w-4 h-4 animate-spin text-primary"
             />
-            {{ processingStatusText || 'Processing negatives...' }}
+            {{ processingStatusText || t('gallery.processing') }}
           </span>
           <span class="text-neutral-500">{{ Math.round(processingProgress) }}%</span>
         </div>
@@ -89,7 +91,7 @@ function isAdjusted(photo: PhotoItem): boolean {
               name="i-lucide-loader"
               class="w-6 h-6 animate-spin text-primary"
             />
-            <span class="text-xs">Converting...</span>
+            <span class="text-xs">{{ t('gallery.converting') }}</span>
           </div>
 
           <!-- Hover Overlay Icon -->
@@ -101,7 +103,7 @@ function isAdjusted(photo: PhotoItem): boolean {
                 name="i-lucide-sliders-horizontal"
                 class="w-3.5 h-3.5"
               />
-              <span>Edit</span>
+              <span>{{ t('gallery.edit') }}</span>
             </div>
           </div>
         </div>
@@ -123,7 +125,7 @@ function isAdjusted(photo: PhotoItem): boolean {
 
             <UBadge
               v-if="isAdjusted(photo)"
-              label="Edited"
+              :label="t('gallery.edited')"
               color="primary"
               variant="subtle"
               size="xs"
@@ -132,7 +134,7 @@ function isAdjusted(photo: PhotoItem): boolean {
 
           <div class="flex items-center justify-between pt-1 border-t border-neutral-200 dark:border-neutral-800">
             <UButton
-              label="Adjust"
+              :label="t('gallery.adjust')"
               size="xs"
               variant="ghost"
               color="neutral"
@@ -145,7 +147,7 @@ function isAdjusted(photo: PhotoItem): boolean {
               variant="ghost"
               color="error"
               icon="i-lucide-trash-2"
-              aria-label="Remove image"
+              :aria-label="t('gallery.remove')"
               @click="emit('removePhoto', photo.id)"
             />
           </div>
