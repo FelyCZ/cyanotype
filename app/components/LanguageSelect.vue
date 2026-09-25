@@ -1,10 +1,7 @@
 <script setup lang="ts">
-const { locale, setLocale, t } = useI18n()
+import { cs, en } from '@nuxt/ui/locale'
 
-const languageOptions = [
-  { label: '🇬🇧 English', value: 'en' },
-  { label: '🇨🇿 Čeština', value: 'cs' }
-]
+const { locale, setLocale, t } = useI18n()
 
 const current = computed({
   get: () => locale.value,
@@ -18,9 +15,9 @@ const current = computed({
 
 <template>
   <div class="inline-flex items-center">
-    <USelect
+    <ULocaleSelect
       v-model="current"
-      :items="languageOptions"
+      :locales="[en, cs]"
       size="sm"
       class="w-32 font-medium"
       :aria-label="t('nav.selectLanguage')"
