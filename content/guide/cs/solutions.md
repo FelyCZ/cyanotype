@@ -20,9 +20,9 @@ Tato receptura připravuje dva oddělené, stabilní zásobní roztoky. Roztoky 
 ::guide-grid
 :::guide-card{title="Roztok A (železitá sůl)"}
 - **Destilovaná voda:** 40 ml
-- **Zelený citran železito-amonný:** 12,5 g
+- **Zelený citrát amonno-železitý:** 12,5 g
 
-*Poznámka: Vždy používejte sytě zelené krystaly citranu namísto hnědých šupin. Zelený citran železito-amonný vykazuje podstatně vyšší citlivost na světlo a poskytuje sytější tóny.*
+*Poznámka: Vždy používejte sytě zelené krystaly citrátu namísto hnědých šupin. Zelený citrát amonno-železitý vykazuje podstatně vyšší citlivost na světlo a poskytuje sytější tóny.*
 :::
 
 :::guide-card{title="Roztok B (kyanidová sloučenina)"}
@@ -61,7 +61,7 @@ Pokud pořádáte rychlou dílnu nebo chcete připravit pouze dávku na **dva pa
 
 ::guide-card{title="Jednorázová dávka (na 2 papíry formátu A4)"}
 - **Destilovaná voda:** 12 ml
-- **Citran amonno-železitý (zelený):** 1,0 g
+- **Citrát amonno-železitý (zelený):** 1,0 g
 - **Červená krevní sůl:** 0,5 g
 
 Obě navážky chemikálií pečlivě rozpusťte v kádince ve 12 ml destilované vody při tlumeném světle. Roztok ihned spotřebujte na přípravu dvou čtvrtek A4.
@@ -74,7 +74,7 @@ Obě navážky chemikálií pečlivě rozpusťte v kádince ve 12 ml destilovan�
 - **Kvalita vody:** Vždy používejte **čistou destilovanou nebo demineralizovanou vodu**. Běžná voda z vodovodu obsahuje chlor a rozpuštěné vápenaté soli, které způsobují nežádoucí sraženiny a předčasné šednutí světel.
 - **Pomůcky:** Používejte skleněné, porcelánové nebo plastové nádobí a pomůcky. **Nikdy nepoužívejte kovové lžičky či stěrky ze železa nebo mědi**, protože přímý kontakt s kovem okamžitě redukuje železité soli.
 - **Lahvičky na skladování:** Zásobní roztoky A i B uchovávejte odděleně v tmavých lékovkách z hnědého skla s těsnými uzávěry, **ideálně obalené alobalem** pro dokonalé odstínění před denním světlem.
-- **Práce v příšeří:** S citronanem amonno-železitým i jeho roztokem pracujte vždy (!) v příšeří.
+- **Práce v příšeří:** S citrátem amonno-železitým i jeho roztokem pracujte vždy (!) v příšeří.
 - **Trvanlivost:**
   - **Zásobní roztoky (nesmíchané):** V temnu a chladu vydrží roztoky A i B spolehlivě **6 až 12 měsíců**.
   - **Pracovní roztok (A + B smíchané):** Zůstává aktivní přibližně **2 až 4 hodiny**. Smíchejte vždy jen tolik, kolik stihnete ihned nanést.
